@@ -25,13 +25,14 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 	return (
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<SidebarProvider>
-					<AppSidebar />
-					{/* <header>
+				<SidebarProvider className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
+					<aside className="sidebar row-span-2">
+						<AppSidebar />
+					</aside>
+					<header className="header col-start-2">
 						<SidebarTrigger />
-					</header> */}
-					<main className="grow px-4">
-						<SidebarTrigger />
+					</header>
+					<main className="main col-start-2 h-full">
 						{children}
 					</main>
 				</SidebarProvider>
