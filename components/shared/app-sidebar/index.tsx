@@ -16,10 +16,12 @@ export const AppSidebar: React.FC<Props> = ({ className }) => {
 	const sidebar = useSidebar()
 
 	return (
-		<Sidebar className={cn('', className)} collapsible={'icon'}>
-			<AppSidebarHeader />
-			<AppSidebarContent sidebar={sidebar} />
-			<AppSidebarFooter sidebar={sidebar} />
-		</Sidebar>
+		<aside className={cn('', className)}>
+			<Sidebar collapsible={'icon'}>
+				<AppSidebarHeader />
+				<AppSidebarContent sidebar={sidebar} />
+				<AppSidebarFooter sidebar={sidebar} />
+			</Sidebar>
+		</aside>
 	);
 };

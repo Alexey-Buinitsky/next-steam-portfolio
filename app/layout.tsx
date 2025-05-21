@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { AppSidebar } from "@/components/shared";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui";
+import { AppSidebar, AppBreadcrumb } from "@/components/shared";
+import { Separator, SidebarProvider, SidebarTrigger } from "@/components/ui";
 
 import "./globals.css";
 
@@ -26,11 +26,12 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<SidebarProvider className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
-					<aside className="sidebar row-span-2">
-						<AppSidebar />
-					</aside>
-					<header className="header col-start-2">
+					<AppSidebar className="row-span-2" />
+					<header className="header col-start-2 flex">
 						<SidebarTrigger />
+						<Separator orientation={"vertical"} />
+						<AppBreadcrumb />
+						<Separator orientation={"vertical"} />
 					</header>
 					<main className="main col-start-2 h-full">
 						{children}
