@@ -258,7 +258,7 @@ function SidebarTrigger({
 	onClick,
 	...props
 }: React.ComponentProps<typeof Button>) {
-	const { toggleSidebar, open } = useSidebar()
+	const { toggleSidebar, isMobile, open, openMobile } = useSidebar()
 
 	return (
 		<Button
@@ -273,7 +273,10 @@ function SidebarTrigger({
 			}}
 			{...props}
 		>
-			{open ? <PanelLeftCloseIcon /> : <PanelLeftOpenIcon />}
+			{isMobile
+				? openMobile ? <PanelLeftCloseIcon /> : <PanelLeftOpenIcon />
+				: open ? <PanelLeftCloseIcon /> : <PanelLeftOpenIcon />
+			}
 			<span className="sr-only">Toggle Sidebar</span>
 		</Button>
 	)
