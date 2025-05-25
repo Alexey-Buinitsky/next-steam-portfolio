@@ -14,27 +14,27 @@ interface Props {
 const items = [
 	{
 		title: "Home",
-		url: "#",
+		url: "/",
 		icon: HomeIcon,
 	},
 	{
 		title: "Portfolio",
-		url: "#",
+		url: "/",
 		icon: BriefcaseBusinessIcon,
 	},
 	{
 		title: "Market",
-		url: "#",
+		url: "/",
 		icon: ChartCandlestickIcon,
 	},
 	{
 		title: "Currencies",
-		url: "#",
+		url: "/",
 		icon: CurrencyIcon,
 	},
 	{
 		title: "Trends",
-		url: "#",
+		url: "/",
 		icon: TrendingUpDownIcon,
 	},
 ]
@@ -62,7 +62,9 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 								<SidebarMenuItem key={item.title}>
 									<SidebarMenuButton asChild>
 										<Link href={item.url}>
-											<item.icon size={16} />
+											<span className="flex shrink-0">
+												<item.icon size={36} className='2k:size-13 4k:size-20.5 8k:size-56' />
+											</span>
 											<span>{item.title}</span>
 										</Link>
 									</SidebarMenuButton>
@@ -76,7 +78,9 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 											<SidebarMenuItem>
 												<SidebarMenuButton asChild>
 													<Link href={item.url}>
-														<item.icon size={16} />
+														<span className="flex shrink-0">
+															<item.icon size={36} className='2k:size-13 4k:size-20.5 8k:size-56' />
+														</span>
 														<span>{item.title}</span>
 													</Link>
 												</SidebarMenuButton>

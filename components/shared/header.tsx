@@ -9,8 +9,8 @@ interface Props {
 
 export const Header: React.FC<Props> = ({ className }) => {
 	return (
-		<header className={cn('flex justify-between items-center p-2 border-b', className)}>
-			<div className='flex items-center gap-2 h-full'>
+		<header className={cn('flex justify-between items-center gap-2 p-2 border-b 2k:p-4 4k:p-6 8k:p-12', className)}>
+			<div className='flex items-center gap-2 h-full 2k:gap-4 4k:gap-6 8k:gap-12'>
 				<SidebarTrigger />
 				<Separator className='data-[orientation=vertical]:h-[60%]' orientation={"vertical"} />
 				<AppBreadcrumb />
