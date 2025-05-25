@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { ThemeProvider, Aside, Header, } from "@/components/shared";
 import { SidebarProvider } from "@/components/ui";
+import { QueryProvider } from "@/providers/query-provider";
 
 import "./globals.css";
 
@@ -26,13 +27,15 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-					<SidebarProvider className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
-						<Aside className="row-span-2" />
-						<Header className="col-start-2" />
-						<main className="col-start-2 h-full">
-							{children}
-						</main>
-					</SidebarProvider>
+					<QueryProvider>
+						<SidebarProvider className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
+							<Aside className="row-span-2" />
+							<Header className="col-start-2" />
+							<main className="col-start-2 h-full">
+								{children}
+							</main>
+						</SidebarProvider>
+					</QueryProvider>
 				</ThemeProvider>
 			</body>
 		</html>
