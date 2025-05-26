@@ -3,11 +3,13 @@ import { cn } from '@/lib/utils';
 import { ColumnDef, flexRender, useReactTable } from '@tanstack/react-table';
 import { TableBody, TableCell, TableRow } from '@/components/ui';
 
-export const AppTableBody = <TData, TValue>({ table, columns, className }: {
+interface Props<TData, TValue> {
 	table: ReturnType<typeof useReactTable<TData>>,
 	columns: ColumnDef<TData, TValue>[],
 	className?: string,
-}) => {
+}
+
+export const AppTableBody = <TData, TValue>({ table, columns, className }: Props<TData, TValue>) => {
 	return (
 		<TableBody className={cn("", className)}>
 			{table.getRowModel().rows?.length

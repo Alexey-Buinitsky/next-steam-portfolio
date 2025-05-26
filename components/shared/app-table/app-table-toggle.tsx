@@ -2,7 +2,11 @@ import React from 'react';
 import { useReactTable } from '@tanstack/react-table';
 import { Button, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui';
 
-export const AppTableToggle = <TData,>({ table }: { table: ReturnType<typeof useReactTable<TData>> }) => {
+interface Props<TData> {
+	table: ReturnType<typeof useReactTable<TData>>
+}
+
+export const AppTableToggle = <TData,>({ table }: Props<TData>) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>

@@ -3,10 +3,12 @@ import { cn } from '@/lib/utils';
 import { flexRender, useReactTable } from '@tanstack/react-table';
 import { TableHead, TableHeader, TableRow } from '@/components/ui';
 
-export const AppTableHeader = <TData,>({ table, className }: {
+interface Props<TData> {
 	table: ReturnType<typeof useReactTable<TData>>,
 	className?: string
-}) => {
+}
+
+export const AppTableHeader = <TData,>({ table, className }: Props<TData>) => {
 	return (
 		<TableHeader className={cn("", className)}>
 			{table.getHeaderGroups().map((headerGroup) => (

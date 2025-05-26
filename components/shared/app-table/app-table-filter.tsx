@@ -3,10 +3,12 @@ import { cn } from '@/lib/utils';
 import { useReactTable } from '@tanstack/react-table';
 import { Input } from '@/components/ui';
 
-export const AppTableFilter = <TData,>({ table, className }: {
+interface Props<TData> {
 	table: ReturnType<typeof useReactTable<TData>>,
 	className?: string
-}) => {
+}
+
+export const AppTableFilter = <TData,>({ table, className }: Props<TData>) => {
 	return (
 		<Input
 			placeholder="Filter names..."
