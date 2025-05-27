@@ -54,7 +54,7 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 	return (
 		<SidebarContent className={cn(className)}>
 			<SidebarGroup>
-				<SidebarGroupLabel>Application</SidebarGroupLabel>
+				<SidebarGroupLabel>Navigation</SidebarGroupLabel>
 				<SidebarGroupContent>
 					<SidebarMenu>
 						{isOpen || sidebar.isMobile ? (
@@ -63,7 +63,7 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 									<SidebarMenuButton asChild>
 										<Link href={item.url}>
 											<span className="flex shrink-0">
-												<item.icon size={36} className='2k:size-13 4k:size-20.5 8k:size-56' />
+												<item.icon size={32} className='2k:size-13 4k:size-20.5 8k:size-56' />
 											</span>
 											<span>{item.title}</span>
 										</Link>
@@ -79,7 +79,7 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 												<SidebarMenuButton asChild>
 													<Link href={item.url}>
 														<span className="flex shrink-0">
-															<item.icon size={36} className='2k:size-13 4k:size-20.5 8k:size-56' />
+															<item.icon size={32} className='2k:size-13 4k:size-20.5 8k:size-56' />
 														</span>
 														<span>{item.title}</span>
 													</Link>

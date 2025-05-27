@@ -27,10 +27,7 @@ function DropdownMenuTrigger({
 	return (
 		<DropdownMenuPrimitive.Trigger
 			data-slot="dropdown-menu-trigger"
-			className={cn(
-				"cursor-pointer",
-				className
-			)}
+			className={cn("cursor-pointer", className)}
 			{...props}
 		/>
 	)
@@ -81,7 +78,7 @@ function DropdownMenuItem({
 			data-variant={variant}
 			className={cn(
 				"focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive relative flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0",
-				'2xl:text-base 2k:text-xl 4k:text-3xl 8k:text-6xl',
+				'2k:text-lg 4k:text-3xl 8k:text-6xl',
 				className
 			)}
 			{...props}
@@ -163,7 +160,7 @@ function DropdownMenuLabel({
 			data-inset={inset}
 			className={cn(
 				"px-2 py-1.5 text-sm font-normal data-[inset]:pl-8",
-				"2xl:text-base",
+				"2k:text-base",
 				className
 			)}
 			{...props}

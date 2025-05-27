@@ -32,7 +32,7 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 							<DropdownMenuSeparator />
 							<DropdownMenuItem>
 								<span className="flex shrink-0">
-									<LogOutIcon size={24} className='4k:size-9 8k:size-18' />
+									<LogOutIcon size={16} className='4k:size-9 8k:size-18' />
 								</span>
 								<span>Log out</span>
 							</DropdownMenuItem>

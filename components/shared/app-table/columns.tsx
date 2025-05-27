@@ -4,7 +4,7 @@ import Image from "next/image"
 import { formatCurrency, calculatePercentage, calculateFee } from "@/lib"
 import { Column, ColumnDef } from "@tanstack/react-table"
 import { Button, Checkbox, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui"
-import { ArrowUpDown, DeleteIcon, EditIcon, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal, PencilIcon, TrashIcon } from "lucide-react"
 
 import { IRow } from "./data"
 
@@ -119,18 +119,18 @@ export const columns: ColumnDef<IRow>[] = [
 					<DropdownMenuTrigger asChild>
 						<Button variant="ghost" className="h-8 w-8 p-0">
 							<span className="sr-only">Open menu</span>
-							<MoreHorizontal className="h-4 w-4" />
+							<MoreHorizontal size={16} />
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id)}>
-							<EditIcon />
+							<PencilIcon size={16} />
 							Edit Item
 						</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id)}>
-							<DeleteIcon />
+							<TrashIcon size={16} />
 							Delete Item
 						</DropdownMenuItem>
 					</DropdownMenuContent>
