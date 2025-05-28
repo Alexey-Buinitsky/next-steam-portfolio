@@ -18,18 +18,22 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 				<SidebarMenuItem>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<SidebarMenuButton size={'lg'}>
+							<SidebarMenuButton size={'lg'} variant={'outline'}>
 								<Logo title={'shadcn'} subtitle={'m@example.com'} image={avatar} />
-								<ChevronsUpDownIcon className="ml-auto" />
+								<span className="flex shrink-0 ml-auto">
+									<ChevronsUpDownIcon size={16} className="2k:size-6 4k:size-8 8k:size-16" />
+								</span>
 							</SidebarMenuButton>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent side={sidebar.isMobile ? 'top' : 'right'} align='end' className="w-[var(--radix-popper-anchor-width)]">
+						<DropdownMenuContent side={sidebar.isMobile ? 'top' : 'right'} align='end'>
 							<DropdownMenuLabel>
 								<Logo title={'shadcn'} subtitle={'m@example.com'} image={avatar} />
 							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem>
-								<LogOutIcon size={16} />
+								<span className="flex shrink-0">
+									<LogOutIcon size={16} className='4k:size-9 8k:size-18' />
+								</span>
 								<span>Log out</span>
 							</DropdownMenuItem>
 						</DropdownMenuContent>

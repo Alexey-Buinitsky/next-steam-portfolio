@@ -34,7 +34,7 @@ export const AppBreadcrumbCollapsed: React.FC<Props> = ({ className, hiddenItems
 				<BreadcrumbItem>
 					<DropdownMenu open={open} onOpenChange={setOpen}>
 						<DropdownMenuTrigger aria-label="Toggle menu">
-							<BreadcrumbEllipsis className="size-4" />
+							<BreadcrumbEllipsis />
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="start">
 							{hiddenItems.map((item, index) => (

@@ -4,6 +4,7 @@ export { Container } from './container'
 
 export { AppSidebar } from './app-sidebar'
 export { AppBreadcrumb } from './app-breadcrumb'
+export { AppTable } from './app-table'
 export { Logo } from './logo'
 export { ModeToggle } from './mode-toggle'
 export { Hero } from './hero'

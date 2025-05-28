@@ -6,7 +6,7 @@ interface Props {
 
 export async function PopularMarket({ className }: Props) {
   return (
-    <div className="bg-white dark:bg-transparent rounded-lg shadow mt-4">
+    <div className="rounded-lg mt-8">
       <h2 className="text-xl font-bold mb-4">Most Popular CS:GO Items</h2>
       <PopularMarketCases />
     </div>
