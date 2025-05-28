@@ -1,3 +1,3 @@
-export { formatCurrency } from './formatCurrency';
-export { calculatePercentage } from './calculatePercentage';
-export { calculateFee } from "./calculateFee";
+export { formatCurrency } from './format-currency';
+export { calculatePercentage } from './calculate-percentage';
+export { calculateFee } from "./calculate-fee";

@@ -26,8 +26,8 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-					<QueryProvider>
+				<QueryProvider>
+					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 						<SidebarProvider className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
 							<Aside className="row-span-2" />
 							<Header className="col-start-2" />
@@ -35,8 +35,8 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 								{children}
 							</main>
 						</SidebarProvider>
-					</QueryProvider>
-				</ThemeProvider>
+					</ThemeProvider>
+				</QueryProvider>
 			</body>
 		</html>
 	);
