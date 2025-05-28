@@ -31,7 +31,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 						<SidebarProvider className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
 							<Aside className="row-span-2" />
 							<Header className="col-start-2" />
-							<main className="col-start-2 h-full">
+							<main className="col-start-2 h-full p-4">
 								{children}
 							</main>
 						</SidebarProvider>
