@@ -13,8 +13,8 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
 		<ol
 			data-slot="breadcrumb-list"
 			className={cn(
-				"text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5",
-				"2k:gap-4 8k:gap-8",
+				"text-muted-foreground flex flex-wrap items-center gap-1.5 sm:gap-2.5 text-sm break-words",
+				"2k:gap-3 4k:gap-5 8k:gap-10",
 				className
 			)}
 			{...props}
@@ -45,7 +45,7 @@ function BreadcrumbLink({
 		<Comp
 			data-slot="breadcrumb-link"
 			className={cn("hover:text-foreground transition-colors",
-				"flex justify-center items-center h-9 font-medium text-sm sm:text-base 2k:text-xl 4k:text-3xl 8k:text-6xl",
+				"flex justify-center items-center h-9 2k:h-12 4k:h-18 8k:h-36 font-medium text-sm sm:text-base 2k:text-[21px] 4k:text-[32px] 8k:text-[64px]",
 				className
 			)}
 			{...props}
@@ -61,7 +61,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
 			aria-disabled="true"
 			aria-current="page"
 			className={cn("text-foreground",
-				"font-medium text-sm sm:text-base 2k:text-xl 4k:text-3xl 8k:text-6xl",
+				"font-medium text-sm sm:text-base 2k:text-[21px] 4k:text-[32px] 8k:text-[64px]",
 				className
 			)}
 			{...props}
@@ -80,11 +80,11 @@ function BreadcrumbSeparator({
 			role="presentation"
 			aria-hidden="true"
 			className={cn("[&>svg]:size-3.5",
-				"2k:[&>svg]:size-5 4k:[&>svg]:size-7 8k:[&>svg]:size-12",
+				"2k:[&>svg]:size-4.5 4k:[&>svg]:size-7 8k:[&>svg]:size-14",
 				className)}
 			{...props}
 		>
-			{children ?? <ChevronRight size={14} className="2k:size-7 4k:size-10 8k:size-20" />}
+			{children ?? <ChevronRight size={14} />}
 		</li>
 	)
 }
@@ -99,11 +99,11 @@ function BreadcrumbEllipsis({
 			role="presentation"
 			aria-hidden="true"
 			className={cn("flex items-center justify-center",
-				"size-9 2k:size-9 4k:size-9 8k:size-15",
+				"size-9 2k:size-12 4k:size-18 8k:size-36",
 				className)}
 			{...props}
 		>
-			<MoreHorizontal className="size-4 2k:size-6 4k:size-8 8k:size-14" />
+			<MoreHorizontal size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 			<span className="sr-only">More</span>
 		</span>
 	)

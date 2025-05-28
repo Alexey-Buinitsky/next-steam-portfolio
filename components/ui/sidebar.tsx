@@ -222,8 +222,8 @@ function Sidebar({
 					"group-data-[collapsible=offcanvas]:w-0",
 					"group-data-[side=right]:rotate-180",
 					variant === "floating" || variant === "inset"
-						? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))] 2k:group-data-[collapsible=icon]:w-[calc((var(--sidebar-width-icon)+1.09rem+(--spacing(4))))] 4k:group-data-[collapsible=icon]:w-[calc((var(--sidebar-width-icon)+3rem+(--spacing(4))))] 8k:group-data-[collapsible=icon]:w-[calc((var(--sidebar-width-icon)+12rem+(--spacing(4))))]"
-						: "group-data-[collapsible=icon]:w-(--sidebar-width-icon) 2k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1.09rem)] 4k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+3rem)] 8k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+12rem)]"
+						? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))] 2k:group-data-[collapsible=icon]:w-[calc((var(--sidebar-width-icon)+1.27rem+(--spacing(4))))] 4k:group-data-[collapsible=icon]:w-[calc((var(--sidebar-width-icon)+4.07rem+(--spacing(4))))] 8k:group-data-[collapsible=icon]:w-[calc((var(--sidebar-width-icon)+12.2rem+(--spacing(4))))]"
+						: "group-data-[collapsible=icon]:w-(--sidebar-width-icon) 2k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1.27rem)] 4k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+4.07rem)] 8k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+12.2rem)]"
 				)}
 			/>
 			<div
@@ -235,8 +235,8 @@ function Sidebar({
 						: "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
 					// Adjust the padding for floating and inset variants.
 					variant === "floating" || variant === "inset"
-						? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)] 2k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1.09rem+(--spacing(4))+2px)] 4k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+3rem+(--spacing(4))+2px)] 8k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+12rem+(--spacing(4))+2px)]"
-						: "group-data-[collapsible=icon]:w-(--sidebar-width-icon) 2k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1.09rem)] 4k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+3rem)] 8k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+12rem)] group-data-[side=left]:border-r group-data-[side=right]:border-1",
+						? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)] 2k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1.27rem+(--spacing(4))+2px)] 4k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+4.07rem+(--spacing(4))+2px)] 8k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+12.2rem+(--spacing(4))+2px)]"
+						: "group-data-[collapsible=icon]:w-(--sidebar-width-icon) 2k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+1.27rem)] 4k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+4.07rem)] 8k:group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+12.2rem)] group-data-[side=left]:border-r group-data-[side=right]:border-1",
 					className
 				)}
 				{...props}
@@ -266,7 +266,7 @@ function SidebarTrigger({
 			data-slot="sidebar-trigger"
 			variant="outline"
 			size="icon"
-			className={cn("size-9 2k:size-12 4k:size-16 8k:size-32", className)}
+			className={cn("size-9 2k:size-12 4k:size-18 8k:size-36", className)}
 			onClick={(event) => {
 				onClick?.(event)
 				toggleSidebar()
@@ -275,7 +275,7 @@ function SidebarTrigger({
 		>
 			{isMobile
 				? openMobile ? <PanelLeftCloseIcon size={24} /> : <PanelLeftOpenIcon size={24} />
-				: open ? <PanelLeftCloseIcon size={24} className="2k:size-8 4k:size-11 8k:size-22" /> : <PanelLeftOpenIcon size={24} className="2k:size-8 4k:size-11 8k:size-22" />
+				: open ? <PanelLeftCloseIcon size={24} className="2k:size-8 4k:size-11 8k:size-21" /> : <PanelLeftOpenIcon size={24} className="2k:size-8 4k:size-11 8k:size-22" />
 			}
 			<span className="sr-only">Toggle Sidebar</span>
 		</Button>
@@ -340,7 +340,7 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="sidebar-header"
 			data-sidebar="header"
-			className={cn("flex flex-col gap-2 p-2", className)}
+			className={cn("flex flex-col gap-2 p-2 2k:p-2.5 4k:p-4 8k:p-8", className)}
 			{...props}
 		/>
 	)
@@ -351,7 +351,7 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="sidebar-footer"
 			data-sidebar="footer"
-			className={cn("flex flex-col gap-2 p-2", className)}
+			className={cn("flex flex-col gap-2 p-2 2k:p-2.5 4k:p-4 8k:p-8", className)}
 			{...props}
 		/>
 	)
@@ -390,7 +390,7 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="sidebar-group"
 			data-sidebar="group"
-			className={cn("relative flex w-full min-w-0 flex-col p-2", className)}
+			className={cn("relative flex w-full min-w-0 flex-col p-2 2k:p-2.5 4k:p-4 8k:p-8", className)}
 			{...props}
 		/>
 	)
@@ -408,9 +408,9 @@ function SidebarGroupLabel({
 			data-slot="sidebar-group-label"
 			data-sidebar="group-label"
 			className={cn(
-				"text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-sm outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
-				"2k:mb-3 4k:mb-5 8k:mb-10 2k:text-lg 4k:text-3xl 8k:text-6xl",
-				"group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
+				"text-sidebar-foreground/70 ring-sidebar-ring flex shrink-0 items-center rounded-md px-2 mb-2 text-sm outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+				"2k:px-2.5 4k:px-4 8k:px-8 2k:mb-2.5 4k:mb-4 8k:mb-8 2k:text-lg 4k:text-3xl 8k:text-6xl",
+				"group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:pointer-events-none",
 				className
 			)}
 			{...props}
@@ -460,7 +460,7 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
 		<ul
 			data-slot="sidebar-menu"
 			data-sidebar="menu"
-			className={cn("flex w-full min-w-0 flex-col gap-1 2k:gap-2 4k:gap-4 8k:gap-8", className)}
+			className={cn("flex w-full min-w-0 flex-col gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8", className)}
 			{...props}
 		/>
 	)
@@ -478,7 +478,7 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
 }
 
 const sidebarMenuButtonVariants = cva(
-	"peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-12 2k:group-data-[collapsible=icon]:size-17 4k:group-data-[collapsible=icon]:size-24.5 8k:group-data-[collapsible=icon]:size-60 group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+	"peer/menu-button flex w-full items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8 overflow-hidden rounded-md p-2 2k:p-2.5 4k:p-4 8k:p-8 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-12 2k:group-data-[collapsible=icon]:size-16 4k:group-data-[collapsible=icon]:size-24 8k:group-data-[collapsible=icon]:size-48 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
 	{
 		variants: {
 			variant: {
@@ -487,9 +487,9 @@ const sidebarMenuButtonVariants = cva(
 					"bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
 			},
 			size: {
-				default: "h-12 2k:h-17 4k:h-24.5 8k:h-60 font-medium text-base 2k:text-xl 4k:text-4xl 8k:text-7xl",
+				default: "h-12 2k:h-16 4k:h-24 8k:h-48 font-medium text-base 2k:text-[21px] 4k:text-[32px] 8k:text-[64px]",
 				sm: "h-7 text-xs",
-				lg: "h-16 2k:h-21 4k:h-28.5 8k:h-64 text-sm group-data-[collapsible=icon]:p-0!",
+				lg: "h-16 2k:h-21 4k:h-32 8k:h-64 text-sm group-data-[collapsible=icon]:p-0!",
 			},
 		},
 		defaultVariants: {

@@ -126,11 +126,11 @@ export const columns: ColumnDef<IRow>[] = [
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id)}>
-							<PencilIcon size={16} />
+							<PencilIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 							Edit Item
 						</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id)}>
-							<TrashIcon size={16} />
+							<TrashIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 							Delete Item
 						</DropdownMenuItem>
 					</DropdownMenuContent>

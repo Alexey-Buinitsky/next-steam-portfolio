@@ -63,7 +63,7 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 									<SidebarMenuButton asChild>
 										<Link href={item.url}>
 											<span className="flex shrink-0">
-												<item.icon size={32} className='2k:size-13 4k:size-20.5 8k:size-56' />
+												<item.icon size={32} className='2k:size-11 4k:size-16 8k:size-32' />
 											</span>
 											<span>{item.title}</span>
 										</Link>
@@ -79,7 +79,7 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 												<SidebarMenuButton asChild>
 													<Link href={item.url}>
 														<span className="flex shrink-0">
-															<item.icon size={32} className='2k:size-13 4k:size-20.5 8k:size-56' />
+															<item.icon size={32} className='2k:size-11 4k:size-16 8k:size-32' />
 														</span>
 														<span>{item.title}</span>
 													</Link>

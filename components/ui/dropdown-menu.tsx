@@ -45,7 +45,7 @@ function DropdownMenuContent({
 				sideOffset={sideOffset}
 				className={cn(
 					"bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-56 w-(--radix-popper-anchor-width) origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md",
-					"2k:min-w-80 4k:min-w-120 8k:min-w-240",
+					"2k:p-1.5 2k:min-w-80 4k:p-2 4k:min-w-120 8k:p-4 8k:min-w-240",
 					className
 				)}
 				{...props}
@@ -78,7 +78,7 @@ function DropdownMenuItem({
 			data-variant={variant}
 			className={cn(
 				"focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive relative flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0",
-				'2k:text-lg 4k:text-3xl 8k:text-6xl',
+				'2k:gap-2.5 2k:px-2.5 2k:py-2 2k:text-lg 4k:gap-4 4k:px-4 4k:py-3 4k:text-3xl 8k:gap-8 8k:px-8 8k:py-6 8k:text-6xl',
 				className
 			)}
 			{...props}
@@ -160,7 +160,7 @@ function DropdownMenuLabel({
 			data-inset={inset}
 			className={cn(
 				"px-2 py-1.5 text-sm font-normal data-[inset]:pl-8",
-				"2k:text-base",
+				'2k:px-2.5 2k:py-2 2k:text-lg 4k:px-4 4k:py-3 4k:text-3xl 8k:px-8 8k:py-6 8k:text-6xl',
 				className
 			)}
 			{...props}
@@ -175,7 +175,10 @@ function DropdownMenuSeparator({
 	return (
 		<DropdownMenuPrimitive.Separator
 			data-slot="dropdown-menu-separator"
-			className={cn("bg-border -mx-1 my-1 h-px", className)}
+			className={cn("bg-border -mx-1 my-1 h-px",
+				"2k:-mx-1.5 2k:my-1.5 4k:-mx-2 4k:my-2 8k:-mx-4 8k:my-4",
+				className
+			)}
 			{...props}
 		/>
 	)

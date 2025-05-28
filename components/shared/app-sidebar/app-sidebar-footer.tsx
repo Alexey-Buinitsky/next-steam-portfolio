@@ -21,7 +21,7 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 							<SidebarMenuButton size={'lg'} variant={'outline'}>
 								<Logo title={'shadcn'} subtitle={'m@example.com'} image={avatar} />
 								<span className="flex shrink-0 ml-auto">
-									<ChevronsUpDownIcon size={16} className="2k:size-6 4k:size-8 8k:size-16" />
+									<ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 								</span>
 							</SidebarMenuButton>
 						</DropdownMenuTrigger>
@@ -32,7 +32,7 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 							<DropdownMenuSeparator />
 							<DropdownMenuItem>
 								<span className="flex shrink-0">
-									<LogOutIcon size={16} className='4k:size-9 8k:size-18' />
+									<LogOutIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 								</span>
 								<span>Log out</span>
 							</DropdownMenuItem>
