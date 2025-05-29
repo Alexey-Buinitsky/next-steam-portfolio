@@ -4,15 +4,34 @@ import Image from "next/image"
 import { formatCurrency, calculatePercentage, calculateFee } from "@/lib"
 import { Column, ColumnDef } from "@tanstack/react-table"
 import { Button, Checkbox, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui"
-import { ArrowUpDown, MoreHorizontal, PencilIcon, TrashIcon } from "lucide-react"
+import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon, EyeOffIcon, MoreHorizontal, PencilIcon, TrashIcon } from "lucide-react"
 
 import { IRow } from "./data"
 
 const SortableHeader = ({ column, children }: { column: Column<IRow>, children: React.ReactNode }) => (
-	<Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-		{children}
-		<ArrowUpDown className="ml-2 h-4 w-4" />
-	</Button>
+	<DropdownMenu>
+		<DropdownMenuTrigger asChild>
+			<Button variant="ghost">
+				{children}
+				<ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+			</Button>
+		</DropdownMenuTrigger>
+		<DropdownMenuContent align="start">
+			<DropdownMenuItem onClick={() => column.toggleSorting(column.getFirstSortDir() === "asc")}>
+				<ArrowUpIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+				Asc
+			</DropdownMenuItem>
+			<DropdownMenuItem onClick={() => column.toggleSorting(column.getFirstSortDir() === "desc")}>
+				<ArrowDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+				Desc
+			</DropdownMenuItem>
+			<DropdownMenuSeparator />
+			<DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
+				<EyeOffIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+				Hide
+			</DropdownMenuItem>
+		</DropdownMenuContent>
+	</DropdownMenu>
 )
 
 export const columns: ColumnDef<IRow>[] = [
@@ -123,15 +142,15 @@ export const columns: ColumnDef<IRow>[] = [
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
-						<DropdownMenuLabel>Actions</DropdownMenuLabel>
+						<DropdownMenuLabel className="font-semibold">Actions</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id)}>
 							<PencilIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
-							Edit Item
+							Edit
 						</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id)}>
 							<TrashIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
-							Delete Item
+							Delete
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>

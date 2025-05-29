@@ -45,7 +45,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-	--breakpoint-full-hd: 120rem;
+  --breakpoint-full-hd: 120rem;
   --breakpoint-2k: 160rem;
   --breakpoint-4k: 240rem;
   --breakpoint-8k: 480rem;

@@ -19,7 +19,7 @@ const items = [
 	},
 	{
 		title: "Portfolio",
-		url: "/",
+		url: "/portfolio",
 		icon: BriefcaseBusinessIcon,
 	},
 	{

@@ -97,14 +97,15 @@ function DropdownMenuCheckboxItem({
 			data-slot="dropdown-menu-checkbox-item"
 			className={cn(
 				"focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+				"2k:py-2 4k:py-3 8k:py-6 2k:pr-2.5 4k:pr-4 8k:pr-8 2k:pl-10.5 4k:pl-16 8k:pl-32 2k:text-lg 4k:text-3xl 8k:text-6xl",
 				className
 			)}
 			checked={checked}
 			{...props}
 		>
-			<span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+			<span className="pointer-events-none absolute left-2 flex items-center justify-center 2k:left-2.5 4k:left-4 8k:left-8">
 				<DropdownMenuPrimitive.ItemIndicator>
-					<CheckIcon className="size-4" />
+					<CheckIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 				</DropdownMenuPrimitive.ItemIndicator>
 			</span>
 			{children}
