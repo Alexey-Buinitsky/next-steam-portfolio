@@ -4,6 +4,9 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from '@tanstack/react-table';
 import { Table } from '@/components/ui';
+import { AppTableSelection } from './app-table-selection';
+import { AppTableAddition } from './app-table-addition';
+import { AppTableSettings } from './app-table-settings';
 import { AppTableMetrics } from './app-table-metrics';
 import { AppTableFilter } from './app-table-filter';
 import { AppTableToggle } from './app-table-toggle';
@@ -38,6 +41,15 @@ export const AppTable = <TData, TValue>({ columns, data, className }: Props<TDat
 
 	return (
 		<div className={cn("flex flex-col gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8", className)}>
+
+			<div className="flex items-center justify-between gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+				<AppTableSelection />
+				<div className="flex items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+					<AppTableAddition />
+					<AppTableSettings />
+				</div>
+			</div>
+
 			<AppTableMetrics />
 
 			<div className="flex flex-col gap-2 p-2 rounded-md border dark:border-input 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
