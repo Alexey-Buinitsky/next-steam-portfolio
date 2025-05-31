@@ -1,7 +1,4 @@
-export { Aside } from './aside'
 export { Header } from './header'
-export { Container } from './container'
-
 export { AppSidebar } from './app-sidebar'
 export { AppBreadcrumb } from './app-breadcrumb'
 export { AppTable } from './app-table'

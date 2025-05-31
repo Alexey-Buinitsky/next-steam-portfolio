@@ -10,7 +10,7 @@ interface Props<TData> {
 
 export const AppTableHeader = <TData,>({ table, className }: Props<TData>) => {
 	return (
-		<TableHeader className={cn("", className)}>
+		<TableHeader className={cn("relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-border", className)}>
 			{table.getHeaderGroups().map((headerGroup) => (
 				<TableRow key={headerGroup.id}>
 					{headerGroup.headers.map((header) => (

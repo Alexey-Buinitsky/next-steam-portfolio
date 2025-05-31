@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { ThemeProvider, Aside, Header, } from "@/components/shared";
-import { SidebarProvider } from "@/components/ui";
+import { ThemeProvider, Header, AppSidebar, } from "@/components/shared";
+import { SidebarInset, SidebarProvider } from "@/components/ui";
 import { QueryProvider } from "@/providers/query-provider";
 
 import "./globals.css";
@@ -26,18 +26,20 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-					<QueryProvider>
-						<SidebarProvider className="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
-							<Aside className="row-span-2" />
-							<Header className="col-start-2" />
-							<main className="col-start-2 h-full p-4">
-								{children}
-							</main>
+				<QueryProvider>
+					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+						<SidebarProvider>
+							<AppSidebar />
+							<SidebarInset className="overflow-x-auto">
+								<Header />
+								<div className="p-2 2k:p-2.5 4k:p-4 8k:p-8">
+									{children}
+								</div>
+							</SidebarInset>
 						</SidebarProvider>
-					</QueryProvider>
-				</ThemeProvider>
+					</ThemeProvider>
+				</QueryProvider>
 			</body>
 		</html>
-	);
+	)
 }

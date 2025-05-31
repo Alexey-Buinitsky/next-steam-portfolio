@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Sidebar, useSidebar } from '@/components/ui';
+import { Sidebar, SidebarRail, useSidebar } from '@/components/ui';
 import { AppSidebarHeader } from './app-sidebar-header';
 import { AppSidebarFooter } from './app-sidebar-footer';
 import { AppSidebarContent } from './app-sidebar-content';
@@ -20,6 +20,7 @@ export const AppSidebar: React.FC<Props> = ({ className }) => {
 			<AppSidebarHeader />
 			<AppSidebarContent sidebar={sidebar} />
 			<AppSidebarFooter sidebar={sidebar} />
+			<SidebarRail />
 		</Sidebar>
 	);
 };
