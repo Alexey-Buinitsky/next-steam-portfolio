@@ -13,7 +13,7 @@ const steamApi: AxiosInstance = axios.create({
     }
 });
 
-export async function getPopularCases(params: object) {
+export async function getSteamItems(params: object) {
   try {
     const response = await steamApi.get('/search/render/', {
         params: {

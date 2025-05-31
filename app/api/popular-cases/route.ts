@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPopularCases } from "../steam-api";
+import { getSteamItems } from "../steam-api";
 import { formatItem } from "@/lib/format-item";
 import { FormattedItem } from "@/types/steam";
 import { getFromCache, setToCache } from "@/lib/cache";
@@ -14,12 +14,12 @@ export async function GET() {
         return NextResponse.json(cachedData);
     }
     
-    const response = await getPopularCases({
+    const response = await getSteamItems({
         "category_730_Type[]": 'tag_CSGO_Type_WeaponCase',
         query: 'case',
-        count: 50, 
-        // sort_column: 'popular',
-        // sort_dir: 'desc'
+        count: 50, // sort не работает совместно с count
+        sort_column: 'popular',
+        sort_dir: 'desc'
     });
 
     const formattedData = response.data?.results?.map(formatItem).sort((a: FormattedItem, b: FormattedItem) => (b.volume || 0) - (a.volume || 0)) || [];
