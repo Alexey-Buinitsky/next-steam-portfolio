@@ -13,5 +13,6 @@ export { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupActio
 export { Skeleton } from './skeleton';
 export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from './table';
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, } from './tooltip';
+export { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from './pagination'
 
 export type { SidebarContextProps } from './sidebar'

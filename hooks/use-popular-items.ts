@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import type { FormattedItem } from "@/types/steam";
 
 interface ItemsResponse {
-  items: any[];
+  items: FormattedItem[];
   total: number;
 }
 

@@ -24,7 +24,7 @@ const items = [
 	},
 	{
 		title: "Market",
-		url: "/",
+		url: "/market",
 		icon: ChartCandlestickIcon,
 	},
 	{
