@@ -21,7 +21,7 @@ export const AppTableFilter = <TData,>({ table, className }: Props<TData>) => {
 					className="pl-7"
 				/>
 				<Label className="sr-only" htmlFor="filter">Type to filter</Label>
-				<SearchIcon size={16} className="absolute top-1/2 left-2 -translate-y-1/2 opacity-50 select-none pointer-events-none" />
+				<SearchIcon size={16} className="absolute top-1/2 left-2 -translate-y-1/2 text-muted-foreground select-none pointer-events-none" />
 			</div>
 			<Button variant="outline" size="icon" className={`
 			${table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")

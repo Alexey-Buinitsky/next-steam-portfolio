@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { ThemeProvider, Header, AppSidebar, } from "@/components/shared";
+import { QueryProvider, ThemeProvider, Header, AppSidebar, } from "@/components/shared";
 import { SidebarInset, SidebarProvider } from "@/components/ui";
-import { QueryProvider } from "@/components/shared/store/query-provider";
 
 import "./globals.css";
 

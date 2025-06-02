@@ -22,5 +22,5 @@ export const AppSidebarHeader: React.FC<Props> = ({ className }) => {
 				</SidebarMenuItem>
 			</SidebarMenu>
 		</SidebarHeader>
-	);
-};
+	)
+}

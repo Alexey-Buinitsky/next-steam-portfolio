@@ -23,5 +23,5 @@ export const Logo: React.FC<Props> = ({ className, title, subtitle, icon: Icon, 
 				<span className="truncate text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl">{subtitle}</span>
 			</div>
 		</div>
-	);
-};
+	)
+}

@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { useDebounce } from '@/hooks';
 import { SidebarContent, SidebarContextProps, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui';
 import { BriefcaseBusinessIcon, ChartCandlestickIcon, CurrencyIcon, HomeIcon, TrendingUpDownIcon } from 'lucide-react';
 
@@ -41,15 +42,7 @@ const items = [
 
 export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 
-	const [isOpen, setIsOpen] = React.useState(false);
-
-	React.useEffect(() => {
-		const timer = setTimeout(() => {
-			setIsOpen(sidebar.open);
-		}, 300);
-
-		return () => clearTimeout(timer);
-	}, [sidebar.open]);
+	const debouncedIsOpen = useDebounce(sidebar.open, 300)
 
 	return (
 		<SidebarContent className={cn(className)}>
@@ -57,7 +50,7 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 				<SidebarGroupLabel>Navigation</SidebarGroupLabel>
 				<SidebarGroupContent>
 					<SidebarMenu>
-						{isOpen || sidebar.isMobile ? (
+						{debouncedIsOpen || sidebar.isMobile ? (
 							items.map((item) => (
 								<SidebarMenuItem key={item.title}>
 									<SidebarMenuButton asChild>
@@ -97,5 +90,5 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 				</SidebarGroupContent>
 			</SidebarGroup>
 		</SidebarContent>
-	);
-};
+	)
+}

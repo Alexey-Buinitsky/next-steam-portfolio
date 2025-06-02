@@ -3,10 +3,10 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks';
 import { AppBreadcrumbHome } from './app-breadcrumb-home';
 import { AppBreadcrumbDefault } from './app-breadcrumb-default';
 import { AppBreadcrumbCollapsed } from './app-breadcrumb-collapsed';
-import { useSidebar } from '@/components/ui';
 
 interface Props {
 	className?: string;
@@ -14,7 +14,7 @@ interface Props {
 
 export const AppBreadcrumb: React.FC<Props> = ({ className }) => {
 
-	const { isMobile } = useSidebar()
+	const isMobile = useIsMobile()
 	const ITEMS_TO_DISPLAY = isMobile ? 2 : 3
 
 	const pathname = usePathname()

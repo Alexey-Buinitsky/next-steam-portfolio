@@ -1,10 +1,11 @@
 'use client';
 
 import React from 'react';
-import { usePopularCases } from '@/hooks/use-popular-cases';
-import { formatPrice } from '@/lib/format-price';
-import Slider from '../slider';
 import Link from 'next/link';
+import Image from 'next/image';
+import { formatPrice } from '@/lib';
+import { usePopularCases } from '@/hooks';
+import Slider from '../slider';
 
 interface PopularItem {
   id: string;
@@ -181,9 +182,9 @@ export const PopularMarketCases: React.FC<Props> = ({ className }) => {
         }}
         >
         {data?.map((item: PopularItem) => (
-          <Link href='/'>
-            <div key={item.id} className="border rounded-lg p-3 hover:shadow-md transition-shadow dark:hover:shadow-gray-500">
-              <img className="w-full h-26  object-contain mb-2" src={item.image} alt={item.name}/>
+          <Link href='/' key={item.id}>
+            <div className="border rounded-lg p-3 hover:shadow-md transition-shadow dark:hover:shadow-gray-500">
+              <Image className="w-full h-26 object-contain mb-2" src={item.image} alt={item.name} width={104} height={104}/>
               <h3 className="font-bold text-sl truncate dark:text-white">{item.name}</h3>
               <p className="text-green-600 font-bold dark:text-green-400">{formatPrice(item.price)}</p>
             </div>

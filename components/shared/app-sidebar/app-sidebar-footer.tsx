@@ -41,5 +41,5 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 				</SidebarMenuItem>
 			</SidebarMenu>
 		</SidebarFooter>
-	);
-};
+	)
+}
