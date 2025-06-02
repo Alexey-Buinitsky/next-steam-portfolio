@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { useDebounce } from '@/hooks';
 import { useReactTable } from '@tanstack/react-table';
 import { Button, Input, Label } from '@/components/ui';
 import { SearchIcon, TrashIcon } from 'lucide-react';
@@ -10,14 +11,21 @@ interface Props<TData> {
 }
 
 export const AppTableFilter = <TData,>({ table, className }: Props<TData>) => {
+
+	const [localQuery, setLocalQuery] = React.useState<string>((table.getColumn("name")?.getFilterValue() as string) ?? "")
+
+	const debouncedQuery = useDebounce(localQuery, 300)
+
+	React.useEffect(() => {table.getColumn("name")?.setFilterValue(debouncedQuery)}, [debouncedQuery, table])
+
 	return (
 		<div className={cn("flex gap-2 w-full 2k:gap-2.5 4k:gap-4 8k:gap-8", className)}>
 			<div className="relative max-w-sm w-full">
 				<Input
 					id="filter"
 					placeholder="Type to filter..."
-					value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-					onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+					value={localQuery}
+					onChange={(e) => setLocalQuery(e.target.value)}
 					className="pl-7"
 				/>
 				<Label className="sr-only" htmlFor="filter">Type to filter</Label>
