@@ -22,9 +22,9 @@ export const AppTableChart: React.FC<Props> = ({ className, title, description, 
 			</CardHeader>
 			<CardContent>
 				<ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[215px]">
-					<PieChart>
+					<PieChart accessibilityLayer>
 						<ChartTooltip content={<ChartTooltipContent hideLabel />} />
-						<Pie data={chartData} dataKey="visitors" nameKey="browser" />
+						<Pie data={chartData} dataKey="visitors" nameKey="browser" stroke="0" />
 						<ChartLegend
 							content={<ChartLegendContent nameKey="browser" />}
 							className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
