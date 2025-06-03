@@ -11,7 +11,7 @@ import { IRow } from "./data"
 const SortableHeader = ({ column, children }: { column: Column<IRow>, children: React.ReactNode }) => (
 	<DropdownMenu>
 		<DropdownMenuTrigger asChild>
-			<Button variant="ghost">
+			<Button variant="ghost" className="w-full justify-start">
 				{children}
 				<ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 			</Button>

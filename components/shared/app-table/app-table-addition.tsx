@@ -1,5 +1,3 @@
-"use client"
-
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Button, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, Popover, PopoverContent, PopoverTrigger } from '@/components/ui';
@@ -21,7 +19,7 @@ export const AppTableAddition: React.FC<Props> = ({ className }) => {
 				<PopoverTrigger asChild>
 					<Button variant="outline" role="combobox" aria-expanded={isOpenMenu} className="w-[200px] justify-between">
 						Add item
-						<ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+						<ChevronsUpDownIcon size={16} className="ml-2 shrink-0 opacity-50" />
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent className="w-[200px] p-0">

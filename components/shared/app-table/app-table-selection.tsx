@@ -1,5 +1,3 @@
-"use client"
-
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Button, Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui';

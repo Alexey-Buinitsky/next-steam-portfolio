@@ -7,11 +7,15 @@ import { Table } from '@/components/ui';
 import { AppTableSelection } from './app-table-selection';
 import { AppTableAddition } from './app-table-addition';
 import { AppTableSettings } from './app-table-settings';
-import { AppTableMetrics } from './app-table-metrics';
+import { AppTableMetric } from './app-table-metric';
 import { AppTableFilter } from './app-table-filter';
 import { AppTableToggle } from './app-table-toggle';
 import { AppTableHeader } from './app-table-header';
 import { AppTableBody } from './app-table-body';
+import { AppTableChart } from './app-table-chart';
+
+import { metricsData } from '@/data/metrics-data';
+import { chartConfig, chartData } from '@/data/charts-data';
 
 interface Props<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
@@ -42,7 +46,7 @@ export const AppTable = <TData, TValue>({ columns, data, className }: Props<TDat
 	return (
 		<div className={cn("flex flex-col gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8", className)}>
 
-			<div className="flex items-center justify-between gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+			<div className="flex items-center justify-between flex-wrap gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 				<AppTableSelection />
 				<div className="flex items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 					<AppTableAddition />
@@ -50,9 +54,13 @@ export const AppTable = <TData, TValue>({ columns, data, className }: Props<TDat
 				</div>
 			</div>
 
-			<AppTableMetrics />
+			<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+				{metricsData.map((metric) =>
+					<AppTableMetric key={metric.key} metric={metric} />
+				)}
+			</div>
 
-			<div className="flex flex-col gap-2 p-2 rounded-md border dark:border-input 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
+			<div className="flex flex-col gap-2 p-2 rounded-md border 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
 				<div className="flex justify-between items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 					<AppTableFilter table={table} />
 					<AppTableToggle table={table} />
@@ -65,6 +73,18 @@ export const AppTable = <TData, TValue>({ columns, data, className }: Props<TDat
 					</Table>
 				</div>
 			</div>
+
+			<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+				<AppTableChart
+					title="Portfolio Diversification (Volume)"
+					description="Allocation by quantity of items."
+					chartConfig={chartConfig} chartData={chartData} />
+				<AppTableChart
+					title="Portfolio Diversification (Price)"
+					description="Allocation by total value of items."
+					chartConfig={chartConfig} chartData={chartData} />
+			</div>
+
 		</div>
 	)
 }
