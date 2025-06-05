@@ -16,7 +16,7 @@ export function MarketItems() {
 	const [displayMode, setDisplayMode] = useState<DisplayMode>('grid')
 	const [searchQuery, setSearchQuery] = useState('')
 
-	const debouncedSearchQuery = useDebounce(searchQuery.trim().toLowerCase(), 500)
+	const debouncedSearchQuery = useDebounce(searchQuery.trim().toLowerCase(), 1000)
 
 	useEffect(() => { setCurrentPage(1) }, [searchQuery])
 

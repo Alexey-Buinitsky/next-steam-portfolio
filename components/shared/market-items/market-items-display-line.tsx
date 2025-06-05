@@ -23,7 +23,7 @@ export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => 
                 <div className="flex flex-col gap-2 mb-6">
                     {data?.items.map((item) => (
                         <Link
-                            href='/'
+                            href={`/market/item/${encodeURIComponent(item.name)}`}
                             key={item.id}
                             className="flex border rounded py-0.5 pl-2 pr-4 sm:px-4 hover:shadow-md transition-shadow dark:hover:shadow-gray-500 dark:hover:shadow-sm"
                         >

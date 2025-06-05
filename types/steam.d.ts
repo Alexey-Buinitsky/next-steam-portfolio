@@ -26,8 +26,15 @@ export interface SteamMarketResponse {
   results: SteamMarketItem[];
 }
 
+export interface ItemHistoryResponse {
+  time: string[];
+  price: string[];
+  volume: string[];
+}
+
 //api
 export interface ItemsResponse {
   items: FormattedItem[];
   total: number;
 }
+

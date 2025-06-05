@@ -14,7 +14,7 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
     <div className={className}>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 mb-12">
             {data?.items.map((item) => (
-                <Link href='/' key={item.id}>
+                <Link href={`/market/item/${encodeURIComponent(item.name)}`} key={item.id}>
                     <div className="h-full border rounded p-4 hover:shadow-lg transition-shadow">
                         <Image
                             src={item.image}
