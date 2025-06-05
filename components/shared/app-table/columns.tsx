@@ -11,7 +11,7 @@ import { IRow } from "./data"
 const SortableHeader = ({ column, children }: { column: Column<IRow>, children: React.ReactNode }) => (
 	<DropdownMenu>
 		<DropdownMenuTrigger asChild>
-			<Button variant="ghost" className="w-full justify-start">
+			<Button variant="ghost" className="w-full justify-between">
 				{children}
 				<ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 			</Button>
@@ -57,7 +57,7 @@ export const columns: ColumnDef<IRow>[] = [
 	{
 		accessorKey: "icon",
 		header: "Icon",
-		cell: ({ row }) => <Image alt={row.original.name} src={row.original.icon.src} priority={true} width={40} height={40} />,
+		cell: ({ row }) => <Image alt={row.original.name} src={row.original.icon.src} priority={true} width={40} height={40} className="2k:size-13 4k:size-20 8k:size-40" />,
 	},
 	{
 		accessorKey: "name",
@@ -136,9 +136,9 @@ export const columns: ColumnDef<IRow>[] = [
 			return (
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="h-8 w-8 p-0">
+						<Button variant="ghost">
 							<span className="sr-only">Open menu</span>
-							<MoreHorizontal size={16} />
+							<MoreHorizontal size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">

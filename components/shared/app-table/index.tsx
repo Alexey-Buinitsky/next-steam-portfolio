@@ -66,7 +66,7 @@ export const AppTable = <TData, TValue>({ columns, data, className }: Props<TDat
 					<AppTableToggle table={table} />
 				</div>
 
-				<div className="flex max-h-80 overflow-y-auto rounded-md border">
+				<div className="flex max-h-90 overflow-y-auto rounded-md border md:max-h-115 xl:max-h-140 full-hd:max-h-165 2k:max-h-220 4k:max-h-330 8k:max-h-660">
 					<Table>
 						<AppTableHeader table={table} className="sticky top-0 z-10 bg-background" />
 						<AppTableBody table={table} columns={columns} />

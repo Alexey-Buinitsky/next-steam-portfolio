@@ -17,12 +17,12 @@ export const AppTableAddition: React.FC<Props> = ({ className }) => {
 		<Dialog open={isOpenDialog} onOpenChange={setIsOpenDialog}>
 			<Popover open={isOpenMenu} onOpenChange={setIsOpenMenu}>
 				<PopoverTrigger asChild>
-					<Button variant="outline" role="combobox" aria-expanded={isOpenMenu} className="w-[200px] justify-between">
+					<Button variant="outline" role="combobox" aria-expanded={isOpenMenu} className="w-[16.25rem] justify-between 2k:w-[22rem] 4k:w-[32.5rem] 8k:w-[65rem] 2k:text-lg 4k:text-3xl 8k:text-6xl">
 						Add item
-						<ChevronsUpDownIcon size={16} className="ml-2 shrink-0 opacity-50" />
+						<ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 					</Button>
 				</PopoverTrigger>
-				<PopoverContent className="w-[200px] p-0">
+				<PopoverContent className="w-[16.25rem] 2k:w-[22rem] 4k:w-[32.5rem] 8k:w-[65rem]">
 					<Command>
 						<CommandInput
 							placeholder="Type to search..."
