@@ -21,13 +21,13 @@ export const AppTableChart: React.FC<Props> = ({ className, title, description, 
 				<CardDescription>{description}</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[215px]">
+				<ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-54 2k:max-h-71.5 4k:max-h-108 8k:max-h-216">
 					<PieChart accessibilityLayer>
 						<ChartTooltip content={<ChartTooltipContent hideLabel />} />
 						<Pie data={chartData} dataKey="visitors" nameKey="browser" stroke="0" />
 						<ChartLegend
 							content={<ChartLegendContent nameKey="browser" />}
-							className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
+							className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center 2k:gap-2.5 4k:gap-4 8k:gap-8 2k:pt-4 4k:pt-6 8k:pt-12"
 						/>
 					</PieChart>
 				</ChartContainer>
