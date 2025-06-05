@@ -1,11 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import type { FormattedItem } from "@/types/steam";
-
-interface ItemsResponse {
-  items: FormattedItem[];
-  total: number;
-}
+import type { ItemsResponse } from "@/types/steam";
 
 export function useMarketItems(page: number, perPage: number, query?: string) {
     return useQuery({

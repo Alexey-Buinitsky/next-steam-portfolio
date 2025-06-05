@@ -1,5 +1,6 @@
 'use client'
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { PaginationItem, Pagination, PaginationContent, PaginationPrevious, PaginationLink, PaginationEllipsis, PaginationNext } from '@/components/ui';
 
 interface Props {
@@ -9,21 +10,30 @@ interface Props {
 	onPageChange: (page: number) => void;
 }
 
-const MAX_VISIBLE_PAGES = 5;
-
 export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPages, onPageChange }) => {
+	const [maxVisiblePages, setMaxVisiblePages] = useState(5);
 
-	let startPage = Math.max(1, currentPage - Math.floor(MAX_VISIBLE_PAGES / 2));
-	let endPage = Math.min(totalPages, startPage + MAX_VISIBLE_PAGES - 1);
+	useEffect(() => {
+		const handleResize = () => {
+			setMaxVisiblePages(window.innerWidth < 768 ? 3 : 5)
+		}
+		window.addEventListener('resize', handleResize)
+		handleResize()
+		return () => window.removeEventListener('resize', handleResize)
+	}, [])
 
-	if (endPage - startPage + 1 < MAX_VISIBLE_PAGES) {
-		startPage = Math.max(1, endPage - MAX_VISIBLE_PAGES + 1);
+	let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+	let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+	if (endPage - startPage + 1 < maxVisiblePages) {
+		startPage = Math.max(1, endPage - maxVisiblePages + 1);
 	}
 
 	const pages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
+	// Использовать в случае большого значения totalPages
 	// const pages = React.useMemo(() => (
-	//     Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i) // Использовать в случае большого значения totalPages
+	//     Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i) 
 	// ), [startPage, endPage]);
 
 	return (
@@ -42,7 +52,8 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 							{startPage > 2 &&
 								<PaginationItem>
 									<PaginationEllipsis />
-								</PaginationItem>}
+								</PaginationItem>
+							}
 						</>
 					)}
 
@@ -57,8 +68,8 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 							{endPage < totalPages - 1 &&
 								<PaginationItem>
 									<PaginationEllipsis />
-								</PaginationItem>}
-
+								</PaginationItem>
+							}
 							<PaginationItem onClick={() => onPageChange(totalPages)}>
 								<PaginationLink>{totalPages}</PaginationLink>
 							</PaginationItem>

@@ -25,3 +25,9 @@ export interface SteamMarketResponse {
   total_count: number;
   results: SteamMarketItem[];
 }
+
+//api
+export interface ItemsResponse {
+  items: FormattedItem[];
+  total: number;
+}
