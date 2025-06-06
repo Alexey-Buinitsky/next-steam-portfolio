@@ -8,7 +8,7 @@ interface Props {
 	title: string;
 	subtitle: string;
 	icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
-	image?: StaticImageData | string;
+	image?: StaticImageData;
 }
 
 export const Logo: React.FC<Props> = ({ className, title, subtitle, icon: Icon, image }) => {
