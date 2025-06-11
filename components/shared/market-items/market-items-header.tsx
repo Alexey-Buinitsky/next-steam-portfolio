@@ -32,7 +32,6 @@ export const MarketItemsHeader: React.FC<Props> = ({ className, searchQuery, set
                             onClick={() => setDisplayMode('grid')}
                             variant="outline"
                             size="icon"
-                            className='2k:size-12 4k:size-18 8k:size-36'
                         >
                             <Grid2X2 size={20} />
                         </Button>
@@ -40,7 +39,6 @@ export const MarketItemsHeader: React.FC<Props> = ({ className, searchQuery, set
                             onClick={() => setDisplayMode('list')}
                             variant="outline"
                             size="icon"
-                            className='2k:size-12 4k:size-18 8k:size-36'
                         >
                             <StretchHorizontal size={20} />
                         </Button>

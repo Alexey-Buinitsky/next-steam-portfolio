@@ -136,7 +136,7 @@ export const columns: ColumnDef<IRow>[] = [
 			return (
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button variant="ghost">
+						<Button variant="ghost" className="w-full">
 							<span className="sr-only">Open menu</span>
 							<MoreHorizontal size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 						</Button>

@@ -33,7 +33,7 @@ export const AppTableFilter = <TData,>({ table, className }: Props<TData>) => {
 			</div>
 			<Button variant="outline" size="icon" className={`
 			${table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")
-					? 'visible opacity-100' : 'invisible opacity-0'} 2k:size-12 4k:size-18 8k:size-36`}>
+					? 'visible opacity-100' : 'invisible opacity-0'}`}>
 				<TrashIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 				<span className="sr-only">Delete</span>
 			</Button>

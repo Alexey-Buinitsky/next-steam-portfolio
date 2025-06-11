@@ -1,0 +1,20 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { portfoliosApi } from '@/services/portfolios';
+import { Portfolio } from '@prisma/client';
+
+interface ReturnProps {
+	isEditing: boolean;
+	editError: Error | null;
+	editPortfolio: ({ id, name }: { id: number; name: string }) => void;
+}
+
+export const useEditPortfolio = (): ReturnProps => {
+	const queryClient = useQueryClient()
+
+	const { mutate, isPending, error } = useMutation<Portfolio, Error, { id: number; name: string }>({
+		mutationFn: ({ id, name }: { id: number; name: string }) => portfoliosApi.edit(id, name),
+		onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['portfolios'] }); },
+	})
+
+	return { isEditing: isPending, editError: error, editPortfolio: mutate }
+}
