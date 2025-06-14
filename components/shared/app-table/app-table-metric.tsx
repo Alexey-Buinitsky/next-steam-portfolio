@@ -11,9 +11,9 @@ interface Props {
 export const AppTableMetric: React.FC<Props> = ({ className, metric }) => {
 	return (
 		<Card className={cn("", className)}>
-			<CardHeader>
+			<CardHeader className="h-full">
 				<CardDescription>{metric.key}</CardDescription>
-				<CardTitle className="font-bold text-2xl 2k:text-[32px] 4k:text-5xl 8k:text-8xl">{metric.value}</CardTitle>
+				<CardTitle className="mt-auto font-bold text-2xl 2k:text-[32px] 4k:text-5xl 8k:text-8xl">{metric.value}</CardTitle>
 				<CardAction>
 					<Badge variant={'outline'}>
 						<metric.icon size={24} className="2k:size-8 4k:size-11 8k:size-21" />
