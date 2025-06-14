@@ -1,48 +1,33 @@
-    import { NextResponse } from "next/server";
-    import { getSteamItems } from "../steam-api";
-    import { getFromCache, setToCache } from "@/lib/cache";
-    import { formatItem } from "@/lib/format-item";
+import { NextResponse } from "next/server";
+import { getFromCache } from "@/lib/cache";
 
-    const CACHE_KEY_PREFIX = 'steam-popular-items-';
+export async function GET(request: Request) {
+    try {
+        const { searchParams } = new URL(request.url);
+        const page = parseInt(searchParams.get('page') || '0');
+        const perPage = parseInt(searchParams.get('perPage') || '10');
 
-    export async function GET (request: Request) {
-        try {
-            const { searchParams } = new URL(request.url);
-            const page = parseInt(searchParams.get('page') || '1');
-            const perPage = parseInt(searchParams.get('perPage') || '10');
-            const start = (page - 1) * perPage;
+        const cacheKey = `steam-items-page-${page}`;
+        const cachedItems = getFromCache(cacheKey);
 
-            const cacheKey = `${CACHE_KEY_PREFIX}${page}-${perPage}`;
-            const cachedData = getFromCache(cacheKey);
-
-            if(cachedData) {
-                return NextResponse.json(cachedData);
-            }
-
-            const response = await getSteamItems({
-                start,
-                count: perPage,
-                sort_column: 'popular',
-                sort_dir: 'desc'
-            });
-
-            const formattedData = response.data?.results?.map(formatItem) || [];
-
-            setToCache(cacheKey, {
-                items: formattedData,
-                total: response.data?.total_count || 0
-            }); 
-            
-            return NextResponse.json({
-                items: formattedData,
-                total: response.data?.total_count || 0
-            });
-
-        } catch (error) {
-            console.error('Items API Error:', error);
+        if (!cachedItems) {
             return NextResponse.json(
-                { error: 'Failed to fetch items' },
-                { status: 500 }
+                { error: 'Данные ещё не загружены' },
+                { status: 404 }
             );
         }
-    } 
+
+        const paginatedItems = cachedItems.slice(0, perPage);
+
+        return NextResponse.json({
+            items: paginatedItems,
+            total: cachedItems.length
+        });
+    } catch (error) {
+        console.error('Ошибка API:', error);
+        return NextResponse.json(
+            { error: 'Ошибка сервера' },
+            { status: 500 }
+        );
+    }
+}

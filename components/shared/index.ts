@@ -12,3 +12,4 @@ export { MarketItems } from './market-items'
 
 export { QueryProvider } from './query-provider'
 export { ThemeProvider } from './theme-provider'
+export { BackgroundSyncProvider } from './background-sync-provider'

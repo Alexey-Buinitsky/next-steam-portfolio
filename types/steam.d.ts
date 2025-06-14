@@ -1,13 +1,27 @@
 export interface SteamMarketItem {
-  appid?: number;
-  hash_name?: string;
   name?: string;
-  sell_price?: number;
+  hash_name?: string;
   sell_listings?: number;
+  sell_price?: number;
+  sell_price_text?: string;
+  app_icon?: string,
+  app_name?: string,
   market_hash_name?: string;
-  asset_description: {
-    icon_url?: string;
+  asset_description?: {
+    appid?: number,
+    classid: string,
+    instanceid: string,
+    background_color: string,
+    icon_url?: string,
+    tradable?: number,
+    name?: string,
+    name_color?: string,
+    type?: string,
+    market_name?: string,
+    market_hash_name?: string,
+    commodity?: number
   };
+  sale_price_text?: string
 }
 
 export interface FormattedItem {

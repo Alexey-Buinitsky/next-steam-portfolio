@@ -14,16 +14,16 @@ const steamApi: AxiosInstance = axios.create({
 });
 
 export async function getSteamItems(params: object) {
-  try {
-    const response = await steamApi.get('/search/render/', {
-        params: {
-            start: 0,
-            ...params
-        }
-    });
-    return response;
+    try {
+        const response = await steamApi.get('/search/render/', {
+            params: {
+                start: 0,
+                ...params
+            }
+        });
+        return response.data;
     } catch (error) {
         console.error('Steam API error:', error);
         throw error;
-    } 
+    }
 }

@@ -5,6 +5,8 @@ import { MarketItemsDisplayGrid } from './market-items-display-grid';
 import { MarketItemsDisplayLine } from './market-items-display-line';
 import { MarketItemsHeader } from './market-items-header';
 import { AppPagination } from '@/components/shared';
+import { tempData } from '@/data/temp-data';
+
 
 const ITEMS_PER_PAGE = 10
 const MAX_PAGES = 50

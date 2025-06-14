@@ -4,168 +4,33 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatPrice } from '@/lib';
-import { usePopularCases } from '@/hooks';
+// import { usePopularCases } from '@/hooks';
+import { useTotalItems } from '@/hooks/use-total-items';
 import Slider from '../slider';
 
-interface PopularItem {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-}
+import type { SteamMarketItem } from '@/types/steam';
+
+import { tempData } from '@/data/temp-data';
 
 interface Props {
   className?: string;
 }
 
 export const PopularMarketCases: React.FC<Props> = ({ className }) => {
-  const { data, isLoading, error } = usePopularCases();
+  const { data: items, isLoading, error } = useTotalItems()
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const altdata = [
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-    {
-      id: "Fracture Case",
-      image: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk",
-      name: "Fracture Case",
-      price: 36,
-      volume: 427248,
-    },
-  ]
+  const filteredCases = (data: SteamMarketItem[]): SteamMarketItem[] => {
+    return data.filter((item: SteamMarketItem) => item?.asset_description?.type === 'Base Grade Container' && item?.hash_name?.toLowerCase().includes('case'))
+  } 
+
+  console.log(
+    filteredCases(tempData)
+  );
+
+  const cases = filteredCases(tempData)
 
   return (
     <div className={className} >
@@ -181,12 +46,16 @@ export const PopularMarketCases: React.FC<Props> = ({ className }) => {
           2560: { slidesPerView: 7, spaceBetween: 40 }, // Для 4K
         }}
         >
-        {data?.map((item: PopularItem) => (
-          <Link href='/' key={item.id}>
+        {cases?.map((item: SteamMarketItem) => (
+          <Link href='/' key={item.hash_name}>
             <div className="border rounded-lg p-3 hover:shadow-md transition-shadow dark:hover:shadow-gray-500">
-              <Image className="w-full h-26 object-contain mb-2" src={item.image} alt={item.name} width={104} height={104}/>
-              <h3 className="font-bold text-sl truncate dark:text-white">{item.name}</h3>
-              <p className="text-green-600 font-bold dark:text-green-400">{formatPrice(item.price)}</p>
+              <Image className="mx-auto w-auto h-auto object-contain mb-2" 
+                src={`https://steamcommunity-a.akamaihd.net/economy/image/${item.asset_description?.icon_url || ''}`} 
+                alt={item.hash_name || ''} 
+                width={104} height={104}
+              />
+              <h3 className="font-bold text-sl truncate dark:text-white">{item.name || 'Unknown'}</h3>
+              <p className="text-green-600 font-bold dark:text-green-400">{item.sell_price_text || ''}</p>
             </div>
           </Link>
         ))}

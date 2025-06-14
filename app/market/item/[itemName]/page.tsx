@@ -1,95 +1,53 @@
 'use client';
 import { useItemHistory } from '@/hooks/use-item-history';
-import { formatPrice } from '@/lib/format-price';
 import Link from 'next/link';
 import { use } from 'react';
 
-interface PageProps {
-  params: Promise<{
-    itemName: string;
-  }>;
-}
-
-export default function ItemPage({ params }: PageProps) {
-  const unwrappedParams = use(params);
-  const decodedItemName = decodeURIComponent(unwrappedParams.itemName);
-  
-  const { 
-    data: itemHistory, 
-    isLoading, 
-    error,
-    isError 
-  } = useItemHistory(decodedItemName, 30);
-
-  // Функция для получения последнего значения из массива
-  const getLastValue = (arr: string[] | undefined) => {
-    if (!arr || arr.length === 0) return 'N/A';
-    return arr[arr.length - 1];
-  };
+export default function ItemPage({ params }: { params: Promise<{ itemName: string }> }) {
+  // Правильное разворачивание Promise с помощью use()
+  const { itemName } = use(params);
+  const decodedItemName = decodeURIComponent(itemName);
+  const { data: itemHistory, isLoading, error } = useItemHistory(decodedItemName);
 
   if (isLoading) {
+    return <div className="p-4">Loading...</div>;
+  }
+
+  if (error) {
     return (
-      <div className="container mx-auto p-4">
-        <div className="text-center">Loading item data...</div>
+      <div className="p-4 text-red-500">
+        Error loading data: {error.message}
       </div>
     );
   }
 
-  if (isError) {
-    return (
-      <div className="container mx-auto p-4">
-        <div className="text-red-500 text-center">
-          Error loading item data: {error?.message || 'Unknown error'}
-        </div>
-        <div className="mt-4 text-center">
-          <Link href="/market" className="text-blue-500 hover:underline">
-            ← Back to Market
-          </Link>
-        </div>
-      </div>
-    );
+  if (!itemHistory) {
+    return <div className="p-4">No data available</div>;
   }
+
+  const lastPrice = itemHistory.price[itemHistory.price.length - 1];
+  const lastVolume = itemHistory.volume[itemHistory.volume.length - 1];
+  const lastDate = itemHistory.time[itemHistory.time.length - 1];
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold mb-6">{decodedItemName}</h1>
-        
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h2 className="font-semibold text-lg mb-2">Price Information</h2>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span>Current Price:</span>
-                <span className="font-medium">
-                  {formatPrice(parseFloat(getLastValue(itemHistory?.price)))}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h2 className="font-semibold text-lg mb-2">Volume Information</h2>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span>Recent Volume:</span>
-                <span className="font-medium">
-                  {getLastValue(itemHistory?.volume)}
-                </span>
-              </div>
-            </div>
-          </div>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">{decodedItemName}</h1>
+      
+      <div className="mb-6">
+        <div className="mb-2">
+          <span className="font-semibold">Last Price:</span> ${lastPrice}
         </div>
-
-        <div className="mt-6 text-center">
-          <Link 
-            href="/market" 
-            className="inline-flex items-center text-blue-500 hover:underline"
-          >
-            <span className="mr-1">←</span> Back to Market
-          </Link>
+        <div className="mb-2">
+          <span className="font-semibold">Last Volume:</span> {lastVolume}
+        </div>
+        <div>
+          <span className="font-semibold">Last Update:</span> {new Date(lastDate).toLocaleDateString()}
         </div>
       </div>
+
+      <Link href="/market" className="text-blue-500 hover:underline">
+        ← Back to Market
+      </Link>
     </div>
   );
 }

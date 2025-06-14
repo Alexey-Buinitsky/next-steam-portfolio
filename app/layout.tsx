@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { QueryProvider, ThemeProvider, Header, AppSidebar, } from "@/components/shared";
+import { BackgroundSyncProvider, QueryProvider, ThemeProvider, Header, AppSidebar, } from "@/components/shared";
 import { SidebarInset, SidebarProvider } from "@/components/ui";
 
-import "./globals.css";
+import "./globals.css";	
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -26,17 +26,19 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<QueryProvider>
-					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-						<SidebarProvider>
-							<AppSidebar />
-							<SidebarInset className="overflow-x-auto">
-								<Header />
-								<div className="p-2 2k:p-2.5 4k:p-4 8k:p-8">
-									{children}
-								</div>
-							</SidebarInset>
-						</SidebarProvider>
-					</ThemeProvider>
+					<BackgroundSyncProvider>
+						<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+							<SidebarProvider>
+								<AppSidebar />
+								<SidebarInset className="overflow-x-auto">
+									<Header />
+									<div className="p-2 2k:p-2.5 4k:p-4 8k:p-8">
+										{children}
+									</div>
+								</SidebarInset>
+							</SidebarProvider>
+						</ThemeProvider>
+					</BackgroundSyncProvider>
 				</QueryProvider>
 			</body>
 		</html>
