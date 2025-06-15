@@ -2,6 +2,6 @@
 
 import { totalStartSync } from './total-start-sync';
 
-export async function initializeBackgroundSync() {
+export function initializeBackgroundSync() {
   totalStartSync();
 }

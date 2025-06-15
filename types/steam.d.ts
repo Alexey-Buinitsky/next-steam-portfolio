@@ -9,9 +9,9 @@ export interface SteamMarketItem {
   market_hash_name?: string;
   asset_description?: {
     appid?: number,
-    classid: string,
-    instanceid: string,
-    background_color: string,
+    classid?: string,
+    instanceid?: string,
+    background_color?: string,
     icon_url?: string,
     tradable?: number,
     name?: string,
