@@ -26,7 +26,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<QueryProvider>
-					<BackgroundSyncProvider>
+					{/* <BackgroundSyncProvider> */}
 						<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 							<SidebarProvider>
 								<AppSidebar />
@@ -38,7 +38,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 								</SidebarInset>
 							</SidebarProvider>
 						</ThemeProvider>
-					</BackgroundSyncProvider>
+					{/* </BackgroundSyncProvider> */}
 				</QueryProvider>
 			</body>
 		</html>

@@ -5,7 +5,7 @@ import { initializeBackgroundSync } from '@/lib/background-sync-init';
 
 export function BackgroundSyncProvider({ children }: { children?: React.ReactNode }) {
   useEffect(() => {
-    // initializeBackgroundSync();
+    initializeBackgroundSync();
   }, []);
 
   return children ? <>{children}</> : null;

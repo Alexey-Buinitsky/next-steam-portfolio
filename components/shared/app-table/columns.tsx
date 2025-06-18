@@ -6,7 +6,7 @@ import { Column, ColumnDef } from "@tanstack/react-table"
 import { Button, Checkbox, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui"
 import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon, EyeOffIcon, MoreHorizontal, PencilIcon, TrashIcon } from "lucide-react"
 
-import { IRow } from "./data"
+import { IRow } from "@/types/portfolio"
 
 const SortableHeader = ({ column, children }: { column: Column<IRow>, children: React.ReactNode }) => (
 	<DropdownMenu>
@@ -57,7 +57,7 @@ export const columns: ColumnDef<IRow>[] = [
 	{
 		accessorKey: "icon",
 		header: "Icon",
-		cell: ({ row }) => <Image alt={row.original.name} src={row.original.icon.src} priority={true} width={40} height={40} className="2k:size-13 4k:size-20 8k:size-40" />,
+		cell: ({ row }) => <Image alt={row.original.name} src={typeof row.original.icon === 'string' ? row.original.icon : row.original.icon.src}  priority={true} width={40} height={40} className="2k:size-13 4k:size-20 8k:size-40" />,
 	},
 	{
 		accessorKey: "name",

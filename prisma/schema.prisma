@@ -39,8 +39,10 @@ model Asset {
   id Int @id @default(autoincrement())
 
   imageUrl String
-  name     String
+  name     String @unique
   type     String
+  price    Int?
+  isActive Boolean @default(true)
 
   portfolioAssets PortfolioAsset[]
 
@@ -54,7 +56,7 @@ model PortfolioAsset {
   quantity Int @default(1)
   buyPrice Int @default(0)
 
-  Asset   Asset? @relation(fields: [assetId], references: [id])
+  asset   Asset? @relation(fields: [assetId], references: [id])
   assetId Int?
 
   Portfolio   Portfolio? @relation(fields: [portfolioId], references: [id])

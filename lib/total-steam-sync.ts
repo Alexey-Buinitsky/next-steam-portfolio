@@ -1,13 +1,19 @@
 import axios from 'axios';
+import { prisma } from '@/prisma/prisma-client';
 import { setTotalItem, markTotalSyncComplete, removeStaleItems, getTotalItemsCount } from './total-cache';
-import { SteamMarketItem } from '@/types/steam';
+import type { SteamMarketItem } from '@/types/steam';
+import { PrismaSyncAssets } from './prisma-sync-assets';
 
 const STEAM_DELAY_MS = 5000 // Текущая задержка (5 * 2(ниже) = 10 сек)
 const STEAM_ITEMS_COUNT = 10 // Количество предметов за запрос
 
 export const syncAllTotalItems = async () => {
+  // await prisma.$executeRaw`TRUNCATE TABLE "Asset" RESTART IDENTITY CASCADE`;
+  // await prisma.$executeRaw`ALTER SEQUENCE "Asset_id_seq" RESTART WITH 1`;
+
   let start = 0
   let currentDelay = STEAM_DELAY_MS
+  let allSyncedHashes = new Set<string>();
 
   while (true) {
     try {
@@ -18,21 +24,38 @@ export const syncAllTotalItems = async () => {
 
       if (!data?.results?.length) break
 
-      data.results.forEach((item: SteamMarketItem) => {
-        if (item.hash_name) setTotalItem(item.hash_name, item)
-      });
-
       // При успешном запросе..
+      
+      const validItems = data.results.filter((item: SteamMarketItem) => item.name);
+
+      validItems.forEach((item: SteamMarketItem) => {
+        allSyncedHashes.add(item.name || '');
+        setTotalItem(item.name || '', item);
+      });
+      
+      await PrismaSyncAssets(validItems);
+
       start += STEAM_ITEMS_COUNT;
       currentDelay = STEAM_DELAY_MS; // Сброс задержки
 
-      console.log(`📥 Загружено ${data.results.length} предметов. Всего: ${getTotalItemsCount()}`);
+      console.log(`📥 Загружено ${validItems.length} предметов. Всего: ${getTotalItemsCount()}`);
       await new Promise(resolve => setTimeout(resolve, currentDelay));
     } catch (error) {
       currentDelay = Math.min(currentDelay * 2, 100000); // Экспоненциальная задержка (макс. 1,5 мин)
       console.error(`❌ Ошибка запроса. Следующая попытка через ${currentDelay / 1000} сек...`);
       await new Promise(resolve => setTimeout(resolve, currentDelay));
     }
+  }
+
+   // Финализация - пометка всех отсутствующих предметов
+  if (allSyncedHashes.size > 0) {
+    await prisma.asset.updateMany({
+      where: { 
+        name: { notIn: Array.from(allSyncedHashes) },
+        isActive: true
+      },
+      data: { isActive: false }
+    });
   }
 
   removeStaleItems()
