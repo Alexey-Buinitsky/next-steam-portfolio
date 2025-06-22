@@ -55,7 +55,7 @@ const Slider: React.FC<SwiperProps> = ({
         slidesPerGroup={1}
       >
         {React.Children.map(children, (child) => (
-          <SwiperSlide style={{ width: 'auto' }}>
+          <SwiperSlide style={{ width: 'auto' }}>  {/*Иначе слайды бы выходили за рамки контейнера и появлялся горизонт скролл*/}
             {child}
           </SwiperSlide>
         ))}

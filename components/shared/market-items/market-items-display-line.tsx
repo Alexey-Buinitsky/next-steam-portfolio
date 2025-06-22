@@ -2,11 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatRating, formatPrice } from '@/lib';
-import type { ItemsResponse } from "@/types/steam";
+import type { AssetsResponse } from "@/types/portfolio";
 
 interface Props {
     className?: string;
-    data?: ItemsResponse;
+    data?: AssetsResponse;
 }
 
 export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => {
@@ -21,7 +21,7 @@ export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => 
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 mb-6">
-                    {data?.items.map((item) => (
+                    {data?.assets.map((item) => (
                         <Link
                             href={`/market/item/${encodeURIComponent(item.name)}`}
                             key={item.id}
@@ -29,8 +29,8 @@ export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => 
                         >
                             <div className="flex items-center w-full">
                                 <Image
-                                    src={item.image}
-                                    alt={item.name}
+                                    src={`https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl || ''}`} 
+                                    alt={item.name || ''} 
                                     height={64}
                                     width={64}
                                     className="w-16 h-16 object-contain md:mr-4"
@@ -41,12 +41,12 @@ export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => 
                                 <div className="flex items-center space-x-4 md:space-x-6">
                                     <div className="text-right">
                                         <p className="text-sm lg:text-lg text-green-600 dark:text-green-400 font-bold">
-                                            {formatPrice(item.price)}
+                                            {formatPrice(item.price || undefined)}
                                         </p>
                                     </div>
                                     <div className="text-right w-7">
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            {formatRating(item.volume)}
+                                            {formatRating(item.volume || undefined)}
                                         </p>
                                     </div>
                                 </div>

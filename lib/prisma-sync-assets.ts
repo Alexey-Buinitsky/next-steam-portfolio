@@ -15,12 +15,14 @@ export const PrismaSyncAssets = async (items: SteamMarketItem[]) => {
         where: { name: item.name },
         update: { 
           price: item.sell_price || 0,
+          volume: item.sell_listings || 0,
           updatedAt: now,
           isActive: true // Помечаем как активный
         },
         create: {
           name: item.name || '',
           price: item.sell_price || 0,
+          volume: item.sell_listings || 0,
           type: item.asset_description?.type || 'unknown',
           imageUrl: item.asset_description?.icon_url || '',
           isActive: true,

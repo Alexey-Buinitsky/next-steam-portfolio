@@ -1,13 +1,21 @@
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { useQuery } from "@tanstack/react-query";
+import { AssetsResponse, UseAssetsOptions } from "@/types/portfolio";
+import { apiInstance } from "@/services/api-instance";
 
-export const useTotalItems = () => {
-  return useQuery({
-    queryKey: ['totalItems'],
+export function useTotalItems({page = 1, perPage = 10, type, search}: UseAssetsOptions = {}) {
+  return useQuery<AssetsResponse, Error>({
+    queryKey: ['assets', { page, perPage, type, search }],
     queryFn: async () => {
-      const { data } = await axios.get('/api/total-items');
-      return data.items;
+      const params = new URLSearchParams();
+      params.append('page', page.toString());
+      params.append('perPage', perPage.toString());
+      if (type) params.append('type', type);
+      if (search) params.append('search', search);
+
+      const response = await apiInstance.get(`/total-items?${params.toString()}`);
+      return response.data;
     },
-    staleTime: 24 * 60 * 60 * 1000 // 24 часа
+    placeholderData: (previousData) => previousData,
+    staleTime: 60 * 1000 * 5, // 5 минут
   });
-};
+}

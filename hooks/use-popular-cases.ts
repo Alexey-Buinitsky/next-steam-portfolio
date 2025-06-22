@@ -1,13 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { Asset } from '@prisma/client';
+import { apiInstance } from "@/services/api-instance";
 
 export function usePopularCases() {
-    return useQuery({
+    return useQuery<Asset[], Error>({
         queryKey: ['popularCases'],
         queryFn: async() => {
-            const response = await axios.get('/api/popular-cases')
+            const response = await apiInstance.get('/popular-cases')
             return response.data
         },
         staleTime: 60 * 1000 * 5,
     })
 }
+

@@ -42,6 +42,7 @@ model Asset {
   name     String @unique
   type     String
   price    Int?
+  volume   Int?
   isActive Boolean @default(true)
 
   portfolioAssets PortfolioAsset[]
