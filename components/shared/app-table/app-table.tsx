@@ -4,17 +4,8 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, RowSelectionState, SortingState, useReactTable, VisibilityState } from '@tanstack/react-table';
 import { Table } from '@/components/ui';
-import { AppTableSelection } from './app-table-selection';
-import { AppTableAddition } from './app-table-addition';
-import { AppTableSettings } from './app-table-settings';
-import { AppTableMetric } from './app-table-metric';
-import { AppTableFilter } from './app-table-filter';
-import { AppTableToggle } from './app-table-toggle';
-import { AppTableHeader } from './app-table-header';
-import { AppTableBody } from './app-table-body';
+import { AppTableAddition, AppTableBody, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle, useAppTable } from './index';
 import { AppTableChart } from './app-table-chart';
-
-import { useFetchPortfolios, useSelectPortfolio } from '@/hooks/use-portfolios';
 
 import { metricsData } from '@/data/metrics-data';
 import { chartConfig, chartData } from '@/data/charts-data';
@@ -27,12 +18,7 @@ interface Props<TData, TValue> {
 
 export const AppTable = <TData, TValue>({ columns, data, className }: Props<TData, TValue>) => {
 
-	const { portfolios, isFetching, fetchError } = useFetchPortfolios()
-	const { selectedPortfolio, isSelecting, selectError, selectPortfolio } = useSelectPortfolio({ portfolios })
-
-	const error = fetchError || selectError
-	const isLoading = isFetching || isSelecting
-	console.log(error)
+	const { portfolios } = useAppTable()
 
 	const [sorting, setSorting] = React.useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -57,11 +43,12 @@ export const AppTable = <TData, TValue>({ columns, data, className }: Props<TDat
 
 			<div className="flex items-center justify-between flex-wrap gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 				<AppTableSelection
-					portfolios={portfolios} isLoading={isLoading}
-					selectedPortfolio={selectedPortfolio} selectPortfolio={selectPortfolio} />
+					portfolios={portfolios.portfolios} isLoading={portfolios.isLoading} createPortfolio={portfolios.createPortfolio}
+					selectedPortfolio={portfolios.selectedPortfolio} selectPortfolio={portfolios.selectPortfolio} />
 				<div className="flex items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 					<AppTableAddition />
-					<AppTableSettings selectedPortfolio={selectedPortfolio} isLoading={isLoading} />
+					<AppTableSettings deletePortfolio={portfolios.deletePortfolio} editPortfolio={portfolios.editPortfolio}
+						selectedPortfolio={portfolios.selectedPortfolio} isLoading={portfolios.isLoading} />
 				</div>
 			</div>
 
