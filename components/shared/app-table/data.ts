@@ -1,6 +1,14 @@
 import { StaticImageData } from 'next/image'
-import type { IRow } from '@/types/portfolio'
 import image from './../../../public/images/case.png'
+
+export interface IRow {
+	id: string
+	icon: StaticImageData
+	name: string
+  quantity: number
+  buyPrice: number
+  currentPrice: number
+}
 
 export const rows: IRow[] = [
 	{

@@ -15,28 +15,23 @@ import { AppTableBody } from './app-table-body';
 import { AppTableChart } from './app-table-chart';
 
 import { useFetchPortfolios, useSelectPortfolio } from '@/hooks/use-portfolios';
-import { usePortfolioAssets } from '@/hooks';
 
 import { metricsData } from '@/data/metrics-data';
 import { chartConfig, chartData } from '@/data/charts-data';
 
-import type { IRow } from '@/types/portfolio';
-
-interface Props<TData extends IRow, TValue> {
-	columns: ColumnDef<TData, TValue>[]
-	data: TData[]
-	className?: string
+interface Props<TData, TValue> {
+	columns: ColumnDef<TData, TValue>[];
+	data: TData[];
+	className?: string;
 }
 
-export const AppTable = <TData extends IRow, TValue>({ columns, data, className }: Props<TData, TValue>) => {
+export const AppTable = <TData, TValue>({ columns, data, className }: Props<TData, TValue>) => {
 
 	const { portfolios, isFetching, fetchError } = useFetchPortfolios()
 	const { selectedPortfolio, isSelecting, selectError, selectPortfolio } = useSelectPortfolio({ portfolios })
 
-	const { data: portfolioAssets, isLoading: isAssetsLoading, error: assetsError } = usePortfolioAssets(selectedPortfolio?.id);
-
-	const error = fetchError || selectError || assetsError
-	const isLoading = isFetching || isSelecting || isAssetsLoading
+	const error = fetchError || selectError
+	const isLoading = isFetching || isSelecting
 	console.log(error)
 
 	const [sorting, setSorting] = React.useState<SortingState>([])
@@ -44,11 +39,9 @@ export const AppTable = <TData extends IRow, TValue>({ columns, data, className 
 	const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
 	const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({})
 
-	const tableData = portfolioAssets ? portfolioAssets as unknown as TData[] : data;
-
 	const table = useReactTable({
-		data: tableData,
-		columns: columns as ColumnDef<TData, TValue>[],
+		data,
+		columns,
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
@@ -58,10 +51,6 @@ export const AppTable = <TData extends IRow, TValue>({ columns, data, className 
 		onRowSelectionChange: setRowSelection,
 		state: { sorting, columnFilters, columnVisibility, rowSelection },
 	})
-
-	if(isLoading) {
-		return '...loading'
-	}
 
 	return (
 		<div className={cn("flex flex-col gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8", className)}>
