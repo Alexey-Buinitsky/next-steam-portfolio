@@ -4,8 +4,10 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, RowSelectionState, SortingState, useReactTable, VisibilityState } from '@tanstack/react-table';
 import { Table } from '@/components/ui';
-import { AppTableAddition, AppTableBody, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle, useAppTable } from './index';
+import { AppTableAddition, AppTableBody, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle } from './index';
 import { AppTableChart } from './app-table-chart';
+
+import { usePortfolios } from '@/hooks';
 
 import { metricsData } from '@/data/metrics-data';
 import { chartConfig, chartData } from '@/data/charts-data';
@@ -18,7 +20,7 @@ interface Props<TData, TValue> {
 
 export const AppTable = <TData, TValue>({ columns, data, className }: Props<TData, TValue>) => {
 
-	const { portfolios } = useAppTable()
+	const portfolios = usePortfolios()
 
 	const [sorting, setSorting] = React.useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])

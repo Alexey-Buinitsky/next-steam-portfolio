@@ -1,5 +1,4 @@
 export { AppTable } from './app-table'
-export { AppTableProvider, useAppTable } from './app-table-context'
 export { AppTableAddition } from './app-table-addition'
 export { AppTableBody } from './app-table-body'
 // export { AppTableChart } from './app-table-chart'
