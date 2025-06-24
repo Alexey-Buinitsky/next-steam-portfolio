@@ -7,8 +7,8 @@ export async function GET(request: Request) {
     
     const page = parseInt(searchParams.get('page') || '1');
     const perPage = parseInt(searchParams.get('perPage') || '10');
-    const type = searchParams.get('type') || undefined;
     const search = searchParams.get('search') || undefined;
+    const type = searchParams.get('type') || undefined;
 
     const skip = (page - 1) * perPage;
 

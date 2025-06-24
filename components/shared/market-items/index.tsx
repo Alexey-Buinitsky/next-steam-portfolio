@@ -8,7 +8,6 @@ import { AppPagination } from '@/components/shared';
 import { tempData } from '@/data/temp-data';
 
 const ITEMS_PER_PAGE = 10
-const MAX_PAGES = 50
 
 type DisplayMode = 'grid' | 'list'
 
@@ -17,7 +16,7 @@ export function MarketItems() {
 	const [displayMode, setDisplayMode] = useState<DisplayMode>('grid')
 	const [searchQuery, setSearchQuery] = useState('')
 
-	const debouncedSearchQuery = useDebounce(searchQuery.trim().toLowerCase(), 1000)
+	const debouncedSearchQuery = useDebounce(searchQuery.trim().toLowerCase(), 500)
 	useEffect(() => { setPage(1) }, [debouncedSearchQuery])
 
 	const {data, isLoading, isError} = useTotalItems({ page, perPage: ITEMS_PER_PAGE, search: debouncedSearchQuery })
