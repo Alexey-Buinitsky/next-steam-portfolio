@@ -8,7 +8,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 		// Используем транзакцию для атомарности
 		const result = await prisma.$transaction(async () => {
 			const portfolio = await prisma.portfolio.findUnique({
-				where: { id: Number(params.id) }
+				where: { id: Number(params.id) },
 			})
 
 			// Если пытаемся установить то же состояние - просто возвращаем
@@ -20,7 +20,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 			if (isActive) {
 				await prisma.portfolio.updateMany({
 					where: { isActive: true },
-					data: { isActive: false }
+					data: { isActive: false },
 				})
 			}
 

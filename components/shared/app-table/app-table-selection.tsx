@@ -1,26 +1,23 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Button, Dialog, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from '@/components/ui';
-import { AppTableDialog } from './app-table-dialog';
+import { AppTableDialog } from './index';
 import { CheckIcon, ListIcon, Loader2Icon } from 'lucide-react';
-import { useCreatePortfolio } from '@/hooks/use-portfolios/use-create-portfolio';
 import { Portfolio } from '@prisma/client';
 
 interface Props {
 	className?: string;
 	portfolios: Portfolio[] | undefined;
+	createPortfolio: (portfolioName: string) => void;
 	selectedPortfolio: Portfolio | undefined;
 	selectPortfolio: (newPortfolio: Portfolio) => void;
 	isLoading: boolean;
 }
 
-export const AppTableSelection: React.FC<Props> = ({
-	className, portfolios, selectedPortfolio, selectPortfolio, isLoading }) => {
+export const AppTableSelection: React.FC<Props> = ({ className, portfolios, createPortfolio, selectedPortfolio, selectPortfolio, isLoading }) => {
 
 	const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false)
 	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
-
-	const { createPortfolio, isCreating } = useCreatePortfolio()
 
 	const [portfolioName, setPortfolioName] = React.useState<string>('')
 
@@ -42,8 +39,8 @@ export const AppTableSelection: React.FC<Props> = ({
 			<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 				<DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
 					<DropdownMenuTrigger asChild>
-						<Button variant="outline" size="icon" disabled={isLoading || isCreating}>
-							{isLoading || isCreating
+						<Button variant="outline" size="icon" disabled={isLoading}>
+							{isLoading
 								? <Loader2Icon size={24} className="2k:size-8 4k:size-11 8k:size-21 animate-spin" />
 								: <ListIcon size={24} className="2k:size-8 4k:size-11 8k:size-21" />
 							}

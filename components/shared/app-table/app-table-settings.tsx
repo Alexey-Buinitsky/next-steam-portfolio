@@ -1,25 +1,23 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Button, Dialog, DialogTrigger } from '@/components/ui';
+import { AppTableDialog } from './index';
 import { Loader2Icon, SettingsIcon } from 'lucide-react';
-import { AppTableDialog } from './app-table-dialog';
-import { useEditPortfolio, useDeletePortfolio } from '@/hooks/use-portfolios';
 import { Portfolio } from '@prisma/client';
 
 interface Props {
 	className?: string;
+	deletePortfolio: (id: number) => void;
+	editPortfolio: ({ id, name }: { id: number; name: string; }) => void
 	selectedPortfolio: Portfolio | undefined;
 	isLoading: boolean;
 }
 
-export const AppTableSettings: React.FC<Props> = ({ className, selectedPortfolio, isLoading }) => {
+export const AppTableSettings: React.FC<Props> = ({ className, deletePortfolio, editPortfolio, selectedPortfolio, isLoading }) => {
 
 	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
 
 	const [portfolioName, setPortfolioName] = React.useState<string>("")
-
-	const { editPortfolio } = useEditPortfolio()
-	const { deletePortfolio } = useDeletePortfolio()
 
 	React.useEffect(() => {
 		if (selectedPortfolio && selectedPortfolio.name.length > 0) {
