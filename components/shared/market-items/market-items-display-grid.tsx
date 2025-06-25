@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Image from 'next/image';
 import { formatRating, formatPrice } from '@/lib';
 import type { AssetsResponse } from "@/types/portfolio";
+import { AddToPortfolioModal } from '../add-to-portfolio-modal';
 
 interface Props {
     className?: string;
@@ -9,11 +10,27 @@ interface Props {
 }
 
 export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => {
+    const [selectedItem, setSelectedItem] = useState<{
+        id: number;
+        name: string;
+        price: number;
+        imageUrl: string;
+    } | null>(null);
+
   return (
     <div className={className}>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 mb-12">
             {data?.assets.map((item) => (
-                <div className="h-full border rounded p-4 hover:shadow-lg transition-shadow" key={item.id}>
+                <div 
+                    className="h-full border rounded p-4 hover:shadow-lg transition-shadow cursor-pointer" 
+                    key={item.id}
+                    onClick={() => setSelectedItem({
+                        id: item.id,
+                        name: item.name || '',
+                        price: item.price || 0,
+                        imageUrl: item.imageUrl || ''
+                    })}
+                >
                     <Image
                         src={`https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl || ''}`} 
                         alt={item.name || ''} 
@@ -29,6 +46,19 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
                 </div>
             ))}
         </div>
+
+        {selectedItem && (
+          <AddToPortfolioModal
+            itemId={selectedItem.id}
+            itemName={selectedItem.name}
+            itemPrice={selectedItem.price / 100}
+            itemImageUrl={selectedItem.imageUrl}
+            onClose={() => setSelectedItem(null)}
+            onAdd={() => {
+                setSelectedItem(null);
+            }}
+          />
+        )}
     </div>
   );
 };

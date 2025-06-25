@@ -24,7 +24,6 @@ export function MarketItems() {
 	if (isLoading) return <div>Loading...</div>
 	if (isError) return <div>Error loading items</div>
 
-
 	return (
 		<div className="container mx-auto p-4">
 			<MarketItemsHeader searchQuery={searchQuery} setDisplayMode={setDisplayMode} setSearchQuery={setSearchQuery}/>

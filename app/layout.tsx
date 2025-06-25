@@ -4,6 +4,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { BackgroundSyncProvider, QueryProvider, ThemeProvider, Header, AppSidebar, } from "@/components/shared";
 import { SidebarInset, SidebarProvider } from "@/components/ui";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import "./globals.css";	
 
 const geistSans = Geist({
@@ -37,6 +40,18 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 									</div>
 								</SidebarInset>
 							</SidebarProvider>
+							<ToastContainer
+								position="bottom-right"
+								autoClose={2000}
+								hideProgressBar={false}
+								newestOnTop={false}
+								closeOnClick
+								rtl={false}
+								pauseOnFocusLoss
+								draggable
+								pauseOnHover
+								theme="dark"
+							/>
 						</ThemeProvider>
 					{/* </BackgroundSyncProvider> */}
 				</QueryProvider>
