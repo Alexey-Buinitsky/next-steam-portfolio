@@ -15,7 +15,7 @@ export function useTotalItems({page = 1, perPage = 10, type, search}: UseAssetsO
       const response = await apiInstance.get(`/total-items?${params.toString()}`);
       return response.data;
     },
-    placeholderData: (previousData) => previousData,
+    placeholderData: (previousData) => previousData, // убрать после реализации скелетона
     staleTime: 60 * 1000 * 5, // 5 минут
   });
 }
