@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { AppDialog } from '@/components/shared';
 import { Button, Dialog, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from '@/components/ui';
-import { AppTableDialog } from './index';
 import { CheckIcon, ListIcon, Loader2Icon } from 'lucide-react';
 import { Portfolio } from '@prisma/client';
 
@@ -19,18 +19,13 @@ export const AppTableSelection: React.FC<Props> = ({ className, portfolios, crea
 	const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false)
 	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
 
-	const [portfolioName, setPortfolioName] = React.useState<string>('')
-
 	const onCancel = (): void => {
 		setIsDialogOpen(false)
-		setPortfolioName('')
 	}
 
-	const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-		e.preventDefault()
-		createPortfolio(portfolioName)
+	const onSubmit = (name: string): void => {
+		createPortfolio(name)
 		setIsDialogOpen(false)
-		setPortfolioName('')
 	}
 
 	return (
@@ -65,10 +60,7 @@ export const AppTableSelection: React.FC<Props> = ({ className, portfolios, crea
 						</DialogTrigger>
 					</DropdownMenuContent>
 				</DropdownMenu>
-				<AppTableDialog
-					mode="create"
-					portfolioName={portfolioName} setPortfolioName={setPortfolioName}
-					onCancel={onCancel} onSubmit={onSubmit} />
+				<AppDialog mode="createPortfolio" onCancel={onCancel} onSubmit={onSubmit} />
 			</Dialog>
 
 			<p className="font-medium text-lg 2k:text-2xl 4k:text-4xl 8k:text-7xl">

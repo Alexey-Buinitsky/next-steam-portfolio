@@ -11,7 +11,7 @@ export const useDeletePortfolio = (): ReturnProps => {
 	const queryClient = useQueryClient()
 
 	const { mutate, isPending, error } = useMutation<void, Error, number>({
-		mutationFn: (id: number) => portfoliosApi.delete(id),
+		mutationFn: (id: number) => portfoliosApi.deletePortfolio(id),
 		onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['portfolios'] }); },
 	})
 

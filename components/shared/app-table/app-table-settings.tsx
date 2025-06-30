@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { AppDialog } from '@/components/shared';
 import { Button, Dialog, DialogTrigger } from '@/components/ui';
-import { AppTableDialog } from './index';
 import { Loader2Icon, SettingsIcon } from 'lucide-react';
 import { Portfolio } from '@prisma/client';
 
@@ -17,28 +17,17 @@ export const AppTableSettings: React.FC<Props> = ({ className, deletePortfolio, 
 
 	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
 
-	const [portfolioName, setPortfolioName] = React.useState<string>("")
-
-	React.useEffect(() => {
-		if (selectedPortfolio && selectedPortfolio.name.length > 0) {
-			setPortfolioName(selectedPortfolio.name)
-		}
-	}, [selectedPortfolio])
-
 	const onDelete = (): void => {
-		setIsDialogOpen(false)
 		deletePortfolio(selectedPortfolio!.id)
+		setIsDialogOpen(false)
 	}
 
 	const onCancel = (): void => {
 		setIsDialogOpen(false)
-		setPortfolioName(selectedPortfolio!.name)
 	}
 
-	const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-		e.preventDefault()
-
-		editPortfolio({ id: selectedPortfolio!.id, name: portfolioName.trim() })
+	const onSubmit = (name: string): void => {
+		editPortfolio({ id: selectedPortfolio!.id, name: name.trim() })
 		setIsDialogOpen(false)
 	}
 
@@ -53,10 +42,7 @@ export const AppTableSettings: React.FC<Props> = ({ className, deletePortfolio, 
 					<span className="sr-only">Portfolio Settings</span>
 				</Button>
 			</DialogTrigger>
-			<AppTableDialog
-				mode="edit"
-				portfolioName={portfolioName} setPortfolioName={setPortfolioName}
-				onDelete={onDelete} onCancel={onCancel} onSubmit={onSubmit} />
+				<AppDialog mode="editPortfolio" selectedPortfolio={selectedPortfolio} onDelete={onDelete} onCancel={onCancel} onSubmit={onSubmit} />
 		</Dialog>
 	)
 }

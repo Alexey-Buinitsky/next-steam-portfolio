@@ -1,61 +1,93 @@
 import React from 'react';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { Button, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, Popover, PopoverContent, PopoverTrigger } from '@/components/ui';
-import { ChevronsUpDownIcon } from 'lucide-react';
+import { AppDialog } from '../app-dialog/app-dialog';
+import { Button, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Dialog, DialogTrigger, Popover, PopoverContent, PopoverTrigger, } from '@/components/ui';
+import { ChevronsUpDownIcon, Loader2Icon } from 'lucide-react';
+import { useInView } from "react-intersection-observer";
+import { useDebounce, useSearchAssets } from '@/hooks';
+import { Asset, Portfolio } from '@prisma/client';
+import { useAddAsset } from '@/hooks/use-assets';
 
 interface Props {
 	className?: string;
+	selectedPortfolio: Portfolio | undefined;
+	isLoading: boolean;
 }
 
-export const AppTableAddition: React.FC<Props> = ({ className }) => {
+export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio, isLoading }) => {
 
-	const [isOpenMenu, setIsOpenMenu] = React.useState(false)
-	const [isOpenDialog, setIsOpenDialog] = React.useState(false)
-	const [searchValue, setSearchValue] = React.useState("")
+	const { addAsset } = useAddAsset()
+
+	const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false)
+	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
+
+	const [selectedAsset, setSelectedAsset] = React.useState<Asset | null>(null)
+
+	const [localQuery, setLocalQuery] = React.useState<string>("")
+	const debouncedQuery = useDebounce(localQuery.trim(), 300)
+
+	const { assets, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage } = useSearchAssets(debouncedQuery)
+
+	// Добавляем Intersection Observer
+	const { ref, inView } = useInView()
+
+	// Эффект для подгрузки при появлении триггера
+	React.useEffect(() => {
+		if (inView && hasNextPage && !isFetchingNextPage && !isFetching) { fetchNextPage() }
+	}, [inView, hasNextPage, isFetchingNextPage, isFetching, fetchNextPage])
+
+	const onCancel = (): void => {
+		setIsDialogOpen(false)
+	}
+
+	const onSubmit = (data: { quantity: number; buyPrice: number }): void => {
+		if (!selectedPortfolio || !selectedAsset) return
+
+		addAsset({ portfolioId: selectedPortfolio.id, selectedAsset, quantity: data.quantity, buyPrice: data.buyPrice })
+		setIsDialogOpen(false)
+	}
 
 	return (
-		<Dialog open={isOpenDialog} onOpenChange={setIsOpenDialog}>
-			<Popover open={isOpenMenu} onOpenChange={setIsOpenMenu}>
+		<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+			<Popover open={isMenuOpen} onOpenChange={setIsMenuOpen}>
 				<PopoverTrigger asChild>
-					<Button variant="outline" role="combobox" aria-expanded={isOpenMenu} className="w-[16.25rem] justify-between 2k:w-[22rem] 4k:w-[32.5rem] 8k:w-[65rem] 2k:text-lg 4k:text-3xl 8k:text-6xl">
-						Add item
+					<Button
+						variant="outline" role="combobox" aria-expanded={isMenuOpen} disabled={isLoading || !selectedPortfolio}
+						className="w-[16.25rem] justify-between 2k:w-[22rem] 4k:w-[32.5rem] 8k:w-[65rem] 2k:text-lg 4k:text-3xl 8k:text-6xl">
+						Add asset
 						<ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent className="w-[16.25rem] 2k:w-[22rem] 4k:w-[32.5rem] 8k:w-[65rem]">
-					<Command>
-						<CommandInput
-							placeholder="Type to search..."
-							value={searchValue}
-							onValueChange={setSearchValue}
-						/>
+					<Command className={cn("", className)} shouldFilter={false}>
+						<CommandInput placeholder="Type to search..." value={localQuery} onValueChange={setLocalQuery} />
 						<CommandList>
-							<CommandEmpty>No item found.</CommandEmpty>
-							<CommandGroup>
-								<DialogTrigger asChild>
-									<CommandItem onSelect={() => { setIsOpenMenu(false); setIsOpenDialog(true) }}>
-										Case
-									</CommandItem>
-								</DialogTrigger>
-								<DialogTrigger asChild>
-									<CommandItem onSelect={() => { setIsOpenMenu(false); setIsOpenDialog(true) }}>
-										Weapon
-									</CommandItem>
-								</DialogTrigger>
-							</CommandGroup>
+							{isFetching && !isFetchingNextPage
+								? <div className="flex justify-center py-6"><Loader2Icon size={24} className="2k:size-8 4k:size-11 8k:size-21 animate-spin" /></div>
+								: assets.length > 0
+									? <CommandGroup>
+										{assets.map((asset) => (
+											<DialogTrigger asChild key={asset.id}>
+												<CommandItem onSelect={() => { setIsMenuOpen(false); setIsDialogOpen(true); setSelectedAsset(asset) }}>
+													<Image alt={asset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${asset.imageUrl || ""}`} priority={true} width={48} height={48} />
+													{asset.name}
+												</CommandItem>
+											</DialogTrigger>
+										))}
+										{hasNextPage &&
+											<CommandItem ref={ref} className="justify-center pointer-events-none">
+												{isFetchingNextPage ? <Loader2Icon size={24} className="2k:size-8 4k:size-11 8k:size-21 animate-spin" /> : 'Load more'}
+											</CommandItem>
+										}
+									</CommandGroup>
+									: <CommandEmpty>No items found</CommandEmpty>
+							}
 						</CommandList>
 					</Command>
 				</PopoverContent>
 			</Popover>
-			<DialogContent className={cn("", className)}>
-				<DialogHeader>
-					<DialogTitle>Are you absolutely sure?</DialogTitle>
-					<DialogDescription>
-						This action cannot be undone. This will permanently delete your account
-						and remove your data from our servers.
-					</DialogDescription>
-				</DialogHeader>
-			</DialogContent>
+			<AppDialog mode="addAsset" selectedAsset={selectedAsset} onCancel={onCancel} onSubmit={onSubmit} />
 		</Dialog>
 	)
 }
