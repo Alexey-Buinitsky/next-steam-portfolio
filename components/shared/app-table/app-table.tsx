@@ -4,8 +4,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, RowSelectionState, SortingState, useReactTable, VisibilityState } from '@tanstack/react-table';
 import { Table } from '@/components/ui';
-import { AppTableAddition, AppTableBody, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle } from './index';
-import { AppTableChart } from './app-table-chart';
+import { AppTableAddition, AppTableBody, AppTableChart, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle } from './index';
 
 import { usePortfolios } from '@/hooks';
 
@@ -48,7 +47,7 @@ export const AppTable = <TData, TValue>({ columns, data, className }: Props<TDat
 					portfolios={portfolios.portfolios} isLoading={portfolios.isLoading} createPortfolio={portfolios.createPortfolio}
 					selectedPortfolio={portfolios.selectedPortfolio} selectPortfolio={portfolios.selectPortfolio} />
 				<div className="flex items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
-					<AppTableAddition />
+					<AppTableAddition selectedPortfolio={portfolios.selectedPortfolio} isLoading={portfolios.isLoading} />
 					<AppTableSettings deletePortfolio={portfolios.deletePortfolio} editPortfolio={portfolios.editPortfolio}
 						selectedPortfolio={portfolios.selectedPortfolio} isLoading={portfolios.isLoading} />
 				</div>

@@ -1,6 +1,7 @@
 export { useIsMobile } from '@/hooks/use-mobile';
 export { useDebounce } from '@/hooks/use-debounce';
 
+export { useSearchAssets } from '@/hooks/use-assets';
 export { usePortfolios } from '@/hooks/use-portfolios';
 
 export { usePopularCases } from '@/hooks/use-popular-cases';
