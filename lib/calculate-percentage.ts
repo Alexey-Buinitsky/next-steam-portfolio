@@ -1,3 +1,3 @@
-export const calculatePercentage = (current: number, buy: number): string => {
-	return `${(((current - buy) / buy) * 100).toFixed(2)}%`
+export const calculatePercentage = (current: number, buy: number): number => {
+	return ((current - buy) / buy) * 100
 }

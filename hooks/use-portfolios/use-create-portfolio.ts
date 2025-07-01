@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { portfoliosApi } from "@/services/portfolios";
-import { Portfolio } from '@prisma/client';
 
 interface ReturnProps {
 	isCreating: boolean;
@@ -11,8 +10,8 @@ interface ReturnProps {
 export const useCreatePortfolio = (): ReturnProps => {
 	const queryClient = useQueryClient()
 
-	const { mutate, isPending, error } = useMutation<Portfolio, Error, string>({
-		mutationFn: (portfolioName: string) => portfoliosApi.createPortfolio(portfolioName.trim()),
+	const { mutate, isPending, error } = useMutation<{ message: string }, Error, string>({
+		mutationFn: (portfolioName: string) => portfoliosApi.createPortfolio(portfolioName),
 		onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['portfolios'] }); },
 	})
 

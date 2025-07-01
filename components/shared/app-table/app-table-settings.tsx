@@ -27,7 +27,7 @@ export const AppTableSettings: React.FC<Props> = ({ className, deletePortfolio, 
 	}
 
 	const onSubmit = (name: string): void => {
-		editPortfolio({ id: selectedPortfolio!.id, name: name.trim() })
+		editPortfolio({ id: selectedPortfolio!.id, name })
 		setIsDialogOpen(false)
 	}
 

@@ -7,7 +7,7 @@ interface Props {
 	className?: string;
 	title: string;
 	subtitle: string;
-	icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
+	icon?: React.ComponentType<LucideProps>;
 	image?: StaticImageData;
 }
 

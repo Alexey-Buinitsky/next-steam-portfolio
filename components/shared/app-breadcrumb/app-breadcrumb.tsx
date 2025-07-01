@@ -3,7 +3,7 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { AppBreadcrumbCollapsed, AppBreadcrumbDefault, AppBreadcrumbHome, } from './index';
+import { AppBreadcrumbCollapsed, AppBreadcrumbDefault, AppBreadcrumbHome, } from '@/components/shared/app-breadcrumb';
 import { useIsMobile } from '@/hooks';
 
 interface Props {

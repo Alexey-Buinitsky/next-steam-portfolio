@@ -1,6 +1,6 @@
 import React from 'react';
 import { Warehouse } from "lucide-react";
-import { Button } from '../ui';
+import { Button } from '@/components/ui';
 
 interface Props {
  className?: string;

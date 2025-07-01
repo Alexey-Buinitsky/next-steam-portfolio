@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { DialogContent, } from '@/components/ui';
-import { AppDialogHeader, AppDialogForm, AppDialogFooter } from './index';
+import { AppDialogHeader, AppDialogForm, AppDialogFooter } from '@/components/shared/app-dialog';
 import { assetSchema, portfolioSchema } from '@/form/form-schemas';
 import { assetFields, portfolioFields } from '@/form/form-fields';
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,15 +13,26 @@ import { z } from "zod"
 import { Asset, Portfolio } from '@prisma/client';
 import { toast } from "sonner"
 
-interface Props {
+interface CommonProps {
 	className?: string;
 	mode: "createPortfolio" | "editPortfolio" | "addAsset";
 	selectedPortfolio?: Portfolio;
 	selectedAsset?: Asset | null;
 	onCancel: () => void;
-	onSubmit: (data: string | { quantity: number; buyPrice: number }) => void;
 	onDelete?: () => void;
 }
+
+type PortfolioModeProps = CommonProps & {
+	mode: "createPortfolio" | "editPortfolio";
+	onSubmit: (data: string) => void;
+}
+
+type AssetModeProps = CommonProps & {
+	mode: "addAsset";
+	onSubmit: (data: { quantity: number; buyPrice: number }) => void;
+}
+
+type Props = PortfolioModeProps | AssetModeProps
 
 export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio, selectedAsset, onCancel, onSubmit, onDelete }) => {
 
@@ -40,12 +51,12 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 	})
 
 	const handlePortfolioSubmit = (values: z.infer<typeof portfolioSchema>) => {
-		onSubmit(values.portfolioName)
+		(onSubmit as (data: string) => void)(values.portfolioName)
 		if (mode === "createPortfolio") { portfolioMethods.reset({ portfolioName: "" }) }
 	}
 
 	const handleAssetSubmit = (values: z.infer<typeof assetSchema>) => {
-		onSubmit({ quantity: Number(values.quantity), buyPrice: Number(values.buyPrice) })
+		(onSubmit as (data: { quantity: number; buyPrice: number }) => void)({ quantity: Number(values.quantity), buyPrice: Number(values.buyPrice) })
 		assetMethods.reset({ quantity: "", buyPrice: "" })
 	}
 
@@ -69,7 +80,7 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 			{selectedAsset && mode === "addAsset" &&
 				<div className="">
 					<div className="flex items-center justify-center gap-2">
-						<Image alt={selectedAsset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${selectedAsset.imageUrl || ""}`} priority={true} width={48} height={48} />
+						<Image alt={selectedAsset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${selectedAsset.imageUrl || ""}`} priority={true} width={48} height={48} className="2k:size-13 4k:size-20 8k:size-40" />
 						{selectedAsset.name}
 					</div>
 					<FormProvider {...assetMethods}>

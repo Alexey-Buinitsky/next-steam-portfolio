@@ -1,13 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { AppDialog } from '../app-dialog/app-dialog';
+import { AppDialog } from '@/components/shared';
 import { Button, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Dialog, DialogTrigger, Popover, PopoverContent, PopoverTrigger, } from '@/components/ui';
 import { ChevronsUpDownIcon, Loader2Icon } from 'lucide-react';
 import { useInView } from "react-intersection-observer";
-import { useDebounce, useSearchAssets } from '@/hooks';
+import { useDebounce, usePortfolios, useSearchAssets } from '@/hooks';
 import { Asset, Portfolio } from '@prisma/client';
-import { useAddAsset } from '@/hooks/use-assets';
 
 interface Props {
 	className?: string;
@@ -17,17 +16,17 @@ interface Props {
 
 export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio, isLoading }) => {
 
-	const { addAsset } = useAddAsset()
-
 	const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false)
 	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
-
-	const [selectedAsset, setSelectedAsset] = React.useState<Asset | null>(null)
 
 	const [localQuery, setLocalQuery] = React.useState<string>("")
 	const debouncedQuery = useDebounce(localQuery.trim(), 300)
 
 	const { assets, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage } = useSearchAssets(debouncedQuery)
+
+	const [selectedAsset, setSelectedAsset] = React.useState<Asset | null>(null)
+
+	const { addPortfolioAsset } = usePortfolios()
 
 	// Добавляем Intersection Observer
 	const { ref, inView } = useInView()
@@ -44,7 +43,7 @@ export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio
 	const onSubmit = (data: { quantity: number; buyPrice: number }): void => {
 		if (!selectedPortfolio || !selectedAsset) return
 
-		addAsset({ portfolioId: selectedPortfolio.id, selectedAsset, quantity: data.quantity, buyPrice: data.buyPrice })
+		addPortfolioAsset({ portfolioId: selectedPortfolio.id, selectedAsset, quantity: data.quantity, buyPrice: data.buyPrice })
 		setIsDialogOpen(false)
 	}
 
@@ -70,7 +69,7 @@ export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio
 										{assets.map((asset) => (
 											<DialogTrigger asChild key={asset.id}>
 												<CommandItem onSelect={() => { setIsMenuOpen(false); setIsDialogOpen(true); setSelectedAsset(asset) }}>
-													<Image alt={asset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${asset.imageUrl || ""}`} priority={true} width={48} height={48} />
+													<Image alt={asset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${asset.imageUrl || ""}`} priority={true} width={48} height={48} className="2k:size-13 4k:size-20 8k:size-40" />
 													{asset.name}
 												</CommandItem>
 											</DialogTrigger>

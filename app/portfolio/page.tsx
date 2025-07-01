@@ -1,7 +1,7 @@
-import { AppTable, columns, rows } from "@/components/shared";
+import { AppTable, columns } from "@/components/shared";
 
 export default function Portfolio() {
 	return (
-			<AppTable columns={columns} data={rows} />
+			<AppTable columns={columns}/>
 	)
 }

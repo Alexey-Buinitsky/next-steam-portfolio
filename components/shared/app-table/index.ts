@@ -10,4 +10,3 @@ export { AppTableSettings } from './app-table-settings'
 export { AppTableToggle } from './app-table-toggle'
 
 export { columns } from './columns'
-export { rows } from './data'

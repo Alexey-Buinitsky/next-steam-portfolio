@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Separator, SidebarTrigger } from '../ui';
-import { AppBreadcrumb, ModeToggle } from './index';
+import { Separator, SidebarTrigger } from '@/components/ui';
+import { AppBreadcrumb, ModeToggle } from '@/components/shared';
 
 interface Props {
 	className?: string;

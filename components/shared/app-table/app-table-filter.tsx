@@ -37,5 +37,5 @@ export const AppTableFilter = <TData,>({ table, className }: Props<TData>) => {
 				<span className="sr-only">Delete</span>
 			</Button>
 		</div>
-	);
-};
+	)
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { apiInstance } from '@/services/api-instance';
-import { Button, Input, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../ui';
+import { Button, Input, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { usePortfolios, useAddToPortfolioForm } from '@/hooks';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

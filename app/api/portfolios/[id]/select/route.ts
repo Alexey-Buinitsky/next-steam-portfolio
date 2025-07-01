@@ -1,14 +1,16 @@
 import { prisma } from '@/prisma/prisma-client';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> {
 	try {
+
+		const portfolioId = Number(params.id)
 		const { isActive }: { isActive: boolean } = await req.json()
 
 		// Используем транзакцию для атомарности
-		const result = await prisma.$transaction(async () => {
+		await prisma.$transaction(async () => {
 			const portfolio = await prisma.portfolio.findUnique({
-				where: { id: Number(params.id) },
+				where: { id: portfolioId },
 			})
 
 			// Если пытаемся установить то же состояние - просто возвращаем
@@ -26,12 +28,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 			// Обновляем текущий портфель
 			return await prisma.portfolio.update({
-				where: { id: Number(params.id) },
+				where: { id: portfolioId },
 				data: { isActive },
 			})
 		})
 
-		return NextResponse.json(result)
+		return NextResponse.json({ message: 'Portfolio selected successfully' }, { status: 200 })
 	}
 	catch (error) {
 		console.error('[PORTFOLIO_SELECT_PATCH] Server error:', error)

@@ -1,17 +1,18 @@
 import { prisma } from '@/prisma/prisma-client';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> {
 	try {
+
+		const portfolioId = Number(params.id)
 		const { name }: { name: string } = await req.json()
 
-		const editedPortfolio = await prisma.portfolio.update({
-			where: { id: Number(params.id) },
+		await prisma.portfolio.update({
+			where: { id: portfolioId },
 			data: { name: name.trim() },
 		})
 
-		return NextResponse.json(editedPortfolio)
+		return NextResponse.json({ message: 'Portfolio edited successfully' }, { status: 200 })
 	}
 	catch (error) {
 		console.error('[PORTFOLIO_EDIT_PATCH] Server error:', error)
