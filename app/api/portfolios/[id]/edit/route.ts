@@ -9,7 +9,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 		await prisma.portfolio.update({
 			where: { id: portfolioId },
-			data: { name: name.trim() },
+			data: { name },
 		})
 
 		return NextResponse.json({ message: 'Portfolio edited successfully' }, { status: 200 })

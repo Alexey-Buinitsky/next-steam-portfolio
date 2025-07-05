@@ -11,7 +11,7 @@ interface ReturnProps {
 export const useFetchPortfolios = (): ReturnProps => {
 	const { data, isLoading, error } = useQuery<Portfolio[], Error>({
 		queryKey: ['portfolios'],
-		queryFn: portfoliosApi.fetchPortoflios,
+		queryFn: portfoliosApi.fetch,
 	})
 
 	return { portfolios: data, isFetching: isLoading, fetchError: error }

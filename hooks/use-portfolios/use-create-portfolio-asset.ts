@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { portfoliosApi } from "@/services/portfolios";
+import { portfolioAssetsApi } from "@/services/portfolio-assets";
 import { Asset } from '@prisma/client';
 
 interface Props {
@@ -10,16 +10,16 @@ interface Props {
 }
 
 interface ReturnProps {
-	isAdding: boolean;
-	addError: Error | null;
-	addPortfolioAsset: (params: Props) => void;
+	isCreating: boolean;
+	createError: Error | null;
+	createPortfolioAsset: (params: Props) => void;
 }
 
-export const useAddPortfolioAsset = (): ReturnProps => {
+export const useCreatePortfolioAsset = (): ReturnProps => {
 	const queryClient = useQueryClient()
 
 	const { mutate, isPending, error } = useMutation<{ message: string }, Error, Props>({
-		mutationFn: ({ portfolioId, selectedAsset, quantity, buyPrice }) => portfoliosApi.addPortfolioAsset(portfolioId, selectedAsset, quantity, buyPrice),
+		mutationFn: ({ portfolioId, selectedAsset, quantity, buyPrice }) => portfolioAssetsApi.create(portfolioId, selectedAsset, quantity, buyPrice),
 		onSuccess: (_, variables) => {
 			// Инвалидируем и список портфелей, и активы конкретного портфеля
 			queryClient.invalidateQueries({ queryKey: ['portfolios'] })
@@ -27,5 +27,5 @@ export const useAddPortfolioAsset = (): ReturnProps => {
 		},
 	})
 
-	return { isAdding: isPending, addError: error, addPortfolioAsset: mutate }
+	return { isCreating: isPending, createError: error, createPortfolioAsset: mutate }
 }

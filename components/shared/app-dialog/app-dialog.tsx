@@ -5,19 +5,21 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { DialogContent, } from '@/components/ui';
 import { AppDialogHeader, AppDialogForm, AppDialogFooter } from '@/components/shared/app-dialog';
-import { assetSchema, portfolioSchema } from '@/form/form-schemas';
-import { assetFields, portfolioFields } from '@/form/form-fields';
+import { portfolioSchema, portfolioAssetSchema } from '@/form/form-schemas';
+import { portfolioFields, portfolioAssetFields } from '@/form/form-fields';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FormProvider, useForm } from "react-hook-form"
 import { z } from "zod"
 import { Asset, Portfolio } from '@prisma/client';
+import { PortfolioAssetWithRelations } from '@/types/portfolio';
 import { toast } from "sonner"
 
 interface CommonProps {
 	className?: string;
-	mode: "createPortfolio" | "editPortfolio" | "addAsset";
+	mode: "createPortfolio" | "editPortfolio" | "createPortfolioAsset" | "editPortfolioAsset" | "deletePortfolioAsset";
 	selectedPortfolio?: Portfolio;
 	selectedAsset?: Asset | null;
+	selectedPortfolioAsset?: PortfolioAssetWithRelations | null;
 	onCancel: () => void;
 	onDelete?: () => void;
 }
@@ -27,14 +29,19 @@ type PortfolioModeProps = CommonProps & {
 	onSubmit: (data: string) => void;
 }
 
-type AssetModeProps = CommonProps & {
-	mode: "addAsset";
+type PortfolioAssetModeProps = CommonProps & {
+	mode: "createPortfolioAsset" | "editPortfolioAsset";
 	onSubmit: (data: { quantity: number; buyPrice: number }) => void;
 }
 
-type Props = PortfolioModeProps | AssetModeProps
+type DeletePortfolioAssetModeProps = CommonProps & {
+	mode: "deletePortfolioAsset";
+	onSubmit: () => void;
+}
 
-export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio, selectedAsset, onCancel, onSubmit, onDelete }) => {
+type Props = PortfolioModeProps | PortfolioAssetModeProps | DeletePortfolioAssetModeProps
+
+export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio, selectedAsset, selectedPortfolioAsset, onCancel, onSubmit, onDelete }) => {
 
 	const portfolioMethods = useForm<z.infer<typeof portfolioSchema>>({
 		resolver: zodResolver(portfolioSchema),
@@ -43,9 +50,12 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 		reValidateMode: "onChange",
 	})
 
-	const assetMethods = useForm<z.infer<typeof assetSchema>>({
-		resolver: zodResolver(assetSchema),
-		defaultValues: { quantity: "", buyPrice: "" },
+	const portfolioAssetMethods = useForm<z.infer<typeof portfolioAssetSchema>>({
+		resolver: zodResolver(portfolioAssetSchema),
+		defaultValues:
+			mode === "editPortfolioAsset" && selectedPortfolioAsset
+				? { quantity: selectedPortfolioAsset.quantity.toString(), buyPrice: selectedPortfolioAsset.buyPrice.toString() }
+				: { quantity: "", buyPrice: "" },
 		mode: "onChange",
 		reValidateMode: "onChange",
 	})
@@ -55,47 +65,75 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 		if (mode === "createPortfolio") { portfolioMethods.reset({ portfolioName: "" }) }
 	}
 
-	const handleAssetSubmit = (values: z.infer<typeof assetSchema>) => {
+	const handlePortfolioAssetSubmit = (values: z.infer<typeof portfolioAssetSchema>) => {
 		(onSubmit as (data: { quantity: number; buyPrice: number }) => void)({ quantity: Number(values.quantity), buyPrice: Number(values.buyPrice) })
-		assetMethods.reset({ quantity: "", buyPrice: "" })
+		if (mode === "createPortfolioAsset") { portfolioAssetMethods.reset({ quantity: "", buyPrice: "" }) }
 	}
 
 	const handleCancel = () => {
 		onCancel()
 		if (mode === "createPortfolio") { portfolioMethods.reset({ portfolioName: "" }) }
 		if (mode === "editPortfolio") { portfolioMethods.reset({ portfolioName: selectedPortfolio?.name || "" }) }
-		if (mode === "addAsset") { assetMethods.reset({ quantity: "", buyPrice: "" }) }
+		if (mode === "createPortfolioAsset") { portfolioAssetMethods.reset({ quantity: "", buyPrice: "" }) }
+		if (mode === "createPortfolioAsset" || mode === "editPortfolioAsset") {
+			portfolioAssetMethods.reset({
+				quantity: mode === "editPortfolioAsset" && selectedPortfolioAsset ? selectedPortfolioAsset.quantity.toString() : "",
+				buyPrice: mode === "editPortfolioAsset" && selectedPortfolioAsset ? selectedPortfolioAsset.buyPrice.toString() : ""
+			})
+		}
 	}
 
 	React.useEffect(() => {
 		if (mode === "editPortfolio") {
 			portfolioMethods.reset({ portfolioName: selectedPortfolio?.name || "" })
-		} else if (mode === "createPortfolio") { portfolioMethods.reset({ portfolioName: "" }) }
-	}, [mode, selectedPortfolio, portfolioMethods])
+		} else if (mode === "createPortfolio") {
+			portfolioMethods.reset({ portfolioName: "" })
+		} else if (mode === "editPortfolioAsset" && selectedPortfolioAsset) {
+			portfolioAssetMethods.reset({ quantity: selectedPortfolioAsset.quantity.toString(), buyPrice: selectedPortfolioAsset.buyPrice.toString() })
+		}
+	}, [mode, selectedPortfolio, selectedPortfolioAsset, portfolioMethods, portfolioAssetMethods])
 
 	return (
 		<DialogContent className={cn("", className)}>
 			<AppDialogHeader mode={mode} />
 
-			{selectedAsset && mode === "addAsset" &&
-				<div className="">
-					<div className="flex items-center justify-center gap-2">
-						<Image alt={selectedAsset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${selectedAsset.imageUrl || ""}`} priority={true} width={48} height={48} className="2k:size-13 4k:size-20 8k:size-40" />
-						{selectedAsset.name}
-					</div>
-					<FormProvider {...assetMethods}>
-						<AppDialogForm id="addAsset" fields={assetFields} onSubmit={handleAssetSubmit} />
-					</FormProvider>
-				</div>
-			}
-
-			{mode !== "addAsset" &&
+			{(mode === "createPortfolio" || mode === "editPortfolio") &&
 				<FormProvider {...portfolioMethods}>
 					<AppDialogForm id={mode === "createPortfolio" ? "createPortfolio" : "editPortfolio"} fields={portfolioFields} onSubmit={handlePortfolioSubmit} />
 				</FormProvider>
 			}
 
-			<AppDialogFooter mode={mode} onCancel={handleCancel} onDelete={onDelete} />
+			{mode === "createPortfolioAsset" && selectedAsset
+				? <div className="flex flex-col gap-3 2k:gap-4 4k:gap-6 8k:gap-12">
+					<div className="flex items-center justify-center gap-2">
+						<Image alt={selectedAsset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${selectedAsset.imageUrl || ""}`} priority={true} width={48} height={48} className="2k:size-13 4k:size-20 8k:size-40" />
+						<h3 className="text-lg font-medium">{selectedAsset.name}</h3>
+					</div>
+					<FormProvider {...portfolioAssetMethods}>
+						<AppDialogForm id="createPortfolioAsset" fields={portfolioAssetFields} onSubmit={handlePortfolioAssetSubmit} />
+					</FormProvider>
+				</div>
+				: mode === "editPortfolioAsset" && selectedPortfolioAsset
+					? <div className="flex flex-col gap-3 2k:gap-4 4k:gap-6 8k:gap-12">
+						<div className="flex items-center justify-center gap-2">
+							<Image alt={selectedPortfolioAsset.asset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${selectedPortfolioAsset.asset.imageUrl || ""}`} priority={true} width={48} height={48} className="2k:size-13 4k:size-20 8k:size-40" />
+							<h3 className="text-lg font-medium">{selectedPortfolioAsset.asset.name}</h3>
+						</div>
+						<FormProvider {...portfolioAssetMethods}>
+							<AppDialogForm id="editPortfolioAsset" fields={portfolioAssetFields} onSubmit={handlePortfolioAssetSubmit} />
+						</FormProvider>
+					</div>
+					: null
+			}
+
+			{mode === "deletePortfolioAsset" && selectedPortfolioAsset &&
+				<div className="flex items-center justify-center gap-2">
+					<Image alt={selectedPortfolioAsset.asset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${selectedPortfolioAsset.asset.imageUrl}`} width={48} height={48} className="2k:size-13 4k:size-20 8k:size-40" />
+					<h3 className="text-lg font-medium">{selectedPortfolioAsset.asset.name}</h3>
+				</div>
+			}
+
+			<AppDialogFooter mode={mode} onCancel={handleCancel} onDelete={onDelete} onSubmit={mode === "deletePortfolioAsset" ? (onSubmit as () => void) : undefined} />
 		</DialogContent>
 	)
 }

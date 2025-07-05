@@ -1,10 +1,10 @@
 import { FieldValues, Path } from 'react-hook-form';
 import { z } from 'zod';
-import { assetSchema, portfolioSchema } from '@/form/form-schemas';
+import { portfolioAssetSchema, portfolioSchema } from '@/form/form-schemas';
 
 // Типы для схем валидации
 export type PortfolioFormValues = z.infer<typeof portfolioSchema>
-export type AssetFormValues = z.infer<typeof assetSchema>
+export type PortfolioAssetFormValues = z.infer<typeof portfolioAssetSchema>
 
 // Базовый тип для поля формы
 export type BaseFormField<T extends FieldValues> = {

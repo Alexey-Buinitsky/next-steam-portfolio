@@ -1,4 +1,4 @@
-import { AssetFormValues, FormField, PortfolioFormValues } from "@/form/form-types"
+import { FormField, PortfolioFormValues, PortfolioAssetFormValues } from "@/form/form-types"
 
 export const portfolioFields: FormField<PortfolioFormValues>[] = [{
 	name: "portfolioName",
@@ -7,7 +7,7 @@ export const portfolioFields: FormField<PortfolioFormValues>[] = [{
 	type: "text",
 }]
 
-export const assetFields: FormField<AssetFormValues>[] = [
+export const portfolioAssetFields: FormField<PortfolioAssetFormValues>[] = [
 	{
 		name: "quantity",
 		label: "Quantity",

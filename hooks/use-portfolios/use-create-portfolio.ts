@@ -11,7 +11,7 @@ export const useCreatePortfolio = (): ReturnProps => {
 	const queryClient = useQueryClient()
 
 	const { mutate, isPending, error } = useMutation<{ message: string }, Error, string>({
-		mutationFn: (portfolioName: string) => portfoliosApi.createPortfolio(portfolioName),
+		mutationFn: (portfolioName: string) => portfoliosApi.create(portfolioName),
 		onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['portfolios'] }); },
 	})
 

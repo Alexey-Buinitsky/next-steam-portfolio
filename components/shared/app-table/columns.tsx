@@ -1,37 +1,114 @@
 "use client"
 
+import React from "react"
 import Image from "next/image"
-import { Column, ColumnDef } from "@tanstack/react-table"
-import { Button, Checkbox, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui"
+import { Column, ColumnDef, Row } from "@tanstack/react-table"
+import { Button, Checkbox, Dialog, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui"
+import { AppDialog } from "@/components/shared"
 import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon, EyeOffIcon, MoreHorizontal, PencilIcon, TrashIcon } from "lucide-react"
 import { formatCurrency, formatPercentage } from "@/lib"
+import { usePortfolios } from "@/hooks"
 import { PortfolioAssetWithRelations } from "@/types/portfolio"
 
-const SortableHeader = ({ column, children }: { column: Column<PortfolioAssetWithRelations>, children: React.ReactNode }) => (
-	<DropdownMenu>
-		<DropdownMenuTrigger asChild>
-			<Button variant="ghost" className="w-full justify-between">
-				{children}
-				<ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
-			</Button>
-		</DropdownMenuTrigger>
-		<DropdownMenuContent align="start">
-			<DropdownMenuItem onClick={() => column.toggleSorting(column.getFirstSortDir() === "asc")}>
-				<ArrowUpIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
-				Asc
-			</DropdownMenuItem>
-			<DropdownMenuItem onClick={() => column.toggleSorting(column.getFirstSortDir() === "desc")}>
-				<ArrowDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
-				Desc
-			</DropdownMenuItem>
-			<DropdownMenuSeparator />
-			<DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-				<EyeOffIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
-				Hide
-			</DropdownMenuItem>
-		</DropdownMenuContent>
-	</DropdownMenu>
-)
+const SortableHeader = ({ column, children }: { column: Column<PortfolioAssetWithRelations>, children: React.ReactNode }) => {
+
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button variant="ghost" className="w-full justify-between">
+					{children}
+					<ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="start">
+				<DropdownMenuItem onClick={() => column.toggleSorting(column.getFirstSortDir() === "asc")}>
+					<ArrowUpIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+					Asc
+				</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => column.toggleSorting(column.getFirstSortDir() === "desc")}>
+					<ArrowDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+					Desc
+				</DropdownMenuItem>
+				<DropdownMenuSeparator />
+				<DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
+					<EyeOffIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+					Hide
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
+	)
+}
+
+const ActionsCell = ({ row }: { row: Row<PortfolioAssetWithRelations> }) => {
+
+	const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false)
+	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
+	const [mode, setMode] = React.useState<'edit' | 'delete' | null>(null)
+
+	const { editPortfolioAsset, deletePortfolioAsset } = usePortfolios()
+
+	const onCancel = (): void => {
+		setIsDialogOpen(false)
+	}
+
+	const handleEdit = (data: { quantity: number; buyPrice: number }): void => {
+		if (!row.original || !row.original.portfolioId) return
+
+		editPortfolioAsset({ portfolioId: row.original.portfolioId, selectedPortfolioAsset: row.original, quantity: data.quantity, buyPrice: data.buyPrice })
+		setIsDialogOpen(false)
+	}
+
+	const handleDelete = (): void => {
+		if (!row.original || !row.original.portfolioId) return
+
+		setIsDialogOpen(false)
+		deletePortfolioAsset({ portfolioId: row.original.portfolioId, selectedPortfolioAsset: row.original })
+	}
+
+	const openEditDialog = () => {
+		setMode('edit')
+		setIsMenuOpen(false)
+		setIsDialogOpen(true)
+	}
+
+	const openDeleteDialog = () => {
+		setMode('delete')
+		setIsMenuOpen(false)
+		setIsDialogOpen(true)
+	}
+
+	return (
+		<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+			<DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+				<DropdownMenuTrigger asChild>
+					<Button variant="ghost" className="w-full">
+						<span className="sr-only">Open menu</span>
+						<MoreHorizontal size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end">
+					<DropdownMenuLabel className="font-semibold">Actions</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					<DialogTrigger asChild>
+						<DropdownMenuItem onClick={openEditDialog}>
+							<PencilIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+							Edit
+						</DropdownMenuItem>
+					</DialogTrigger>
+					<DialogTrigger asChild>
+						<DropdownMenuItem onClick={openDeleteDialog}>
+							<TrashIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+							Delete
+						</DropdownMenuItem>
+					</DialogTrigger>
+				</DropdownMenuContent>
+			</DropdownMenu>
+			{mode === 'edit'
+				? <AppDialog mode="editPortfolioAsset" selectedPortfolioAsset={row.original} onCancel={onCancel} onSubmit={handleEdit} />
+				: <AppDialog mode="deletePortfolioAsset" selectedPortfolioAsset={row.original} onCancel={onCancel} onSubmit={handleDelete} />}
+		</Dialog>
+	)
+}
 
 export const columns: ColumnDef<PortfolioAssetWithRelations>[] = [
 	{
@@ -98,29 +175,6 @@ export const columns: ColumnDef<PortfolioAssetWithRelations>[] = [
 	},
 	{
 		id: "actions",
-		cell: ({ row }) => {
-			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="w-full">
-							<span className="sr-only">Open menu</span>
-							<MoreHorizontal size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuLabel className="font-semibold">Actions</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.asset.name)}>
-							<PencilIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
-							Edit
-						</DropdownMenuItem>
-						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.asset.name)}>
-							<TrashIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
-							Delete
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			)
-		},
+		cell: ({ row }) => <ActionsCell row={row} />,
 	},
 ]

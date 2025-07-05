@@ -23,7 +23,7 @@ export const useSelectPortfolio = ({ portfolios }: Props): ReturnProps => {
 	const selectedPortfolio = portfolios?.find(portfolio => portfolio.isActive)
 
 	const { mutate, isPending, error } = useMutation<{ message: string }, Error, Portfolio, MutationContext>({
-		mutationFn: (selectedPortfolio: Portfolio) => portfoliosApi.selectPortfolio(selectedPortfolio.id),
+		mutationFn: (selectedPortfolio: Portfolio) => portfoliosApi.select(selectedPortfolio.id),
 		onMutate: async (selectedPortfolio: Portfolio) => {
 			// 1. Отменяем текущие запросы
 			await queryClient.cancelQueries({ queryKey: ['portfolios'] })

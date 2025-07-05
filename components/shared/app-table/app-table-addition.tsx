@@ -26,7 +26,7 @@ export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio
 
 	const [selectedAsset, setSelectedAsset] = React.useState<Asset | null>(null)
 
-	const { addPortfolioAsset } = usePortfolios()
+	const { createPortfolioAsset } = usePortfolios()
 
 	// Добавляем Intersection Observer
 	const { ref, inView } = useInView()
@@ -43,7 +43,7 @@ export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio
 	const onSubmit = (data: { quantity: number; buyPrice: number }): void => {
 		if (!selectedPortfolio || !selectedAsset) return
 
-		addPortfolioAsset({ portfolioId: selectedPortfolio.id, selectedAsset, quantity: data.quantity, buyPrice: data.buyPrice })
+		createPortfolioAsset({ portfolioId: selectedPortfolio.id, selectedAsset, quantity: data.quantity, buyPrice: data.buyPrice })
 		setIsDialogOpen(false)
 	}
 
@@ -86,7 +86,7 @@ export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio
 					</Command>
 				</PopoverContent>
 			</Popover>
-			<AppDialog mode="addAsset" selectedAsset={selectedAsset} onCancel={onCancel} onSubmit={onSubmit} />
+			<AppDialog mode="createPortfolioAsset" selectedAsset={selectedAsset} onCancel={onCancel} onSubmit={onSubmit} />
 		</Dialog>
 	)
 }
