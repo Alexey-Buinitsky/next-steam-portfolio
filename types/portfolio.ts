@@ -21,3 +21,8 @@ export interface UseAssetsOptions {
   type?: string;
   search?: string;
 }
+
+export interface AssetsApiSearchResponse {
+  assets: Asset[];
+  hasMore: boolean;
+}
