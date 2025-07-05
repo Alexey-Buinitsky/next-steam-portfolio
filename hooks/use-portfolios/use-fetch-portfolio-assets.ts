@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { portfoliosApi } from '@/services/portfolios';
+import { portfolioAssetsApi } from '@/services/portfolio-assets';
 import { PortfolioAsset } from '@prisma/client';
 
 interface ReturnProps {
@@ -13,7 +13,7 @@ export const useFetchPortfolioAssets = (portfolioId: number | undefined): Return
 		queryKey: ['portfolioAssets', portfolioId],
 		queryFn: () => {
 			if (!portfolioId) { return Promise.resolve([]) }
-			return portfoliosApi.fetchPortfolioAssets(portfolioId)
+			return portfolioAssetsApi.fetch(portfolioId)
 		},
 	})
 
