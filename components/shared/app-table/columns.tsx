@@ -45,7 +45,7 @@ const ActionsCell = ({ row }: { row: Row<PortfolioAssetWithRelations> }) => {
 	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
 	const [mode, setMode] = React.useState<'edit' | 'delete' | null>(null)
 
-	const { editPortfolioAsset, deletePortfolioAsset } = usePortfolios()
+	const { editPortfolioAsset, deletePortfolioAssets } = usePortfolios()
 
 	const onCancel = (): void => {
 		setIsDialogOpen(false)
@@ -62,7 +62,7 @@ const ActionsCell = ({ row }: { row: Row<PortfolioAssetWithRelations> }) => {
 		if (!row.original || !row.original.portfolioId) return
 
 		setIsDialogOpen(false)
-		deletePortfolioAsset({ portfolioId: row.original.portfolioId, selectedPortfolioAsset: row.original })
+		deletePortfolioAssets({ portfolioId: row.original.portfolioId, selectedPortfolioAssets: [row.original] })
 	}
 
 	const openEditDialog = () => {
@@ -132,6 +132,7 @@ export const columns: ColumnDef<PortfolioAssetWithRelations>[] = [
 		accessorKey: "name",
 		header: ({ column }) => <SortableHeader column={column}>Name</SortableHeader>,
 		cell: ({ row }) => row.original.asset.name,
+		filterFn: (row, id, filterValue) => { return row.original.asset.name.toLowerCase().includes(filterValue.toLowerCase()) }
 	},
 	{
 		accessorKey: "quantity",

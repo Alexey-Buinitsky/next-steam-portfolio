@@ -7,20 +7,21 @@ import { Table } from '@/components/ui';
 import { AppTableAddition, AppTableBody, AppTableChart, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle } from '@/components/shared/app-table';
 import { usePortfolios } from '@/hooks';
 import { getMetrics } from '@/lib';
+import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
 import { chartConfig, chartData } from '@/data/charts-data';
 
-interface Props<TData, TValue> {
-	columns: ColumnDef<TData, TValue>[];
+interface Props<TValue> {
+	columns: ColumnDef<PortfolioAssetWithRelations, TValue>[];
 	className?: string;
 }
 
-export const AppTable = <TData, TValue>({ columns, className }: Props<TData, TValue>) => {
+export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 
-	const { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolio, deletePortfolio, isLoading, portfolioAssets } = usePortfolios()
+	const { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolio, deletePortfolio, isLoading, portfolioAssets, deletePortfolioAssets } = usePortfolios()
 
 	const data = React.useMemo(() => portfolioAssets || [], [portfolioAssets])
-	
+
 	const metrics = React.useMemo(() => getMetrics(portfolioAssets), [portfolioAssets])
 
 	const [sorting, setSorting] = React.useState<SortingState>([])
@@ -29,7 +30,7 @@ export const AppTable = <TData, TValue>({ columns, className }: Props<TData, TVa
 	const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({})
 
 	const table = useReactTable({
-		data: data as TData[],
+		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: setSorting,
@@ -58,7 +59,7 @@ export const AppTable = <TData, TValue>({ columns, className }: Props<TData, TVa
 
 			<div className="flex flex-col gap-2 p-2 rounded-md border 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
 				<div className="flex justify-between items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
-					<AppTableFilter table={table} />
+					<AppTableFilter table={table} selectedPortfolio={selectedPortfolio} deletePortfolioAssets={deletePortfolioAssets} />
 					<AppTableToggle table={table} />
 				</div>
 

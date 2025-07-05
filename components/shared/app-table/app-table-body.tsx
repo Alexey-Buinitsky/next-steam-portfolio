@@ -3,15 +3,16 @@ import { cn } from '@/lib/utils';
 import { ColumnDef, flexRender, useReactTable } from '@tanstack/react-table';
 import { TableBody, TableCell, TableRow } from '@/components/ui';
 import { Loader2Icon } from 'lucide-react';
+import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
-interface Props<TData, TValue> {
-	table: ReturnType<typeof useReactTable<TData>>,
-	columns: ColumnDef<TData, TValue>[],
+interface Props<TValue> {
+	table: ReturnType<typeof useReactTable<PortfolioAssetWithRelations>>,
+	columns: ColumnDef<PortfolioAssetWithRelations, TValue>[],
 	className?: string,
 	isLoading: boolean,
 }
 
-export const AppTableBody = <TData, TValue>({ table, columns, isLoading, className }: Props<TData, TValue>) => {
+export const AppTableBody = <TValue,>({ table, columns, isLoading, className }: Props<TValue>) => {
 
 	const rows = table.getRowModel().rows
 
