@@ -1,10 +1,8 @@
 'use client'
+
 import { useState, useEffect } from 'react';
 import { useDebounce, useTotalItems } from '@/hooks';
-import { MarketItemsDisplayGrid } from './market-items-display-grid';
-import { MarketItemsDisplayLine } from './market-items-display-line';
-import { MarketItemsHeader } from './market-items-header';
-import { AppPagination } from '@/components/shared';
+import { MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, AppPagination } from '@/components/shared';
 
 const ITEMS_PER_PAGE = 10
 
@@ -24,14 +22,13 @@ export function MarketItems() {
 	if (isError) return <div>Error loading items</div>
 
 	return (
-		<div className="container mx-auto p-4">
+		<div className="container mx-auto p-4 flex flex-col gap-4">
 			<MarketItemsHeader searchQuery={searchQuery} setDisplayMode={setDisplayMode} setSearchQuery={setSearchQuery}/>
 
-			{displayMode === 'grid' ? (
-				<MarketItemsDisplayGrid data={data} />
-			) : (
-				<MarketItemsDisplayLine data={data}/>
-			)}
+			{displayMode === 'grid' 
+				? 	(<MarketItemsDisplayGrid data={data}/>) 
+				: 	(<MarketItemsDisplayLine data={data}/>)
+			}
 
 			{data && data.pagination.totalPages > 1 && (
 				<AppPagination 

@@ -9,7 +9,7 @@ export { ModeToggle } from './mode-toggle'
 export { Header } from './header'
 export { Hero } from './hero'
 export { PopularMarket } from './popular-market'
-export { MarketItems } from './market-items'
+export { MarketItems, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, MarketItemsDisplayLineHeader } from './market'
 export { AddToPortfolioForm, AddToPortfolioModal, AddToPortfolioPanel } from './add-to-portfolio'
 
 export { QueryProvider } from './query-provider'

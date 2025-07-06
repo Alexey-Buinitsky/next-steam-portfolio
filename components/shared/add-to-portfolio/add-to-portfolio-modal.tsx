@@ -4,17 +4,16 @@ import React, { useRef } from 'react';
 import { useClickAway, useKey } from 'react-use'
 import 'react-toastify/dist/ReactToastify.css';
 import { AddToPortfolioForm } from './index';
+import type { Asset } from '@prisma/client';
 
 interface Props {
-    itemId: number 
-    itemName: string
-    itemPrice: number
-    itemImageUrl: string
+    item: Asset
     onClose: () => void
     className?: string;
+    disableClose?: boolean;
 }
 
-export const AddToPortfolioModal: React.FC<Props> = ({ itemId, itemName, itemPrice, itemImageUrl, onClose, className }) => {
+export const AddToPortfolioModal: React.FC<Props> = ({ item, onClose, className }) => {
 
     const modalRef = useRef<HTMLDivElement>(null)
 
@@ -29,13 +28,7 @@ export const AddToPortfolioModal: React.FC<Props> = ({ itemId, itemName, itemPri
     return (
         <div className={ `${className} fixed inset-0 bg-gray-900/50 dark:bg-[var(--background)]/50 flex items-center justify-center z-50` }>
             <div ref={modalRef} >
-                <AddToPortfolioForm 
-                    itemId={itemId}
-                    itemName={itemName}
-                    itemPrice={itemPrice}
-                    itemImageUrl={itemImageUrl}
-                    onClose={onClose}
-                />
+                <AddToPortfolioForm item={item} onClose={onClose}/>
             </div>
         </div>
     );

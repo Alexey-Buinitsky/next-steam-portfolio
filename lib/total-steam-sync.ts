@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { prisma } from '@/prisma/prisma-client';
-import { setTotalItem, markTotalSyncComplete, removeStaleItems, getTotalItemsCount } from './total-cache';
+// import { setTotalItem, markTotalSyncComplete, removeStaleItems, getTotalItemsCount } from './total-cache';
 import type { SteamMarketItem } from '@/types/steam';
 import { PrismaSyncAssets } from './prisma-sync-assets';
 
@@ -8,8 +8,6 @@ const STEAM_DELAY_MS = 5000 // Текущая задержка (5 * 2(ниже) 
 const STEAM_ITEMS_COUNT = 10 // Количество предметов за запрос
 
 export const syncAllTotalItems = async () => {
-  // await prisma.$executeRaw`TRUNCATE TABLE "Asset" RESTART IDENTITY CASCADE`;
-  // await prisma.$executeRaw`ALTER SEQUENCE "Asset_id_seq" RESTART WITH 1`;
 
   let start = 0
   let currentDelay = STEAM_DELAY_MS
@@ -30,7 +28,7 @@ export const syncAllTotalItems = async () => {
 
       validItems.forEach((item: SteamMarketItem) => {
         allSyncedHashes.add(item.name || '');
-        setTotalItem(item.name || '', item);
+        // setTotalItem(item.name || '', item);
       });
       
       await PrismaSyncAssets(validItems);
@@ -38,7 +36,7 @@ export const syncAllTotalItems = async () => {
       start += STEAM_ITEMS_COUNT;
       currentDelay = STEAM_DELAY_MS; // Сброс задержки
 
-      console.log(`📥 Загружено ${validItems.length} предметов. Всего: ${getTotalItemsCount()}`);
+      console.log(`📥 Загружено ${validItems.length} предметов.`);
       await new Promise(resolve => setTimeout(resolve, currentDelay));
     } catch (error) {
       currentDelay = Math.min(currentDelay * 2, 100000); // Экспоненциальная задержка (макс. 1,5 мин)
@@ -58,6 +56,6 @@ export const syncAllTotalItems = async () => {
     });
   }
 
-  removeStaleItems()
-  markTotalSyncComplete();
+  // removeStaleItems()
+  // markTotalSyncComplete();
 };

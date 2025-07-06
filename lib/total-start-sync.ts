@@ -1,5 +1,5 @@
 import { syncAllTotalItems } from './total-steam-sync';
-import { getLastSuccessfulSyncTime, getTotalItemsCount } from './total-cache';
+// import { getLastSuccessfulSyncTime, getTotalItemsCount } from './total-cache';
 
 const SYNC_INTERVAL = 5 * 60 * 1000; // 5 минут между синхронизациями
 
@@ -12,9 +12,9 @@ export const startSync = async  () => {
     
     try {
         isSyncing = true;
-        console.log(`🔄 Начало синхронизации. Текущий кэш: ${getTotalItemsCount()} предметов`);
+        console.log(`🔄 Начало синхронизации.`);
         await syncAllTotalItems();
-        console.log(`✅ Фоновая синхронизация завершена. Последняя синхронизация: ${new Date(getLastSuccessfulSyncTime()).toLocaleTimeString()}`);
+        console.log(`✅ Фоновая синхронизация завершена.`);
     } catch (error) {
         console.error('❌ Ошибка фоновой синхронизации:', error);
     } finally {

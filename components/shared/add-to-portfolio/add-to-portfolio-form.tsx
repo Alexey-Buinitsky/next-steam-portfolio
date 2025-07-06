@@ -1,44 +1,37 @@
 import React from 'react';
 import Image from 'next/image';
-import { apiInstance } from '@/services/api-instance';
 import { Button, Input, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { usePortfolios, useAddToPortfolioForm } from '@/hooks';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import type { AddToPortfolioFormData } from '@/hooks/use-add-to-portfolio-form';
+import type { Asset } from '@prisma/client';
 
 interface Props {
-    itemId: number
-    itemName: string
-    itemPrice: number
-    itemImageUrl: string
+    item: Asset
     onClose: () => void
     className?: string;
     disableClose?: boolean;
 }
 
-export const AddToPortfolioForm: React.FC<Props> = ({ className, itemId, itemName, itemPrice, itemImageUrl, onClose, disableClose }) => {
-    const portfolios = usePortfolios()
+export const AddToPortfolioForm: React.FC<Props> = ({ className, item, onClose, disableClose }) => {
+
+    const { portfolios: portfolioList, createPortfolioAsset } = usePortfolios();
 
     const form = useAddToPortfolioForm(
-        itemPrice,
+        item.price ? item.price / 100 : undefined,
         !!disableClose // true для статичной панели, false для модалки
     );
 
     const onSubmit = async (values: AddToPortfolioFormData) => {
-        if (!itemId) {
-            toast.error('No item selected');
-            return;
-        }
-
         // отрабатывает только если все поля прошли проверку RHF через zod 
         try {
-            await apiInstance.post('/portfolio-assets', {
-                portfolioId: Number(values.portfolioId),
-                assetId: itemId,
-                quantity: values.quantity,
-                buyPrice: values.buyPrice,
+            createPortfolioAsset({ 
+                portfolioId: Number(values.portfolioId), 
+                selectedAsset: item, 
+                quantity: values.quantity, 
+                buyPrice: values.buyPrice 
             })
 
             onClose();
@@ -54,14 +47,14 @@ export const AddToPortfolioForm: React.FC<Props> = ({ className, itemId, itemNam
         <div className={className}>
             <div className='bg-white dark:bg-[var(--background)] rounded-lg p-6 w-full max-w-md border-1'>
                 <Image
-                    src={`https://steamcommunity-a.akamaihd.net/economy/image/${itemImageUrl || ''}`} 
-                    alt={itemName || ''} 
+                    src={`https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl || ''}`} 
+                    alt={item.name || ''} 
                     width={136}
                     height={136}
                     className="w-full h-32 object-contain mb-4"
                     loading='lazy'
                 />
-                <h2 className="text-xl text-center font-bold mb-4 h-15">Add <span className='text-green-600 dark:text-green-400'>{itemName}</span> to Portfolio</h2>
+                <h2 className="text-xl text-center font-bold mb-4">Add <span className='text-green-600 dark:text-green-400'>{item.name}</span> to Portfolio</h2>
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -78,7 +71,7 @@ export const AddToPortfolioForm: React.FC<Props> = ({ className, itemId, itemNam
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent className="select-content">
-                                            {portfolios?.portfolios?.map((portfolio) => (
+                                            {portfolioList?.map(portfolio => (
                                                 <SelectItem key={portfolio.id} value={portfolio.id.toString()}>
                                                     {portfolio.name}
                                                 </SelectItem>

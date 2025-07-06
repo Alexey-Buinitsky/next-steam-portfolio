@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { formatRating, formatPrice } from '@/lib';
@@ -11,26 +13,16 @@ interface Props {
 }
 
 export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => {
-    const [selectedItem, setSelectedItem] = useState<{
-        id: number;
-        name: string;
-        price: number;
-        imageUrl: string;
-    } | null>(null);
+   const [selectedItem, setSelectedItem] = useState<AssetsResponse['assets'][0] | null>(null);
 
     return (
         <div className={className}>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-12">
                 {data?.assets.map((item) => (
                     <div 
                         key={item.id}
                         className="h-full border rounded p-4 hover:shadow-lg transition-shadow cursor-pointer" 
-                        onClick={() => setSelectedItem({
-                            id: item.id,
-                            name: item.name || '',
-                            price: item.price || 0,
-                            imageUrl: item.imageUrl || ''
-                        })}
+                        onClick={() => setSelectedItem(item)}
                     >
                         <Image
                             src={`https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl || ''}`} 
@@ -49,15 +41,7 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
                 ))}
             </div>
 
-            {selectedItem && (
-                <AddToPortfolioModal
-                    itemId={selectedItem.id}
-                    itemName={selectedItem.name}
-                    itemPrice={selectedItem.price / 100}
-                    itemImageUrl={selectedItem.imageUrl}
-                    onClose={() => setSelectedItem(null)}
-                />
-            )}
+            {selectedItem && (<AddToPortfolioModal item={selectedItem} onClose={() => setSelectedItem(null)}/>)}
         </div>
     );
 };

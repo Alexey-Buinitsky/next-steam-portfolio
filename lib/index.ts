@@ -7,7 +7,7 @@ export { formatPercentage } from './format-percentage';
 
 export { formatPrice } from './format-price'
 export { formatVolume } from './format-volume'
-export { formatItem } from './format-item'
+// export { formatItem } from './format-item'
 export { formatRating } from './format-rating'
 export { getFromCache, setToCache } from './cache'
 
