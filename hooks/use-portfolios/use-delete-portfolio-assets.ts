@@ -2,22 +2,22 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { portfolioAssetsApi } from "@/services/portfolio-assets";
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
-interface Props {
+export interface DeletePortfolioAssetsProps {
 	portfolioId: number;
-	selectedPortfolioAsset: PortfolioAssetWithRelations;
+	selectedPortfolioAssets: PortfolioAssetWithRelations[];
 }
 
 interface ReturnProps {
 	isDeleting: boolean;
 	deleteError: Error | null;
-	deletePortfolioAsset: (params: Props) => void;
+	deletePortfolioAssets: (params: DeletePortfolioAssetsProps) => void;
 }
 
-export const useDeletePortfolioAsset = (): ReturnProps => {
+export const useDeletePortfolioAssets = (): ReturnProps => {
 	const queryClient = useQueryClient()
 
-	const { mutate, isPending, error } = useMutation<{ message: string }, Error, Props>({
-		mutationFn: ({ portfolioId, selectedPortfolioAsset }) => portfolioAssetsApi.delete(portfolioId, selectedPortfolioAsset),
+	const { mutate, isPending, error } = useMutation<{ message: string }, Error, DeletePortfolioAssetsProps>({
+		mutationFn: ({ portfolioId, selectedPortfolioAssets }) => portfolioAssetsApi.delete(portfolioId, selectedPortfolioAssets),
 		onSuccess: (_, variables) => {
 			// Инвалидируем и список портфелей, и активы конкретного портфеля
 			queryClient.invalidateQueries({ queryKey: ['portfolios'] })
@@ -25,5 +25,5 @@ export const useDeletePortfolioAsset = (): ReturnProps => {
 		},
 	})
 
-	return { isDeleting: isPending, deleteError: error, deletePortfolioAsset: mutate }
+	return { isDeleting: isPending, deleteError: error, deletePortfolioAssets: mutate }
 }

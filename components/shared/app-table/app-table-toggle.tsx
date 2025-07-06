@@ -2,12 +2,13 @@ import React from 'react';
 import { useReactTable } from '@tanstack/react-table';
 import { Button, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui';
 import { Settings2Icon } from 'lucide-react';
+import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
-interface Props<TData> {
-	table: ReturnType<typeof useReactTable<TData>>
+interface Props {
+	table: ReturnType<typeof useReactTable<PortfolioAssetWithRelations>>
 }
 
-export const AppTableToggle = <TData,>({ table }: Props<TData>) => {
+export const AppTableToggle = ({ table }: Props) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>

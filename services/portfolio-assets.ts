@@ -1,7 +1,7 @@
 import { apiInstance } from './api-instance';
 import { apiRoutes } from './api-routes';
 import { calculateFee, calculatePercentage } from '@/lib';
-import { Asset, PortfolioAsset } from '@prisma/client';
+import { Asset } from '@prisma/client';
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
 interface ReturnProps {
@@ -40,9 +40,9 @@ const handleApiError = (error: unknown, context: string) => {
 
 export const portfolioAssetsApi = {
 
-	fetch: async (id: number): Promise<PortfolioAsset[]> => {
+	fetch: async (id: number): Promise<PortfolioAssetWithRelations[]> => {
 		try {
-			return (await apiInstance.get<PortfolioAsset[]>(`${apiRoutes.PORTFOLIOS}/${id}/assets`)).data
+			return (await apiInstance.get<PortfolioAssetWithRelations[]>(`${apiRoutes.PORTFOLIOS}/${id}/assets`)).data
 		} catch (error) {
 			throw handleApiError(error, 'fetchAssets')
 		}
@@ -66,9 +66,9 @@ export const portfolioAssetsApi = {
 		}
 	},
 
-	delete: async (id: number, selectedPortfolioAsset: PortfolioAssetWithRelations): Promise<{ message: string }> => {
+	delete: async (id: number, selectedPortfolioAssets: PortfolioAssetWithRelations[]): Promise<{ message: string }> => {
 		try {
-			return (await apiInstance.delete<{ message: string }>(`${apiRoutes.PORTFOLIOS}/${id}/assets`, { data: { selectedPortfolioAsset } })).data
+			return (await apiInstance.delete<{ message: string }>(`${apiRoutes.PORTFOLIOS}/${id}/assets`, { data: { selectedPortfolioAssets } })).data
 		} catch (error) {
 			throw handleApiError(error, 'deletePortfolioAsset')
 		}

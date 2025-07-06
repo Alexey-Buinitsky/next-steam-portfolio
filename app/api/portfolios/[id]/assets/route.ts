@@ -141,7 +141,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 	try {
 
 		const portfolioId = Number(params.id)
-		const { selectedPortfolioAsset } = await req.json()
+		const { selectedPortfolioAssets }: { selectedPortfolioAssets: PortfolioAssetWithRelations[] } = await req.json()
 
 		const portfolio = await prisma.portfolio.findUnique({
 			where: { id: portfolioId }
@@ -151,21 +151,23 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 			return NextResponse.json({ message: 'Portfolio not found' }, { status: 404 })
 		}
 
-		if (!selectedPortfolioAsset?.id) {
-			return NextResponse.json({ message: 'Portfolio asset ID is required' }, { status: 400 });
+		if (!selectedPortfolioAssets?.length) {
+			return NextResponse.json({ message: 'Portfolio asset IDs are required' }, { status: 400 });
 		}
 
-		await prisma.portfolioAsset.delete({
+		await prisma.portfolioAsset.deleteMany({
 			where: {
-				id: selectedPortfolioAsset.id,
+				id: {
+					in: selectedPortfolioAssets.map(portfolioAsset => portfolioAsset.id)
+				},
 				portfolioId: portfolioId
 			}
 		})
 
-		return NextResponse.json({ message: 'Portfolio asset deleted successfully' }, { status: 200 })
+		return NextResponse.json({ message: 'Portfolio asset(s) deleted successfully' }, { status: 200 })
 	} catch (error) {
 		console.error('[PORTFOLIO_ASSET_DELETE] Server error:', error)
-		return NextResponse.json({ message: 'Failed to delete portfolio asset' }, { status: 500 })
+		return NextResponse.json({ message: 'Failed to delete portfolio asset(s)' }, { status: 500 })
 	} finally {
 		await prisma.$disconnect()
 	}
