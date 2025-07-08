@@ -1,19 +1,13 @@
-import { BanknoteArrowDownIcon, BanknoteArrowUpIcon, BanknoteIcon, LucideProps } from 'lucide-react';
-import { calculateMetrics, formatCurrency } from '@/lib';
+import { LucideProps } from 'lucide-react';
+import { formatCurrency } from '@/lib';
+import { calculateMetrics, getTrendIcon, TrendType } from '@/lib/metrics';
 import { PortfolioAsset } from '@prisma/client';
-
-type TrendType = "up" | "down" | "neutral";
 
 export interface IMetric {
 	key: string;
 	value: string;
 	trend: TrendType;
 	icon: React.ComponentType<LucideProps>
-}
-
-const getTrendIcon = (trend: TrendType): React.ComponentType<LucideProps> => {
-	const icons = { up: BanknoteArrowUpIcon, down: BanknoteArrowDownIcon, neutral: BanknoteIcon, }
-	return icons[trend];
 }
 
 export const getMetrics = (portfolioAssets: PortfolioAsset[] | undefined): IMetric[] => {

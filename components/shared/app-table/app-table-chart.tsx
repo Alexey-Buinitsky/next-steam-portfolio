@@ -4,18 +4,18 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { Pie, PieChart } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent, } from "@/components/ui"
-
-import { IChartData } from '@/data/charts-data';
+import { IChartData } from '@/lib';
 
 interface Props {
-	className?: string
-	title: string
-	description: string
-	chartConfig: ChartConfig
-	chartData: IChartData[]
+	className?: string;
+	title: string;
+	description: string;
+	chartConfig: ChartConfig;
+	chartData: IChartData[];
 }
 
 export const AppTableChart: React.FC<Props> = ({ className, title, description, chartConfig, chartData }) => {
+	console.log(chartData, chartConfig)
 	return (
 		<Card className={cn("", className)}>
 			<CardHeader>
@@ -26,9 +26,9 @@ export const AppTableChart: React.FC<Props> = ({ className, title, description, 
 				<ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-54 2k:max-h-71.5 4k:max-h-108 8k:max-h-216">
 					<PieChart accessibilityLayer>
 						<ChartTooltip content={<ChartTooltipContent hideLabel />} />
-						<Pie data={chartData} dataKey="visitors" nameKey="browser" stroke="0" />
+						<Pie data={chartData} dataKey="value" nameKey="category" stroke="0" />
 						<ChartLegend
-							content={<ChartLegendContent nameKey="browser" />}
+							content={<ChartLegendContent nameKey="category" />}
 							className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center 2k:gap-2.5 4k:gap-4 8k:gap-8 2k:pt-4 4k:pt-6 8k:pt-12"
 						/>
 					</PieChart>
