@@ -6,10 +6,8 @@ import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, ge
 import { Table } from '@/components/ui';
 import { AppTableAddition, AppTableBody, AppTableChart, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle } from '@/components/shared/app-table';
 import { usePortfolios } from '@/hooks';
-import { getMetrics } from '@/lib';
+import { getMetrics, getChart } from '@/lib';
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
-
-import { chartConfig, chartData } from '@/data/charts-data';
 
 interface Props<TValue> {
 	columns: ColumnDef<PortfolioAssetWithRelations, TValue>[];
@@ -20,9 +18,11 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 
 	const { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolio, deletePortfolio, isLoading, portfolioAssets, deletePortfolioAssets } = usePortfolios()
 
-	const data = React.useMemo(() => portfolioAssets || [], [portfolioAssets])
-
-	const metrics = React.useMemo(() => getMetrics(portfolioAssets), [portfolioAssets])
+	const portfolioData = React.useMemo(() => ({
+		metrics: getMetrics(portfolioAssets),
+		volumeChart: getChart({ data: portfolioAssets, categoryPath: "asset.type", valueKey: "quantity", options: { valueLabel: "Volume" } }),
+		priceChart: getChart({ data: portfolioAssets, categoryPath: "asset.type", valueKey: "totalWorth", options: { valueLabel: "Price" } }),
+	}), [portfolioAssets])
 
 	const [sorting, setSorting] = React.useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -30,13 +30,10 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 	const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({})
 
 	const table = useReactTable({
-		data,
-		columns,
+		data: portfolioAssets || [], columns,
 		getCoreRowModel: getCoreRowModel(),
-		onSortingChange: setSorting,
-		getSortedRowModel: getSortedRowModel(),
-		onColumnFiltersChange: setColumnFilters,
-		getFilteredRowModel: getFilteredRowModel(),
+		onSortingChange: setSorting, getSortedRowModel: getSortedRowModel(),
+		onColumnFiltersChange: setColumnFilters, getFilteredRowModel: getFilteredRowModel(),
 		onColumnVisibilityChange: setColumnVisibility,
 		onRowSelectionChange: setRowSelection,
 		state: { sorting, columnFilters, columnVisibility, rowSelection },
@@ -54,7 +51,7 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 			</div>
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
-				{metrics.map((metric) => <AppTableMetric key={metric.key} metric={metric} />)}
+				{portfolioData.metrics.map((metric) => <AppTableMetric key={metric.key} metric={metric} />)}
 			</div>
 
 			<div className="flex flex-col gap-2 p-2 rounded-md border 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
@@ -72,14 +69,8 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 			</div>
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
-				<AppTableChart
-					title="Portfolio Diversification (Volume)"
-					description="Allocation by quantity of items."
-					chartConfig={chartConfig} chartData={chartData} />
-				<AppTableChart
-					title="Portfolio Diversification (Price)"
-					description="Allocation by total value of items."
-					chartConfig={chartConfig} chartData={chartData} />
+				<AppTableChart title="Portfolio Diversification (Volume)" description="Allocation by quantity of items." chartConfig={portfolioData.volumeChart.chartConfig} chartData={portfolioData.volumeChart.chartData} />
+				<AppTableChart title="Portfolio Diversification (Price)" description="Allocation by total value of items." chartConfig={portfolioData.priceChart.chartConfig} chartData={portfolioData.priceChart.chartData} />
 			</div>
 
 		</div>

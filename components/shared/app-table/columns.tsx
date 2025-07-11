@@ -105,7 +105,7 @@ const ActionsCell = ({ row }: { row: Row<PortfolioAssetWithRelations> }) => {
 			</DropdownMenu>
 			{mode === 'edit'
 				? <AppDialog mode="editPortfolioAsset" selectedPortfolioAsset={row.original} onCancel={onCancel} onSubmit={handleEdit} />
-				: <AppDialog mode="deletePortfolioAsset" selectedPortfolioAsset={row.original} onCancel={onCancel} onSubmit={handleDelete} />}
+				: <AppDialog mode="deletePortfolioAssets" selectedPortfolioAsset={row.original} onCancel={onCancel} onSubmit={handleDelete} />}
 		</Dialog>
 	)
 }

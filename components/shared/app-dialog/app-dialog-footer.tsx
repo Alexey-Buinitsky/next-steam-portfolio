@@ -17,10 +17,10 @@ export const AppDialogFooter: React.FC<Props> = ({ className, mode, onDelete, on
 
 			{mode === "editPortfolio" && <Button variant="destructive" size="icon" onClick={onDelete}><TrashIcon /><span className="sr-only">Delete Portfolio</span></Button>}
 
-			{mode === "deletePortfolioAsset"
+			{mode === "deletePortfolioAssets"
 				? <div className="flex gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 					<Button variant="outline" size="default" onClick={onCancel}>Cancel</Button>
-					<Button variant="destructive" size="default" onClick={onSubmit}>Delete Portfolio Asset</Button>
+					<Button variant="destructive" size="default" onClick={onSubmit}>Delete</Button>
 				</div>
 				: <div className="flex gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 					<Button variant="outline" size="default" onClick={onCancel}>Cancel</Button>

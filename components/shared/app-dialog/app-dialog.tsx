@@ -16,7 +16,7 @@ import { toast } from "sonner"
 
 interface CommonProps {
 	className?: string;
-	mode: "createPortfolio" | "editPortfolio" | "createPortfolioAsset" | "editPortfolioAsset" | "deletePortfolioAsset";
+	mode: "createPortfolio" | "editPortfolio" | "createPortfolioAsset" | "editPortfolioAsset" | "deletePortfolioAssets";
 	selectedPortfolio?: Portfolio;
 	selectedAsset?: Asset | null;
 	selectedPortfolioAsset?: PortfolioAssetWithRelations | null;
@@ -34,12 +34,12 @@ type PortfolioAssetModeProps = CommonProps & {
 	onSubmit: (data: { quantity: number; buyPrice: number }) => void;
 }
 
-type DeletePortfolioAssetModeProps = CommonProps & {
-	mode: "deletePortfolioAsset";
+type DeletePortfolioAssetsModeProps = CommonProps & {
+	mode: "deletePortfolioAssets";
 	onSubmit: () => void;
 }
 
-type Props = PortfolioModeProps | PortfolioAssetModeProps | DeletePortfolioAssetModeProps
+type Props = PortfolioModeProps | PortfolioAssetModeProps | DeletePortfolioAssetsModeProps
 
 export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio, selectedAsset, selectedPortfolioAsset, onCancel, onSubmit, onDelete }) => {
 
@@ -95,7 +95,7 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 
 	return (
 		<DialogContent className={cn("", className)}>
-			<AppDialogHeader mode={mode} />
+			<AppDialogHeader mode={mode} selectedPortfolioAsset={selectedPortfolioAsset} />
 
 			{(mode === "createPortfolio" || mode === "editPortfolio") &&
 				<FormProvider {...portfolioMethods}>
@@ -126,14 +126,14 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 					: null
 			}
 
-			{mode === "deletePortfolioAsset" && selectedPortfolioAsset &&
+			{mode === "deletePortfolioAssets" && selectedPortfolioAsset &&
 				<div className="flex items-center justify-center gap-2">
 					<Image alt={selectedPortfolioAsset.asset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${selectedPortfolioAsset.asset.imageUrl}`} width={48} height={48} className="2k:size-13 4k:size-20 8k:size-40" />
 					<h3 className="text-lg font-medium">{selectedPortfolioAsset.asset.name}</h3>
 				</div>
 			}
 
-			<AppDialogFooter mode={mode} onCancel={handleCancel} onDelete={onDelete} onSubmit={mode === "deletePortfolioAsset" ? (onSubmit as () => void) : undefined} />
+			<AppDialogFooter mode={mode} onCancel={handleCancel} onDelete={onDelete} onSubmit={mode === "deletePortfolioAssets" ? (onSubmit as () => void) : undefined} />
 		</DialogContent>
 	)
 }
