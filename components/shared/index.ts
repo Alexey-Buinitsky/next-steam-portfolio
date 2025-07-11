@@ -1,15 +1,16 @@
 export { AppSidebar } from './app-sidebar'
 export { AppBreadcrumb } from './app-breadcrumb'
-export { AppTable, columns, rows } from './app-table'
+export { AppTable, columns } from './app-table'
 export { AppPagination } from './app-pagination'
 export { AppDialog } from './app-dialog'
 export { Logo } from './logo'
 export { ModeToggle } from './mode-toggle'
+export { Slider } from './slider'
 
 export { Header } from './header'
 export { Hero } from './hero'
 export { PopularMarket } from './popular-market'
-export { MarketItems, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, MarketItemsDisplayLineHeader } from './market'
+export { MarketItems, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, MarketItemsDisplayLineHeader } from './market-items'
 export { AddToPortfolioForm, AddToPortfolioModal, AddToPortfolioPanel } from './add-to-portfolio'
 
 export { QueryProvider } from './query-provider'

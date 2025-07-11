@@ -1,6 +1,8 @@
+'use client'
+
 import { useSwiper } from "swiper/react";
 
-export const NavigationButtons = ({
+export const SliderNavigationButtons = ({
   leftIcon,
   rightIcon,
   navButtonStyle,

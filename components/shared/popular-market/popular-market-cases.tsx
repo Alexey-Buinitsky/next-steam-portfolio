@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Slider from '../slider';
+import { Slider } from '@/components/shared';
 import { usePopularCases } from '@/hooks';
 import { formatPrice, formatVolume } from '@/lib';
 import type { Asset } from '@prisma/client';

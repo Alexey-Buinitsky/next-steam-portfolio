@@ -1,14 +1,16 @@
+'use client'
+
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
-import { NavigationButtons } from './navigation-buttons';
-import { DefaultIcon } from './default-icon';
+import { SliderNavigationButtons } from './slider-navigation-buttons';
+import { SliderDefaultIcon } from './slider-default-icon';
 import type { SwiperProps } from '@/types/swiper'
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-const Slider: React.FC<SwiperProps> = ({
+export const Slider: React.FC<SwiperProps> = ({
   slidesPerView = 'auto',
   spaceBetween = 20,
   speed = 300,
@@ -36,10 +38,7 @@ const Slider: React.FC<SwiperProps> = ({
   };
 
   return (
-    <div style={{
-        margin: '0 auto',
-        ...style
-      }}>
+    <div style={{ ...style, margin: '0 auto'}}>
       <Swiper
         slidesPerView={slidesPerView}
         spaceBetween={spaceBetween}
@@ -60,9 +59,9 @@ const Slider: React.FC<SwiperProps> = ({
           </SwiperSlide>
         ))}
         
-        <NavigationButtons 
-          leftIcon={leftButtonIcon || <DefaultIcon />}
-          rightIcon={rightButtonIcon || <DefaultIcon />}
+        <SliderNavigationButtons 
+          leftIcon={leftButtonIcon || <SliderDefaultIcon />}
+          rightIcon={rightButtonIcon || <SliderDefaultIcon />}
           navButtonStyle={navButtonStyle}
           leftButtonStyle={leftButtonStyle}
           rightButtonStyle={rightButtonStyle}
@@ -71,5 +70,3 @@ const Slider: React.FC<SwiperProps> = ({
     </div>
   );
 };
-
-export default Slider;

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { prisma } from '@/prisma/prisma-client';
-// import { setTotalItem, markTotalSyncComplete, removeStaleItems, getTotalItemsCount } from './total-cache';
 import type { SteamMarketItem } from '@/types/steam';
 import { PrismaSyncAssets } from './prisma-sync-assets';
 
@@ -28,7 +27,6 @@ export const syncAllTotalItems = async () => {
 
       validItems.forEach((item: SteamMarketItem) => {
         allSyncedHashes.add(item.name || '');
-        // setTotalItem(item.name || '', item);
       });
       
       await PrismaSyncAssets(validItems);
@@ -55,7 +53,4 @@ export const syncAllTotalItems = async () => {
       data: { isActive: false }
     });
   }
-
-  // removeStaleItems()
-  // markTotalSyncComplete();
 };
