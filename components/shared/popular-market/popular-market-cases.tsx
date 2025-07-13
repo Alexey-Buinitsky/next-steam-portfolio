@@ -1,18 +1,20 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
 import { Slider } from '@/components/shared';
 import { usePopularCases } from '@/hooks';
 import { formatPrice, formatVolume } from '@/lib';
 import type { Asset } from '@prisma/client';
+import { AddToPortfolioModal } from '@/components/shared';
 
 interface Props {
   className?: string;
 }
 
 export const PopularMarketCases: React.FC<Props> = ({ className }) => {
+  const [selectedItem, setSelectedItem] = useState<Asset | null>(null);
   const {data, isLoading, error} = usePopularCases()
 
   if (isLoading) return <div>Loading...</div>;
@@ -33,22 +35,26 @@ export const PopularMarketCases: React.FC<Props> = ({ className }) => {
         }}
       >
         {data?.map((item: Asset) => (
-          <Link href='/' key={item.name}>
-            <div className="border rounded-lg p-3 hover:shadow-md transition-shadow dark:hover:shadow-gray-500">
-              <Image className="mx-auto w-auto h-auto object-contain mb-2" 
-                src={`https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl || ''}`} 
-                alt={item.name || ''} 
-                width={104} height={104}
-              />
-              <h3 className="font-bold text-sl truncate dark:text-white">{item.name || 'Unknown'}</h3>
-              <div className='flex justify-between items-center'>
-                <p className="text-green-600 font-bold dark:text-green-400">{formatPrice(item.price || undefined) || ''}</p>
-                <p className="text-sm text-gray-500">{formatVolume(item.volume || undefined) || ''}</p>
-              </div>
+          <div 
+            key={item.id}
+            className="border rounded-lg p-3 hover:shadow-md transition-shadow dark:hover:shadow-gray-500 cursor-pointer"
+            onClick={() => setSelectedItem(item)} 
+          >
+            <Image className="mx-auto w-auto h-auto object-contain mb-2" 
+              src={`https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl || ''}`} 
+              alt={item.name || ''} 
+              width={104} height={104}
+            />
+            <h3 className="font-bold text-sl truncate dark:text-white">{item.name || 'Unknown'}</h3>
+            <div className='flex justify-between items-center'>
+              <p className="text-green-600 font-bold dark:text-green-400">{formatPrice(item.price || undefined) || ''}</p>
+              <p className="text-sm text-gray-500">{formatVolume(item.volume || undefined) || ''}</p>
             </div>
-          </Link>
+          </div>
         ))}
       </Slider>
+
+      {selectedItem && (<AddToPortfolioModal item={selectedItem} onClose={() => setSelectedItem(null)}/>)}
     </div>
   );
 };

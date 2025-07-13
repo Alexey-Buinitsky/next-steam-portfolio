@@ -2,18 +2,21 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useImageError } from '@/hooks/use-image-error';
 import { formatRating, formatPrice } from '@/lib';
 import { AddToPortfolioModal } from '../index';
+import noImage from '@/public/images/no-image.png'
 
 import type { AssetsResponse } from "@/types/portfolio";
 
 interface Props {
     className?: string;
-    data?: AssetsResponse
+    data?: AssetsResponse;
 }
 
 export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => {
-   const [selectedItem, setSelectedItem] = useState<AssetsResponse['assets'][0] | null>(null);
+    const [selectedItem, setSelectedItem] = useState<AssetsResponse['assets'][0] | null>(null);
+    const {imageErrors, handleImageError} = useImageError()
 
     return (
         <div className={className}>
@@ -25,12 +28,13 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
                         onClick={() => setSelectedItem(item)}
                     >
                         <Image
-                            src={`https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl || ''}`} 
+                            src={!item.imageUrl || imageErrors[item.id] ? noImage : `https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl}`} 
                             alt={item.name || ''} 
                             width={136}
                             height={136}
                             className="w-full h-32 object-contain mb-4"
                             loading='lazy'
+                            onError={() => handleImageError(item.id)}
                         />
                         <h3 className="font-bold truncate mb-2">{item.name}</h3>
                         <div className='flex justify-between'>

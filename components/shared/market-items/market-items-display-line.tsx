@@ -1,9 +1,11 @@
 'use client'
 
-import React, { useState }  from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
+import { useImageError } from '@/hooks/use-image-error';
 import { formatRating, formatPrice } from '@/lib';
 import { AddToPortfolioPanel, MarketItemsDisplayLineHeader } from '../index';
+import noImage from '@/public/images/no-image.png'
 
 import type { AssetsResponse } from "@/types/portfolio";
 
@@ -14,7 +16,8 @@ interface Props {
 
 export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => {
     const [selectedItem, setSelectedItem] = useState<AssetsResponse['assets'][0] | null>(data?.assets?.[0] || null);
-    
+    const {imageErrors, handleImageError} = useImageError()
+
     return (
         <div className={`${className} flex flex-col items-center justify-between xl:gap-10 xl:flex-row xl:items-start`}>
             <div className='w-full'>
@@ -28,12 +31,13 @@ export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => 
                             onClick={() => setSelectedItem(item)}    
                         >
                             <Image
-                                src={`https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl || ''}`} 
+                                src={!item.imageUrl || imageErrors[item.id] ? noImage : `https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl}`} 
                                 alt={item.name || ''} 
                                 height={64}
                                 width={64}
                                 className="w-16 h-16 object-contain mr-auto 2xl:mr-7"
                                 loading='lazy'
+                                onError={() => handleImageError(item.id)}
                             />
                             <div className="flex-grow min-w-0 px-3 md:px-6 self-stretch flex items-center ">
                                 <h3 className="text-sm lg:text-lg font-semibold break-words line-clamp-3">{item.name}</h3>
