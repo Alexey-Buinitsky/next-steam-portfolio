@@ -3,9 +3,9 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, RowSelectionState, SortingState, useReactTable, VisibilityState } from '@tanstack/react-table';
-import { Table } from '@/components/ui';
+import { Table, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui';
 import { AppTableAddition, AppTableBody, AppTableChart, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle } from '@/components/shared/app-table';
-import { usePortfolios } from '@/hooks';
+import { usePortfoliosContext } from '@/components/shared';
 import { getMetrics, getChart } from '@/lib';
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
@@ -16,7 +16,7 @@ interface Props<TValue> {
 
 export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 
-	const { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolio, deletePortfolio, isLoading, portfolioAssets, deletePortfolioAssets } = usePortfolios()
+	const { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolio, deletePortfolio, isLoading, portfolioAssets, createPortfolioAsset, deletePortfolioAssets, } = usePortfoliosContext()
 
 	const portfolioData = React.useMemo(() => ({
 		metrics: getMetrics(portfolioAssets),
@@ -30,7 +30,7 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 	const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({})
 
 	const table = useReactTable({
-		data: portfolioAssets || [], columns,
+		data: portfolioAssets || [], columns: React.useMemo(() => columns, [columns]),
 		getCoreRowModel: getCoreRowModel(),
 		onSortingChange: setSorting, getSortedRowModel: getSortedRowModel(),
 		onColumnFiltersChange: setColumnFilters, getFilteredRowModel: getFilteredRowModel(),
@@ -45,34 +45,44 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 			<div className="flex items-center justify-between flex-wrap gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 				<AppTableSelection portfolios={portfolios} isLoading={isLoading} createPortfolio={createPortfolio} selectedPortfolio={selectedPortfolio} selectPortfolio={selectPortfolio} />
 				<div className="flex items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
-					<AppTableAddition selectedPortfolio={selectedPortfolio} isLoading={isLoading} />
+					<AppTableAddition selectedPortfolio={selectedPortfolio} createPortfolioAsset={createPortfolioAsset} isLoading={isLoading} />
 					<AppTableSettings deletePortfolio={deletePortfolio} editPortfolio={editPortfolio} selectedPortfolio={selectedPortfolio} isLoading={isLoading} />
 				</div>
 			</div>
 
-			<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
-				{portfolioData.metrics.map((metric) => <AppTableMetric key={metric.key} metric={metric} />)}
-			</div>
-
-			<div className="flex flex-col gap-2 p-2 rounded-md border 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
-				<div className="flex justify-between items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
-					<AppTableFilter table={table} selectedPortfolio={selectedPortfolio} deletePortfolioAssets={deletePortfolioAssets} />
-					<AppTableToggle table={table} />
-				</div>
-
-				<div className="flex max-h-90 overflow-y-auto rounded-md border md:max-h-115 xl:max-h-140 full-hd:max-h-165 2k:max-h-220 4k:max-h-330 8k:max-h-660">
-					<Table>
-						<AppTableHeader table={table} className="sticky top-0 z-10 bg-background" />
-						<AppTableBody table={table} columns={columns} isLoading={isLoading} />
-					</Table>
-				</div>
-			</div>
-
-			<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
-				<AppTableChart title="Portfolio Diversification (Volume)" description="Allocation by quantity of items." chartConfig={portfolioData.volumeChart.chartConfig} chartData={portfolioData.volumeChart.chartData} />
-				<AppTableChart title="Portfolio Diversification (Price)" description="Allocation by total value of items." chartConfig={portfolioData.priceChart.chartConfig} chartData={portfolioData.priceChart.chartData} />
-			</div>
-
+			<Tabs defaultValue="table" className="w-full">
+				<TabsList className="grid w-full grid-cols-2">
+					<TabsTrigger value="table">Table</TabsTrigger>
+					<TabsTrigger value="analytics">Analytics</TabsTrigger>
+				</TabsList>
+				<TabsContent value="table">
+					<div className="flex flex-col gap-2 p-2 rounded-md border 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
+						<div className="flex justify-between items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+							<AppTableFilter table={table} selectedPortfolio={selectedPortfolio} deletePortfolioAssets={deletePortfolioAssets} />
+							<AppTableToggle table={table} />
+						</div>
+						<div className="flex max-h-90 overflow-y-auto rounded-md border md:max-h-115 xl:max-h-140 full-hd:max-h-165 2k:max-h-220 4k:max-h-330 8k:max-h-660">
+							<Table>
+								<AppTableHeader table={table} className="sticky top-0 z-10 bg-background" />
+								<AppTableBody table={table} columns={columns} isLoading={isLoading} />
+							</Table>
+						</div>
+					</div>
+				</TabsContent>
+				<TabsContent value="analytics">
+					<div className="flex flex-col gap-2 p-2 rounded-md border 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
+						<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+							{portfolioData.metrics.map((metric) => <AppTableMetric key={metric.key} isLoading={isLoading} metric={metric} />)}
+						</div>
+						<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+							<AppTableChart title="Portfolio Diversification (Volume)" description="Allocation by quantity of items."
+								isLoading={isLoading} chartConfig={portfolioData.volumeChart.chartConfig} chartData={portfolioData.volumeChart.chartData} />
+							<AppTableChart title="Portfolio Diversification (Price)" description="Allocation by total value of items."
+								isLoading={isLoading} chartConfig={portfolioData.priceChart.chartConfig} chartData={portfolioData.priceChart.chartData} />
+						</div>
+					</div>
+				</TabsContent>
+			</Tabs>
 		</div>
 	)
 }

@@ -21,7 +21,7 @@ export const AppTableBody = <TValue,>({ table, columns, isLoading, className }: 
 			{isLoading
 				? <TableRow>
 					<TableCell colSpan={columns.length} className="h-24 text-center">
-						<div className="flex items-center justify-center gap-2">
+						<div className="flex items-center justify-center">
 							<Loader2Icon size={24} className="2k:size-8 4k:size-11 8k:size-21 animate-spin" />
 						</div>
 					</TableCell>

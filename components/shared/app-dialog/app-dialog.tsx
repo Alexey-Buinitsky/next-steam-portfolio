@@ -20,6 +20,7 @@ interface CommonProps {
 	selectedPortfolio?: Portfolio;
 	selectedAsset?: Asset | null;
 	selectedPortfolioAsset?: PortfolioAssetWithRelations | null;
+	selectedPortfolioAssets?: PortfolioAssetWithRelations[] | null;
 	onCancel: () => void;
 	onDelete?: () => void;
 }
@@ -41,13 +42,11 @@ type DeletePortfolioAssetsModeProps = CommonProps & {
 
 type Props = PortfolioModeProps | PortfolioAssetModeProps | DeletePortfolioAssetsModeProps
 
-export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio, selectedAsset, selectedPortfolioAsset, onCancel, onSubmit, onDelete }) => {
+export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio, selectedAsset, selectedPortfolioAsset, selectedPortfolioAssets, onCancel, onSubmit, onDelete }) => {
 
 	const portfolioMethods = useForm<z.infer<typeof portfolioSchema>>({
 		resolver: zodResolver(portfolioSchema),
 		defaultValues: { portfolioName: mode === "editPortfolio" ? selectedPortfolio?.name : "", },
-		mode: "onChange",
-		reValidateMode: "onChange",
 	})
 
 	const portfolioAssetMethods = useForm<z.infer<typeof portfolioAssetSchema>>({
@@ -56,8 +55,6 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 			mode === "editPortfolioAsset" && selectedPortfolioAsset
 				? { quantity: selectedPortfolioAsset.quantity.toString(), buyPrice: selectedPortfolioAsset.buyPrice.toString() }
 				: { quantity: "", buyPrice: "" },
-		mode: "onChange",
-		reValidateMode: "onChange",
 	})
 
 	const handlePortfolioSubmit = (values: z.infer<typeof portfolioSchema>) => {
@@ -95,7 +92,7 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 
 	return (
 		<DialogContent className={cn("", className)}>
-			<AppDialogHeader mode={mode} selectedPortfolioAsset={selectedPortfolioAsset} />
+			<AppDialogHeader mode={mode} selectedPortfolioAssets={selectedPortfolioAssets} />
 
 			{(mode === "createPortfolio" || mode === "editPortfolio") &&
 				<FormProvider {...portfolioMethods}>
@@ -126,14 +123,7 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 					: null
 			}
 
-			{mode === "deletePortfolioAssets" && selectedPortfolioAsset &&
-				<div className="flex items-center justify-center gap-2">
-					<Image alt={selectedPortfolioAsset.asset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${selectedPortfolioAsset.asset.imageUrl}`} width={48} height={48} className="2k:size-13 4k:size-20 8k:size-40" />
-					<h3 className="text-lg font-medium">{selectedPortfolioAsset.asset.name}</h3>
-				</div>
-			}
-
 			<AppDialogFooter mode={mode} onCancel={handleCancel} onDelete={onDelete} onSubmit={mode === "deletePortfolioAssets" ? (onSubmit as () => void) : undefined} />
-		</DialogContent>
+		</DialogContent >
 	)
 }

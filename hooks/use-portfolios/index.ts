@@ -9,6 +9,7 @@ import { useCreatePortfolioAsset } from './use-create-portfolio-asset';
 import { useEditPortfolioAsset } from './use-edit-portfolio-asset';
 import { useDeletePortfolioAssets } from './use-delete-portfolio-assets';
 
+export type { CreatePortfolioAssetProps } from './use-create-portfolio-asset';
 export type { DeletePortfolioAssetsProps } from './use-delete-portfolio-assets';
 
 export const usePortfolios = () => {
