@@ -2,12 +2,11 @@
 
 import React from "react"
 import Image from "next/image"
-import { Column, ColumnDef, Row } from "@tanstack/react-table"
+import { Column, ColumnDef, Row, Table } from "@tanstack/react-table"
 import { Button, Checkbox, Dialog, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui"
-import { AppDialog } from "@/components/shared"
+import { AppDialog, usePortfoliosContext } from "@/components/shared"
 import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon, EyeOffIcon, MoreHorizontal, PencilIcon, TrashIcon } from "lucide-react"
 import { formatCurrency, formatPercentage } from "@/lib"
-import { usePortfolios } from "@/hooks"
 import { PortfolioAssetWithRelations } from "@/types/portfolio"
 
 const SortableHeader = ({ column, children }: { column: Column<PortfolioAssetWithRelations>, children: React.ReactNode }) => {
@@ -39,13 +38,13 @@ const SortableHeader = ({ column, children }: { column: Column<PortfolioAssetWit
 	)
 }
 
-const ActionsCell = ({ row }: { row: Row<PortfolioAssetWithRelations> }) => {
+const ActionsCell = ({ row, table }: { row: Row<PortfolioAssetWithRelations>; table: Table<PortfolioAssetWithRelations> }) => {
 
 	const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false)
 	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
 	const [mode, setMode] = React.useState<'edit' | 'delete' | null>(null)
 
-	const { editPortfolioAsset, deletePortfolioAssets } = usePortfolios()
+	const { editPortfolioAsset, deletePortfolioAssets } = usePortfoliosContext()
 
 	const onCancel = (): void => {
 		setIsDialogOpen(false)
@@ -54,8 +53,8 @@ const ActionsCell = ({ row }: { row: Row<PortfolioAssetWithRelations> }) => {
 	const handleEdit = (data: { quantity: number; buyPrice: number }): void => {
 		if (!row.original || !row.original.portfolioId) return
 
-		editPortfolioAsset({ portfolioId: row.original.portfolioId, selectedPortfolioAsset: row.original, quantity: data.quantity, buyPrice: data.buyPrice })
 		setIsDialogOpen(false)
+		editPortfolioAsset({ portfolioId: row.original.portfolioId, selectedPortfolioAsset: row.original, quantity: data.quantity, buyPrice: data.buyPrice })
 	}
 
 	const handleDelete = (): void => {
@@ -63,6 +62,7 @@ const ActionsCell = ({ row }: { row: Row<PortfolioAssetWithRelations> }) => {
 
 		setIsDialogOpen(false)
 		deletePortfolioAssets({ portfolioId: row.original.portfolioId, selectedPortfolioAssets: [row.original] })
+		table.resetRowSelection()
 	}
 
 	const openEditDialog = () => {
@@ -105,7 +105,7 @@ const ActionsCell = ({ row }: { row: Row<PortfolioAssetWithRelations> }) => {
 			</DropdownMenu>
 			{mode === 'edit'
 				? <AppDialog mode="editPortfolioAsset" selectedPortfolioAsset={row.original} onCancel={onCancel} onSubmit={handleEdit} />
-				: <AppDialog mode="deletePortfolioAssets" selectedPortfolioAsset={row.original} onCancel={onCancel} onSubmit={handleDelete} />}
+				: <AppDialog mode="deletePortfolioAssets" selectedPortfolioAssets={[row.original]} onCancel={onCancel} onSubmit={handleDelete} />}
 		</Dialog>
 	)
 }
@@ -176,6 +176,6 @@ export const columns: ColumnDef<PortfolioAssetWithRelations>[] = [
 	},
 	{
 		id: "actions",
-		cell: ({ row }) => <ActionsCell row={row} />,
+		cell: ({ row, table }) => <ActionsCell row={row} table={table} />,
 	},
 ]

@@ -24,6 +24,8 @@ export const AppTableFilter = ({ table, selectedPortfolio, deletePortfolioAssets
 
 	React.useEffect(() => { table.getColumn("name")?.setFilterValue(debouncedQuery) }, [debouncedQuery, table])
 
+	const selectedRows = table.getSelectedRowModel().flatRows.map(row => row.original)
+
 	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
 
 	const onCancel = (): void => {
@@ -31,14 +33,11 @@ export const AppTableFilter = ({ table, selectedPortfolio, deletePortfolioAssets
 	}
 
 	const handleDelete = () => {
-		const selectedRows = table.getSelectedRowModel().flatRows.map(row => row.original)
+		if (selectedRows.length <= 0 || !selectedPortfolio) return
 
-		if (selectedPortfolio && selectedRows.length > 0) {
-			deletePortfolioAssets({ portfolioId: selectedPortfolio.id, selectedPortfolioAssets: selectedRows })
-
-			setIsDialogOpen(false)
-			table.resetRowSelection()
-		}
+		setIsDialogOpen(false)
+		deletePortfolioAssets({ portfolioId: selectedPortfolio.id, selectedPortfolioAssets: selectedRows })
+		table.resetRowSelection()
 	}
 
 	return (
@@ -56,7 +55,7 @@ export const AppTableFilter = ({ table, selectedPortfolio, deletePortfolioAssets
 						<span className="sr-only">Delete</span>
 					</Button>
 				</DialogTrigger>
-				<AppDialog mode="deletePortfolioAssets" onCancel={onCancel} onSubmit={handleDelete} />
+				<AppDialog mode="deletePortfolioAssets" selectedPortfolioAssets={selectedRows} onCancel={onCancel} onSubmit={handleDelete} />
 			</Dialog>
 		</div>
 	)

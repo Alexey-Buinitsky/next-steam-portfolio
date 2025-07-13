@@ -13,6 +13,7 @@ export { PopularMarket } from './popular-market'
 export { MarketItems, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, MarketItemsDisplayLineHeader } from './market-items'
 export { AddToPortfolioForm, AddToPortfolioModal, AddToPortfolioPanel } from './add-to-portfolio'
 
+export { PortfoliosProvider, usePortfoliosContext } from './portfolios-provider'
 export { QueryProvider } from './query-provider'
 export { ThemeProvider } from './theme-provider'
 export { BackgroundSyncProvider } from './background-sync-provider'
