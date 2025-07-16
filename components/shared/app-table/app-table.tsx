@@ -6,6 +6,7 @@ import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, ge
 import { Table, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui';
 import { AppTableAddition, AppTableBody, AppTableChart, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle } from '@/components/shared/app-table';
 import { usePortfoliosContext } from '@/components/shared';
+import { Loader2Icon } from 'lucide-react';
 import { getMetrics, getChart } from '@/lib';
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
@@ -39,6 +40,18 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 		state: { sorting, columnFilters, columnVisibility, rowSelection },
 	})
 
+	const [isFirstLoad, setIsFirstLoad] = React.useState<boolean>(true)
+	React.useEffect(() => { if (!isLoading && portfolios) { setIsFirstLoad(false) } }, [isLoading, portfolios])
+
+	if (isFirstLoad) {
+		return (
+			<div className="flex flex-col items-center justify-center">
+				<Loader2Icon size={24} className="2k:size-8 4k:size-11 8k:size-21 animate-spin" />
+				<p className="mt-4 text-lg font-medium">Loading your portfolios...</p>
+			</div>
+		)
+	}
+
 	return (
 		<div className={cn("flex flex-col gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8", className)}>
 
@@ -61,7 +74,7 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 							<AppTableFilter table={table} selectedPortfolio={selectedPortfolio} deletePortfolioAssets={deletePortfolioAssets} />
 							<AppTableToggle table={table} />
 						</div>
-						<div className="flex max-h-90 overflow-y-auto rounded-md border md:max-h-115 xl:max-h-140 full-hd:max-h-165 2k:max-h-220 4k:max-h-330 8k:max-h-660">
+						<div className="flex max-h-[calc(100vh-265px)] overflow-y-auto rounded-md border sm:max-h-[calc(100vh-220px)] 2k:max-h-[calc(100vh-286px)] 4k:max-h-[calc(100vh-438px)] 8k:max-h-[calc(100vh-875px)]">
 							<Table>
 								<AppTableHeader table={table} className="sticky top-0 z-10 bg-background" />
 								<AppTableBody table={table} columns={columns} isLoading={isLoading} />
