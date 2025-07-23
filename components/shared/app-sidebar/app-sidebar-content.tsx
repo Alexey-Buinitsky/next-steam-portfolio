@@ -28,7 +28,7 @@ const items = [
 	},
 	{
 		title: "Currencies",
-		url: "/",
+		url: "/currencies",
 		icon: CurrencyIcon,
 	},
 	{

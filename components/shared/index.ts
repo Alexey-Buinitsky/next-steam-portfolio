@@ -12,6 +12,7 @@ export { Hero } from './hero'
 export { PopularMarket } from './popular-market'
 export { MarketItems, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, MarketItemsDisplayLineHeader } from './market-items'
 export { AddToPortfolioForm, AddToPortfolioModal, AddToPortfolioPanel } from './add-to-portfolio'
+export { CurrencyConverter, CurrencyRates } from './currency'
 
 export { QueryProvider } from './query-provider'
 export { ThemeProvider } from './theme-provider'
