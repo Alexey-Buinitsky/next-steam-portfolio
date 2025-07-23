@@ -5,16 +5,18 @@ import { AppDialog } from '@/components/shared';
 import { Button, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Dialog, DialogTrigger, Popover, PopoverContent, PopoverTrigger, } from '@/components/ui';
 import { ChevronsUpDownIcon, Loader2Icon } from 'lucide-react';
 import { useInView } from "react-intersection-observer";
-import { useDebounce, usePortfolios, useSearchAssets } from '@/hooks';
+import { useDebounce, useSearchAssets } from '@/hooks';
+import { CreatePortfolioAssetProps } from '@/hooks/use-portfolios';
 import { Asset, Portfolio } from '@prisma/client';
 
 interface Props {
 	className?: string;
 	selectedPortfolio: Portfolio | undefined;
+	createPortfolioAsset: (params: CreatePortfolioAssetProps) => void;
 	isLoading: boolean;
 }
 
-export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio, isLoading }) => {
+export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio, createPortfolioAsset, isLoading }) => {
 
 	const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false)
 	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
@@ -25,8 +27,6 @@ export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio
 	const { assets, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage } = useSearchAssets(debouncedQuery)
 
 	const [selectedAsset, setSelectedAsset] = React.useState<Asset | null>(null)
-
-	const { createPortfolioAsset } = usePortfolios()
 
 	// Добавляем Intersection Observer
 	const { ref, inView } = useInView()

@@ -18,6 +18,7 @@ export { Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter
 export { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, useSidebar } from './sidebar';
 export { Skeleton } from './skeleton';
 export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from './table';
+export { Tabs, TabsList, TabsTrigger, TabsContent, } from './tabs';
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, } from './tooltip';
 
 export type { ChartConfig } from './chart'

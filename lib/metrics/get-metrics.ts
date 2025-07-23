@@ -14,8 +14,15 @@ export const getMetrics = (portfolioAssets: PortfolioAsset[] | undefined): IMetr
 	const { totalInvested, totalWorth, gain, estimatedGainAfterFees } = calculateMetrics(portfolioAssets)
 
 	const determineTrend = (value: number, compareTo?: number): TrendType => {
-		if (compareTo !== undefined) { return value >= compareTo ? "up" : "down" }
-		return value >= 0 ? "up" : "down"
+		if (compareTo !== undefined) {
+			if (value > compareTo) return "up"
+			if (value < compareTo) return "down"
+			return "neutral"
+		} else {
+			if (value > 0) return "up"
+			if (value < 0) return "down"
+			return "neutral"
+		}
 	}
 
 	const metricsData: IMetric[] = [

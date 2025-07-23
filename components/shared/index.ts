@@ -14,6 +14,7 @@ export { MarketItems, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItem
 export { AddToPortfolioForm, AddToPortfolioModal, AddToPortfolioPanel } from './add-to-portfolio'
 export { CurrencyConverter, CurrencyRates } from './currency'
 
+export { PortfoliosProvider, usePortfoliosContext } from './portfolios-provider'
 export { QueryProvider } from './query-provider'
 export { ThemeProvider } from './theme-provider'
 export { BackgroundSyncProvider } from './background-sync-provider'

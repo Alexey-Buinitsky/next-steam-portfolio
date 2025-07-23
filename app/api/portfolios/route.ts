@@ -6,7 +6,6 @@ export async function GET(): Promise<NextResponse<Portfolio[] | { message: strin
 	try {
 		const portfolios = await prisma.portfolio.findMany({
 			orderBy: [{ id: 'asc', },],
-			include: { portfolioAssets: { include: { asset: true } } },
 		})
 		return NextResponse.json(portfolios, { status: 200 })
 	} catch (error) {

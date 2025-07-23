@@ -26,7 +26,7 @@ export const AppDialogFooter: React.FC<Props> = ({ className, mode, onDelete, on
 					<Button variant="outline" size="default" onClick={onCancel}>Cancel</Button>
 					<Button variant="default" size="default" type="submit"
 						form={mode === "createPortfolio" ? "createPortfolio" : mode === "editPortfolio" ? "editPortfolio" : mode === "createPortfolioAsset" ? "createPortfolioAsset" : "editPortfolioAsset"} >
-						{mode === "createPortfolio" ? "Create Portfolio" : mode === "editPortfolio" ? "Save changes" : mode === "createPortfolioAsset" ? "Add Asset" : "Save changes"}
+						{mode === "createPortfolio" ? "Create" : mode === "editPortfolio" ? "Save changes" : mode === "createPortfolioAsset" ? "Add" : "Save changes"}
 					</Button>
 				</div>
 			}
