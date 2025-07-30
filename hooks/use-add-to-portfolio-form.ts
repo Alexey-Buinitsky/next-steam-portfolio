@@ -14,7 +14,7 @@ const formSchema = z.object({
 
 //2. Подключаем к форме через resolver, устанавливаем дефолтные значения:
 export function useAddToPortfolioForm (initialPrice: number = 0, resetOnPriceChange: boolean = false) {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<AddToPortfolioFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       portfolioId: "",

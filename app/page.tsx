@@ -1,4 +1,4 @@
-import { Hero, PopularMarket } from "@/components/shared/";
+import { Hero, PopularMarket } from "@/components/shared";
 
 export default function Home() {
 	return (

@@ -24,6 +24,8 @@ export const AddToPortfolioForm: React.FC<Props> = ({ className, item, onClose, 
         !!disableClose // true для статичной панели, false для модалки
     );
 
+    const {handleSubmit, formState, control} = form
+
     const onSubmit = async (values: AddToPortfolioFormData) => {
         // отрабатывает только если все поля прошли проверку RHF через zod 
         try {
@@ -57,9 +59,9 @@ export const AddToPortfolioForm: React.FC<Props> = ({ className, item, onClose, 
                 <h2 className="text-xl text-center font-bold mb-4">Add <span className='text-green-600 dark:text-green-400'>{item.name}</span> to Portfolio</h2>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <FormField 
-                            control={form.control} // ← Передаём управление формой RHF вместо useState
+                            control={control} // ← Передаём управление формой RHF вместо useState
                             name="portfolioId" // ← Ключ для доступа к значению (вместо имя переменной)
                             render={({ field }) => ( // ← Автоматически подставляет value/onChange
                                 <FormItem>
@@ -85,7 +87,7 @@ export const AddToPortfolioForm: React.FC<Props> = ({ className, item, onClose, 
 
                         <div className="flex items-start gap-4">
                             <FormField
-                                control={form.control}
+                                control={control}
                                 name="buyPrice"
                                 render={({ field }) => (
                                 <FormItem className="flex-1">
@@ -109,7 +111,7 @@ export const AddToPortfolioForm: React.FC<Props> = ({ className, item, onClose, 
                             />
 
                             <FormField
-                                control={form.control}
+                                control={control}
                                 name="quantity"
                                 render={({ field }) => (
                                 <FormItem className="flex-1">
@@ -141,9 +143,9 @@ export const AddToPortfolioForm: React.FC<Props> = ({ className, item, onClose, 
                             <Button
                                 type="submit"
                                 className="bg-green-600 hover:bg-green-700 text-white"
-                                disabled={form.formState.isSubmitting}
+                                disabled={formState.isSubmitting}
                             >
-                                {form.formState.isSubmitting ? 'Adding...' : 'Add to Portfolio'}
+                                {formState.isSubmitting ? 'Adding...' : 'Add to Portfolio'}
                             </Button>
                         </div>
                     </form>
