@@ -19,6 +19,7 @@ export { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupActio
 export { Skeleton } from './skeleton';
 export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from './table';
 export { Tabs, TabsList, TabsTrigger, TabsContent, } from './tabs';
+export { Toaster } from './sonner';
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, } from './tooltip';
 
 export type { ChartConfig } from './chart'

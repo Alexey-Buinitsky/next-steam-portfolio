@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { portfolioAssetsApi } from "@/services/portfolio-assets";
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
+import { toast } from 'sonner';
 
 interface Props {
 	portfolioId: number;
@@ -20,11 +21,14 @@ export const useEditPortfolioAsset = (): ReturnProps => {
 
 	const { mutate, isPending, error } = useMutation<{ message: string }, Error, Props>({
 		mutationFn: ({ portfolioId, selectedPortfolioAsset, quantity, buyPrice }) => portfolioAssetsApi.edit(portfolioId, selectedPortfolioAsset, quantity, buyPrice),
-		onSuccess: (_, variables) => {
-			// Инвалидируем и список портфелей, и активы конкретного портфеля
+		onSuccess: (data, variables) => {
 			queryClient.invalidateQueries({ queryKey: ['portfolios'] })
 			queryClient.invalidateQueries({ queryKey: ['portfolioAssets', variables.portfolioId] })
+			toast.success(data.message)
 		},
+		onError: (error, variables) => {
+			toast.error(error.message, { action: { label: 'Retry', onClick: () => mutate(variables) }, })
+		}
 	})
 
 	return { isEditing: isPending, editError: error, editPortfolioAsset: mutate }

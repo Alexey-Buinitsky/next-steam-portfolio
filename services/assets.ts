@@ -1,15 +1,11 @@
 import { apiInstance } from './api-instance';
 import { apiRoutes } from './api-routes';
+import { handleApiError } from './api-error';
 import { Asset } from '@prisma/client';
 
 export interface AssetsApiSearchResponse {
 	assets: Asset[];
 	hasMore: boolean;
-}
-
-const handleApiError = (error: unknown, context: string) => {
-	console.error(`[${context}] Error:`, error)
-	throw new Error(`Failed to ${context.toLowerCase()}`)
 }
 
 export const assetsApi = {

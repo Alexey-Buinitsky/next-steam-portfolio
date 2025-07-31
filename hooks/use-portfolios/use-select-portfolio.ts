@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { portfoliosApi } from '@/services/portfolios';
 import { Portfolio } from "@prisma/client";
+import { toast } from 'sonner';
 
 interface Props {
 	portfolios: Portfolio[] | undefined;
@@ -35,11 +36,15 @@ export const useSelectPortfolio = ({ portfolios }: Props): ReturnProps => {
 			)
 			return { previousPortfolios }
 		},
-		onError: (err: Error, _: Portfolio, context?: MutationContext) => {
+		onSuccess: (data) => {
+			toast.success(data.message);
+		},
+		onError: (error: Error, selectedPortfolio: Portfolio, context?: MutationContext) => {
 			// Откатываем изменения при ошибке
 			if (context?.previousPortfolios) {
 				queryClient.setQueryData(['portfolios'], context.previousPortfolios)
 			}
+			toast.error(error.message, { action: { label: 'Retry', onClick: () => mutate(selectedPortfolio) }, })
 		},
 		onSettled: () => {
 			// Инвалидируем кеш после мутации (успешной или неудачной)

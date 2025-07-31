@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { portfoliosApi } from "@/services/portfolios";
+import { toast } from 'sonner';
 
 interface ReturnProps {
 	isDeleting: boolean;
@@ -12,7 +13,13 @@ export const useDeletePortfolio = (): ReturnProps => {
 
 	const { mutate, isPending, error } = useMutation<{ message: string }, Error, number>({
 		mutationFn: (id: number) => portfoliosApi.delete(id),
-		onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['portfolios'] }); },
+		onSuccess: (data) => {
+			queryClient.invalidateQueries({ queryKey: ['portfolios'] })
+			toast.success(data.message)
+		},
+		onError: (error, id) => {
+			toast.error(error.message, { action: { label: 'Retry', onClick: () => mutate(id) }, })
+		}
 	})
 
 	return { isDeleting: isPending, deleteError: error, deletePortfolio: mutate }

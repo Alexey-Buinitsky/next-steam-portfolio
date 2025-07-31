@@ -1,11 +1,7 @@
 import { apiInstance } from './api-instance';
 import { apiRoutes } from './api-routes';
+import { handleApiError } from './api-error';
 import { Portfolio } from '@prisma/client';
-
-const handleApiError = (error: unknown, context: string) => {
-	console.error(`[${context}] Error:`, error)
-	throw new Error(`Failed to ${context.toLowerCase()}`)
-}
 
 export const portfoliosApi = {
 
@@ -20,7 +16,8 @@ export const portfoliosApi = {
 	create: async (name: string): Promise<{ message: string }> => {
 		try {
 			return (await apiInstance.post<{ message: string }>(apiRoutes.PORTFOLIOS, { name })).data
-		} catch (error) {
+		} 
+		catch (error) {
 			throw handleApiError(error, 'createPortfolio')
 		}
 	},

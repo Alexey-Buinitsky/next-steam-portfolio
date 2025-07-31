@@ -1,5 +1,6 @@
 import { apiInstance } from './api-instance';
 import { apiRoutes } from './api-routes';
+import { handleApiError } from './api-error';
 import { calculateFee, calculatePercentage } from '@/lib';
 import { Asset } from '@prisma/client';
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
@@ -33,18 +34,13 @@ const calculateAssetMetrics = (asset: Asset | PortfolioAssetWithRelations, quant
 	return { totalInvested, totalWorth, percentage, gain, gainAfterFees, }
 }
 
-const handleApiError = (error: unknown, context: string) => {
-	console.error(`[${context}] Error:`, error)
-	throw new Error(`Failed to ${context.toLowerCase()}`)
-}
-
 export const portfolioAssetsApi = {
 
 	fetch: async (id: number): Promise<PortfolioAssetWithRelations[]> => {
 		try {
 			return (await apiInstance.get<PortfolioAssetWithRelations[]>(`${apiRoutes.PORTFOLIOS}/${id}/assets`)).data
 		} catch (error) {
-			throw handleApiError(error, 'fetchAssets')
+			throw handleApiError(error, 'fetchPortfolioAssets')
 		}
 	},
 
