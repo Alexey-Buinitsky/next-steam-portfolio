@@ -19,7 +19,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           --toast-offset-bottom: 24px;
           --toast-offset-left: 24px;
 
-          @media (min-width: 2560px) {
+          @media (min-width: 160rem) {
             --toast-width: calc(356px * 1.33);
             --toast-gap: 18px;
             --toast-offset-top: calc(24px * 1.33);
@@ -28,7 +28,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
             --toast-offset-left: calc(24px * 1.33);
           }
 
-          @media (min-width: 3840px) {
+          @media (min-width: 240rem) {
             --toast-width: calc(356px * 2);
             --toast-gap: 28px;
             --toast-offset-top: calc(24px * 2);
@@ -37,7 +37,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
             --toast-offset-left: calc(24px * 2);
           }
 
-          @media (min-width: 7680px) {
+          @media (min-width: 480rem) {
             --toast-width: calc(356px * 4);
             --toast-gap: 56px;
             --toast-offset-top: calc(24px * 4);
