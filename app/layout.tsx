@@ -36,7 +36,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 								</div>
 							</SidebarInset>
 						</SidebarProvider>
-						<Toaster position="bottom-right" richColors closeButton duration={10000000000000000} />
+						<Toaster position="bottom-right" richColors closeButton />
 					</ThemeProvider>
 					{/* </BackgroundSyncProvider> */}
 				</QueryProvider>
