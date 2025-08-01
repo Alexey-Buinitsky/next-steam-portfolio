@@ -11,6 +11,8 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "^5.1.1",
     "@prisma/client": "^6.11.1",
     "@prisma/extension-accelerate": "^2.0.1",
