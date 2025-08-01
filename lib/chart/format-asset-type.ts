@@ -22,7 +22,7 @@ export const formatAssetType = (assetType: string): string => {
 
 	// WEAPONS
 	if (lowerType.includes('rifle') || lowerType.includes('pistol') || lowerType.includes('smg') || lowerType.includes('heavy') || lowerType.includes('knife')
-		|| lowerType.includes('sniper') || lowerType.includes('shotgun') || lowerType.includes('equipment') || lowerType.includes('gun')) {
+		|| lowerType.includes('sniper') || lowerType.includes('shotgun') || lowerType.includes('equipment') || lowerType.includes('gun') || lowerType.includes('gloves'))  {
 		return 'Weapons'
 	}
 
