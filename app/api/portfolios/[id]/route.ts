@@ -4,7 +4,8 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> {
 	try {
 
-		const portfolioId = Number(params.id)
+		const { id } = await params
+    const portfolioId = Number(id)
 
 		const portfolio = await prisma.portfolio.findUnique({
 			where: { id: portfolioId }

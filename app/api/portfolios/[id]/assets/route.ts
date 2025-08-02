@@ -18,7 +18,8 @@ interface Props {
 export async function GET(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse<PortfolioAsset[] | { message: string }>> {
 	try {
 
-		const portfolioId = Number(params.id)
+		const { id } = await params
+    const portfolioId = Number(id)
 
 		const portfolio = await prisma.portfolio.findUnique({
 			where: { id: portfolioId }
@@ -46,7 +47,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function POST(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> {
 	try {
 
-		const portfolioId = Number(params.id)
+		const { id } = await params
+    const portfolioId = Number(id)
 		const data: Props = await req.json()
 
 		const portfolio = await prisma.portfolio.findUnique({
@@ -93,7 +95,8 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> {
 	try {
 
-		const portfolioId = Number(params.id)
+		const { id } = await params
+    const portfolioId = Number(id)
 		const data: Props = await req.json()
 
 		const portfolio = await prisma.portfolio.findUnique({
@@ -140,7 +143,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> {
 	try {
 
-		const portfolioId = Number(params.id)
+		const { id } = await params
+    const portfolioId = Number(id)
 		const { selectedPortfolioAssets }: { selectedPortfolioAssets: PortfolioAssetWithRelations[] } = await req.json()
 
 		const portfolio = await prisma.portfolio.findUnique({
