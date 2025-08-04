@@ -41,7 +41,7 @@ export const Hero: React.FC<Props> = ({ className }) => {
                             className="flex items-center gap-3 border-2 border-white bg-white py-6 text-base text-black hover:bg-transparent dark:hover:text-white sm:text-lg"
                             onClick={() => setIsAuthModalOpen(true)}
                         >
-                            <Warehouse className="h-6 w-6" />Создать портфолио
+                            <Warehouse className="h-6 w-6" />Войти в аккаунт
                         </Button>
                         <AuthModal 
                             isOpen={isAuthModalOpen} 

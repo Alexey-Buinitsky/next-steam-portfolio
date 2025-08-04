@@ -23,7 +23,6 @@ export const HeroMessage: React.FC<Props> = ({ user }) => {
         </p>
         <div className="flex gap-4">
             <Button variant="outline" onClick={logout}>Выйти</Button>
-            <Button>Создать портфолио</Button>
         </div>
     </div>
   );

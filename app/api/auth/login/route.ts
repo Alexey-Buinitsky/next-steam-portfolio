@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 
     // 5. Возвращаем ответ с установленными cookies
     return new NextResponse(
-      JSON.stringify({ success: true, user: (session as any).user }),
+      JSON.stringify({ success: true, user: session.user }),
       {
         headers: response.headers, // Важно: устанавливаем/передаём куки!
         status: 200,

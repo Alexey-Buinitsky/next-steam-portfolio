@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { useAuthForm, type AuthMode, type AuthFormValues, type RegisterFormValues } from '@/hooks/use-auth-form';
 import { SubmitHandler, Control } from 'react-hook-form';
@@ -11,11 +10,9 @@ interface Props {
     onClose: () => void;
 }
 
-export const AuthForm: React.FC<Props> = ({ onClose }) => {
+export const Auth: React.FC<Props> = ({ onClose }) => {
     const [mode, setMode] = useState<AuthMode>('login');
     const [serverError, setServerError] = useState('');
-
-    const router = useRouter();
 
     const { form } = useAuthForm(mode);
     const { handleSubmit, formState, reset, control } = form;
@@ -50,7 +47,7 @@ export const AuthForm: React.FC<Props> = ({ onClose }) => {
             }
             
             onClose();
-            router.refresh();
+            window.location.reload()
         } catch (err) {
             setServerError(err instanceof Error ? err.message : 'Authentication failed');
         }

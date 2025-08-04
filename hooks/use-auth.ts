@@ -7,6 +7,7 @@ interface User {
     login: string
 }
 
+//Проверка в useAuth (клиент) - cразу скрывает UI для неавторизованных
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)

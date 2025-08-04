@@ -7,3 +7,5 @@ export { usePopularCases } from '@/hooks/use-popular-cases';
 export { useTotalItems } from '@/hooks/use-total-items';
 
 export { useAddToPortfolioForm } from '@/hooks/use-add-to-portfolio-form'
+
+export { useAuth } from './use-auth';

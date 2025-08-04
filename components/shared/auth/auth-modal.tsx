@@ -1,7 +1,7 @@
 'use client'
 import React, { useRef } from 'react';
 import { useKey, useClickAway } from 'react-use'
-import { AuthForm } from './auth-form';
+import { Auth } from './auth';
 
 interface Props {
     onClose: () => void;
@@ -19,7 +19,7 @@ export const AuthModal: React.FC<Props> = ({ onClose, isOpen }) => {
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
             <div ref={modalRef} className="w-full max-w-md mx-4">
-                <AuthForm onClose={onClose}/>
+                <Auth onClose={onClose}/>
             </div>
         </div>
     );

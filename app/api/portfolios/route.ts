@@ -1,11 +1,13 @@
 import { prisma } from '@/prisma/prisma-client';
 import { Portfolio } from '@prisma/client';
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
+import { withAuth } from '@/lib/withAuth';
 
-export async function GET(): Promise<NextResponse<Portfolio[] | { message: string }>> {
+export const GET = withAuth(async (req: NextRequest, userId:number): Promise<NextResponse<Portfolio[] | { message: string }>> => {
 	try {
 		const portfolios = await prisma.portfolio.findMany({
-			orderBy: [{ id: 'asc', },],
+			where: { userId },
+			orderBy: { id: 'asc' }
 		})
 		return NextResponse.json(portfolios, { status: 200 })
 	} catch (error) {
@@ -14,16 +16,16 @@ export async function GET(): Promise<NextResponse<Portfolio[] | { message: strin
 	} finally {
 		await prisma.$disconnect()
 	}
-}
+})
 
-export async function POST(req: Request): Promise<NextResponse<{ message: string }>> {
-	try {
+export const POST = withAuth(async (req: NextRequest, userId: number): Promise<NextResponse<{ message: string }>> => {
+  	try {
 		const { name }: { name: string } = await req.json()
 		await prisma.portfolio.create({
-			data: {
+			data: {	
 				name,
+				user: { connect: { id: userId } }
 				// isActive: false, // Значение по умолчанию
-				// userId: null // Если не требуется привязка к пользователю
 			}
 		})
 		return NextResponse.json({ message: 'Portfolio created successfully' }, { status: 200 })
@@ -33,4 +35,4 @@ export async function POST(req: Request): Promise<NextResponse<{ message: string
 	} finally {
 		await prisma.$disconnect()
 	}
-}
+})

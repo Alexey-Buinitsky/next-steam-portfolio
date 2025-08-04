@@ -13,7 +13,7 @@ export { PopularMarket } from './popular-market'
 export { MarketItems, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, MarketItemsDisplayLineHeader } from './market-items'
 export { AddToPortfolioForm, AddToPortfolioModal, AddToPortfolioPanel } from './add-to-portfolio'
 export { CurrencyConverter, CurrencyRates } from './currency'
-export { AuthModal, AuthForm } from './auth'
+export { AuthModal, Auth } from './auth'
 
 export { PortfoliosProvider, usePortfoliosContext } from './portfolios-provider'
 export { QueryProvider } from './query-provider'
