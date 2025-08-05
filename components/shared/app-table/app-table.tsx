@@ -6,7 +6,6 @@ import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, ge
 import { Table, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui';
 import { AppTableAddition, AppTableBody, AppTableChart, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle } from '@/components/shared/app-table';
 import { usePortfoliosContext } from '@/components/shared';
-import { Loader2Icon } from 'lucide-react';
 import { getMetrics, getChart } from '@/lib';
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
@@ -45,9 +44,9 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 
 	if (isFirstLoad) {
 		return (
-			<div className="flex flex-col items-center justify-center">
-				<Loader2Icon size={24} className="2k:size-8 4k:size-11 8k:size-21 animate-spin" />
-				<p className="mt-4 text-lg font-medium">Loading your portfolios...</p>
+			<div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center">
+				<p className="font-medium text-4xl 2k:text-6xl 4k:text-8xl 8k:text-[12rem] animate-bounce">A&D</p>
+				<p className="font-medium text-3xl 2k:text-4xl 4k:text-6xl 8k:text-[7.5rem] animate-pulse">Steam Portfolio</p>
 			</div>
 		)
 	}
@@ -65,8 +64,8 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 
 			<Tabs defaultValue="table" className="w-full">
 				<TabsList className="grid w-full grid-cols-2">
-					<TabsTrigger value="table">Table</TabsTrigger>
-					<TabsTrigger value="analytics">Analytics</TabsTrigger>
+					<TabsTrigger value="table" disabled={isLoading}>Table</TabsTrigger>
+					<TabsTrigger value="analytics" disabled={isLoading}>Analytics</TabsTrigger>
 				</TabsList>
 				<TabsContent value="table">
 					<div className="flex flex-col gap-2 p-2 rounded-md border 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">

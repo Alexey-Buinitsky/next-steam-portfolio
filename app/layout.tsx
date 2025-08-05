@@ -31,7 +31,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 							<AppSidebar />
 							<SidebarInset className="overflow-x-auto">
 								<Header />
-								<div className="p-2 2k:p-2.5 4k:p-4 8k:p-8">
+								<div className="relative h-full p-2 2k:p-2.5 4k:p-4 8k:p-8">
 									{children}
 								</div>
 							</SidebarInset>
