@@ -4,7 +4,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { Pie, PieChart } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent, } from "@/components/ui"
-import { Loader2Icon } from 'lucide-react';
+import { ChartSkeleton, } from "@/components/shared"
 import { IChartData } from '@/lib';
 
 interface Props {
@@ -20,9 +20,7 @@ export const AppTableChart: React.FC<Props> = ({ className, isLoading, title, de
 	return (
 		<Card className={cn("", className)}>
 			{isLoading
-				? <div className="flex items-center justify-center gap-2">
-					<Loader2Icon size={24} className="2k:size-8 4k:size-11 8k:size-21 animate-spin" />
-				</div>
+				? <ChartSkeleton />
 				: <>
 					<CardHeader>
 						<CardTitle className="text-lg 2k:text-2xl 4k:text-4xl 8k:text-7xl">{title}</CardTitle>

@@ -7,6 +7,8 @@ export { Logo } from './logo'
 export { ModeToggle } from './mode-toggle'
 export { Slider } from './slider'
 
+export { ChartSkeleton, MetricSkeleton } from './skeletons'
+
 export { Header } from './header'
 export { Hero, HeroMessage } from './hero'
 export { PopularMarket } from './popular-market'
