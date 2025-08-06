@@ -5,7 +5,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 	try {
 
 		const { id } = await params
-    const portfolioId = Number(id)
+		const portfolioId = Number(id)
 		const { isActive }: { isActive: boolean } = await req.json()
 
 		// Используем транзакцию для атомарности
@@ -14,8 +14,16 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 				where: { id: portfolioId },
 			})
 
+			if (!portfolio) {
+				return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
+			}
+
+			if (typeof isActive !== 'boolean') {
+				return NextResponse.json({ message: 'Valid isActive flag is required' }, { status: 400 })
+			}
+
 			// Если пытаемся установить то же состояние - просто возвращаем
-			if (portfolio?.isActive === isActive) {
+			if (portfolio.isActive === isActive) {
 				return portfolio
 			}
 

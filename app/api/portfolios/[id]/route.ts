@@ -12,7 +12,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 		})
 
 		if (!portfolio) {
-			return NextResponse.json({ message: 'Portfolio not found' }, { status: 404 })
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
 		}
 
 		await prisma.portfolio.delete({

@@ -26,7 +26,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 		})
 
 		if (!portfolio) {
-			return NextResponse.json({ message: 'Portfolio not found' }, { status: 404 })
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
 		}
 
 		const portfolioAssets = await prisma.portfolioAsset.findMany({
@@ -56,7 +56,11 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 		})
 
 		if (!portfolio) {
-			return NextResponse.json({ message: 'Portfolio not found' }, { status: 404 })
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
+		}
+
+		if (!data.selectedAsset || !data.selectedAsset.id) {
+			return NextResponse.json({ message: 'Asset is required' }, { status: 400 })
 		}
 
 		await prisma.portfolioAsset.create({
@@ -65,7 +69,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 					connect: { id: portfolioId }
 				},
 				asset: {
-					connect: { id: Number(data.selectedAsset!.id) }
+					connect: { id: Number(data.selectedAsset.id) }
 				},
 				quantity: Number(data.quantity),
 				buyPrice: Number(data.buyPrice),
@@ -104,11 +108,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 		})
 
 		if (!portfolio) {
-			return NextResponse.json({ message: 'Portfolio not found' }, { status: 404 })
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
 		}
 
-		if (!data.selectedPortfolioAsset?.id) {
-			return NextResponse.json({ message: 'Portfolio asset ID is required' }, { status: 400 });
+		if (!data.selectedPortfolioAsset || !data.selectedPortfolioAsset.id) {
+			return NextResponse.json({ message: 'Portfolio asset is required' }, { status: 400 })
 		}
 
 		await prisma.portfolioAsset.update({
@@ -152,11 +156,11 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 		})
 
 		if (!portfolio) {
-			return NextResponse.json({ message: 'Portfolio not found' }, { status: 404 })
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
 		}
 
-		if (!selectedPortfolioAssets?.length) {
-			return NextResponse.json({ message: 'Portfolio asset IDs are required' }, { status: 400 });
+		if (!selectedPortfolioAssets || !selectedPortfolioAssets.length) {
+			return NextResponse.json({ message: 'Portfolio asset(s) is(are) required' }, { status: 400 })
 		}
 
 		await prisma.portfolioAsset.deleteMany({

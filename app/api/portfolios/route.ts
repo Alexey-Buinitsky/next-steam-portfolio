@@ -19,6 +19,11 @@ export async function GET(): Promise<NextResponse<Portfolio[] | { message: strin
 export async function POST(req: Request): Promise<NextResponse<{ message: string }>> {
 	try {
 		const { name }: { name: string } = await req.json()
+		
+		if (!name) {
+			return NextResponse.json({ message: 'Portfolio name is required' }, { status: 400 })
+		}
+
 		await prisma.portfolio.create({
 			data: {
 				name,

@@ -5,8 +5,20 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 	try {
 
 		const { id } = await params
-    const portfolioId = Number(id)
+		const portfolioId = Number(id)
 		const { name }: { name: string } = await req.json()
+
+		const portfolio = await prisma.portfolio.findUnique({
+			where: { id: portfolioId }
+		})
+
+		if (!portfolio) {
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
+		}
+
+		if (!name) {
+			return NextResponse.json({ message: 'Portfolio name is required' }, { status: 400 })
+		}
 
 		await prisma.portfolio.update({
 			where: { id: portfolioId },
