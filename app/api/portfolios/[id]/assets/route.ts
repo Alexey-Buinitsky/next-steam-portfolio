@@ -97,7 +97,10 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number , { params
 		await prisma.portfolioAsset.update({
 			where: {
 				id: data.selectedPortfolioAsset.id,
-				portfolioId
+				portfolio: {
+					id: portfolioId,
+					userId
+				}
 			},
 			data: {
 				quantity: Number(data.quantity),
@@ -135,7 +138,10 @@ export const DELETE = withAuth(async(req: NextRequest, userId: number, { params 
 		await prisma.portfolioAsset.deleteMany({
 			where: {
 				id: { in: selectedPortfolioAssets.map(portfolioAsset => portfolioAsset.id) },
-				portfolioId: portfolioId
+				portfolio: {
+					id: portfolioId,
+					userId
+				}
 			}
 		})
 

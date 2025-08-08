@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/prisma/prisma-client'
 import { sessionOptions, IronSessionWithUser } from '@/lib/session'
 import { getIronSession } from 'iron-session'
+import { verifyPassword } from '@/lib/password-hash'
 
 export async function POST(request: Request) {
   // Создаем объект Response для работы с cookies
@@ -16,7 +17,7 @@ export async function POST(request: Request) {
     })
 
     // 2. Проверяем пароль
-    if (!user || user.password !== password) {
+    if (!user || !(await verifyPassword(password, user.passwordHash))) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
         { status: 401 }

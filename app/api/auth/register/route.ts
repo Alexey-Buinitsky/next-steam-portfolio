@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/prisma/prisma-client'
+import { hashPassword } from '@/lib/password-hash'
 
 export async function POST(request: Request) {
   try {
@@ -17,12 +18,15 @@ export async function POST(request: Request) {
       )
     }
 
+    // Хеширование пароля через bcryptjs
+    const passwordHash = await hashPassword(password);
+
     // 2. Создаем нового пользователя
     // ВНИМАНИЕ: В реальном проекте пароль нужно хэшировать!
     const newUser = await prisma.user.create({
       data: {
         login,
-        password, // Пока храним как есть (небезопасно!)
+        passwordHash, // храним только хеш
         nickname: nickname || login
       }
     })

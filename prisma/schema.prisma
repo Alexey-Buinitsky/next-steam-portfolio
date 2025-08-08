@@ -12,7 +12,7 @@ model User {
 
   nickname String
   login    String @unique
-  password String
+  passwordHash String
 
   portfolios Portfolio[]
 
