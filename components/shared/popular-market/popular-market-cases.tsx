@@ -2,20 +2,20 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { useState } from 'react';
-import { Slider } from '@/components/shared';
+import { Slider, AddToPortfolioModal } from '@/components/shared';
 import { usePopularCases } from '@/hooks';
 import { formatPrice, formatVolume } from '@/lib';
+
 import type { Asset } from '@prisma/client';
-import { AddToPortfolioModal } from '@/components/shared';
 
 interface Props {
   className?: string;
 }
 
 export const PopularMarketCases: React.FC<Props> = ({ className }) => {
-  const [selectedItem, setSelectedItem] = useState<Asset | null>(null);
-  const {data, isLoading, error} = usePopularCases()
+  const [selectedItem, setSelectedItem] = React.useState<Asset | null>(null)
+
+  const { data, isLoading, error } = usePopularCases()
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -24,7 +24,6 @@ export const PopularMarketCases: React.FC<Props> = ({ className }) => {
     <div className={className} >
       <Slider 
         autoplayEnabled={false} 
-        // style={{ maxWidth: '80vw'}}
         breakpoints={{
           320: { slidesPerView: 1, spaceBetween: 10 },
           568: { slidesPerView: 2, spaceBetween: 15 },
@@ -54,7 +53,14 @@ export const PopularMarketCases: React.FC<Props> = ({ className }) => {
         ))}
       </Slider>
 
-      {selectedItem && (<AddToPortfolioModal item={selectedItem} onClose={() => setSelectedItem(null)}/>)}
+      {selectedItem && (
+        <AddToPortfolioModal 
+          item={selectedItem} 
+          open={!!selectedItem}
+          onOpenChange={(open) => !open && setSelectedItem(null)}
+          disableClose={false}
+        />
+      )}
     </div>
   );
 };

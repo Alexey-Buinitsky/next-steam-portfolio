@@ -1,26 +1,22 @@
 'use client'
-import React, { useRef } from 'react';
-import { useKey, useClickAway } from 'react-use'
-import { Auth } from './auth';
+import React from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui';
+import { Auth } from '@/components/shared';
 
 interface Props {
-    onClose: () => void;
     isOpen: boolean;
+    onClose: () => void;
 }
 
 export const AuthModal: React.FC<Props> = ({ onClose, isOpen }) => {
-    const modalRef = useRef<HTMLDivElement>(null)
-
-    useKey('Escape', onClose);
-    useClickAway(modalRef, onClose);
-    
-    if (!isOpen) return null;
-
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-            <div ref={modalRef} className="w-full max-w-md mx-4">
-                <Auth onClose={onClose}/>
-            </div>
-        </div>
+        <Dialog open={isOpen} onOpenChange={onClose}>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle className="sr-only">Add to Portfolio</DialogTitle>
+                </DialogHeader>
+                <Auth onClose={onClose} />
+            </DialogContent>
+        </Dialog>
     );
 };

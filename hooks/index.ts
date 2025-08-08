@@ -5,7 +5,7 @@ export { usePortfolios } from '@/hooks/use-portfolios';
 
 export { usePopularCases } from '@/hooks/use-popular-cases';
 export { useTotalItems } from '@/hooks/use-total-items';
+export { useImageError } from '@/hooks/use-image-error';
 
-export { useAddToPortfolioForm } from '@/hooks/use-add-to-portfolio-form'
-
-export { useAuth } from './use-auth';
+export { useAuthCheck, useAuthAction } from '@/hooks/use-auth';
+export { useAddToPortfolioForm, useAuthForm, useCreatePortfolioForm } from '@/hooks/use-form'

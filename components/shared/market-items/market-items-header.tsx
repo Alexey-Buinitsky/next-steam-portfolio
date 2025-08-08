@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Input, Label } from '@/components/ui';
 import { StretchHorizontal, Grid2X2, Search } from 'lucide-react';
+import { useAuthCheck } from '@/hooks';
+import { AuthModal } from '../auth';
 
 interface Props {
     className?: string;
@@ -10,6 +12,8 @@ interface Props {
 }
 
 export const MarketItemsHeader: React.FC<Props> = ({ className, searchQuery, setSearchQuery, setDisplayMode }) => {
+    const { user } = useAuthCheck()
+
     return (
         <div className={className}>
             <div className="flex flex-col gap-4 justify-between items-center md:items-start mb-4">
@@ -37,6 +41,7 @@ export const MarketItemsHeader: React.FC<Props> = ({ className, searchQuery, set
                         </Button>
                         <Button
                             onClick={() => setDisplayMode('list')}
+                            disabled={!user ? true : false}
                             variant="outline"
                             size="icon"
                         >
@@ -45,6 +50,11 @@ export const MarketItemsHeader: React.FC<Props> = ({ className, searchQuery, set
                     </div>
                 </div>
             </div>
+
+            {/* <AuthModal 
+                isOpen={isAuthModalOpen} 
+                onClose={() => setIsAuthModalOpen(false)} 
+            /> */}
         </div>
     );
 };

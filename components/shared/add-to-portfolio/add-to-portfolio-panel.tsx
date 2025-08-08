@@ -1,5 +1,5 @@
 import React from 'react';
-import { AddToPortfolioForm } from './index';
+import { AddToPortfolio} from '@/components/shared';
 import { Asset } from '@prisma/client';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 export const AddToPortfolioPanel: React.FC<Props> = ({ className, item}) => {
     return (
         <div className={className}>
-            <AddToPortfolioForm 
+            <AddToPortfolio
                 item={ item }
                 onClose={() => {}} // Пустая функция, окно не будет закрываться
                 disableClose // Добавим этот пропс в AddToPortfolio

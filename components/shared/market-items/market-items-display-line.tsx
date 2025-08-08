@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { useImageError } from '@/hooks/use-image-error';
+import { useImageError } from '@/hooks';
 import { formatRating, formatPrice } from '@/lib';
-import { AddToPortfolioPanel, MarketItemsDisplayLineHeader } from '../index';
+import { AddToPortfolioPanel, MarketItemsDisplayLineHeader } from '@/components/shared';
 import noImage from '@/public/images/no-image1.png'
 
 import type { AssetsResponse } from "@/types/portfolio";

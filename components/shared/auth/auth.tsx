@@ -3,7 +3,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
-import { useAuthForm, type AuthMode, type AuthFormValues, type RegisterFormValues } from '@/hooks/use-auth-form';
+import { useAuthForm, type AuthMode, type AuthFormValues, type RegisterFormValues } from '@/hooks/use-form/use-auth-form';
 import { SubmitHandler, Control } from 'react-hook-form';
 
 interface Props {
@@ -54,7 +54,7 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
     };
 
     return (
-        <div className="bg-background p-6 rounded-lg  w-full border shadow-lg">
+        <div>
             <h2 className="text-x font-bold mb-4">
                 {mode === 'login' ? 'Sign In' : 'Create Account'}
             </h2>
@@ -148,7 +148,7 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
                         
                         <Button
                             type="submit"
-                            disabled={!formState.isValid || formState.isSubmitting}
+                            // disabled={!formState.isValid || formState.isSubmitting}
                             className="flex-1"
                         >
                             {formState.isSubmitting 

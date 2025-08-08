@@ -3,7 +3,7 @@
 import React from 'react';
 import { HeroMessage, AuthModal} from '@/components/shared';
 import { Button } from '@/components/ui';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuthCheck } from '@/hooks/use-auth/use-auth-check';
 import { Warehouse } from "lucide-react";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const Hero: React.FC<Props> = ({ className }) => {
-    const { user } = useAuth();
+    const { user } = useAuthCheck();
     const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false);
 
     return (
@@ -27,10 +27,10 @@ export const Hero: React.FC<Props> = ({ className }) => {
             <div className="relative z-20 flex h-full w-full items-center justify-center sm:justify-start text-center sm:text-start">
                 <div className="flex items-center sm:items-start w-full max-w-3xl flex-col gap-4">
                     <h1 className="text-5xl font-bold leading-tight sm:text-5xl">
-                        Создайте свое портфолио
+                        Create Your Portfolio
                     </h1>
                     <p className="text-base text-gray-700 dark:text-gray-300 sm:text-xl max-w-[60%]">
-                        Отслеживайте динамику цен и получайте профит
+                        Track price trends and maximize your profits
                     </p>
                     {user ? (
                         <HeroMessage user={user} />

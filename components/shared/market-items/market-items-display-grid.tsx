@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { useImageError } from '@/hooks/use-image-error';
+import { AddToPortfolioModal } from '@/components/shared';
+import { useImageError } from '@/hooks';
 import { formatRating, formatPrice } from '@/lib';
-import { AddToPortfolioModal } from '../index';
 import noImage from '@/public/images/no-image1.png'
 
 import type { AssetsResponse } from "@/types/portfolio";
@@ -15,8 +15,8 @@ interface Props {
 }
 
 export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => {
-    const [selectedItem, setSelectedItem] = useState<AssetsResponse['assets'][0] | null>(null);
-    const {imageErrors, handleImageError} = useImageError()
+    const { imageErrors, handleImageError } = useImageError()
+    const [selectedItem, setSelectedItem] = React.useState<AssetsResponse['assets'][0] | null>(null)
 
     return (
         <div className={className}>
@@ -28,7 +28,7 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
                         onClick={() => setSelectedItem(item)}
                     >
                         <Image
-                            src={!item.imageUrl || imageErrors[item.id] ? noImage : `https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl}`} 
+                            src={imageErrors[item.id] ? `${noImage}` : `https://steamcommunity-a.akamaihd.net/economy/image/${item.imageUrl || ''}`}  
                             alt={item.name || ''} 
                             width={136}
                             height={136}
@@ -45,7 +45,15 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
                 ))}
             </div>
 
-            {selectedItem && (<AddToPortfolioModal item={selectedItem} onClose={() => setSelectedItem(null)}/>)}
+            {selectedItem && (
+                <AddToPortfolioModal 
+                    item={selectedItem}
+                    open={!!selectedItem}
+                    onOpenChange={(open) => !open && setSelectedItem(null)}
+                    disableClose={false}
+                />
+            )}
+
         </div>
     );
 };

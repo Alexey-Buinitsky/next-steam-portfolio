@@ -1,8 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { useDebounce } from '@/hooks';
 import { SidebarContent, SidebarContextProps, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui';
+import { ProtectedLink } from '@/components/shared'
 import { BriefcaseBusinessIcon, ChartCandlestickIcon, CurrencyIcon, HomeIcon, TrendingUpDownIcon } from 'lucide-react';
 
 interface Props {
@@ -52,12 +52,12 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 							items.map((item) => (
 								<SidebarMenuItem key={item.title}>
 									<SidebarMenuButton asChild>
-										<Link href={item.url}>
+										<ProtectedLink href={item.url}>
 											<span className="flex shrink-0">
 												<item.icon size={32} className='2k:size-11 4k:size-16 8k:size-32' />
 											</span>
 											<span>{item.title}</span>
-										</Link>
+										</ProtectedLink>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
 							))
@@ -68,12 +68,12 @@ export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {
 										<TooltipTrigger asChild>
 											<SidebarMenuItem>
 												<SidebarMenuButton asChild>
-													<Link href={item.url}>
+													<ProtectedLink href={item.url}>
 														<span className="flex shrink-0">
 															<item.icon size={32} className='2k:size-11 4k:size-16 8k:size-32' />
 														</span>
 														<span>{item.title}</span>
-													</Link>
+													</ProtectedLink>
 												</SidebarMenuButton>
 											</SidebarMenuItem>
 										</TooltipTrigger>

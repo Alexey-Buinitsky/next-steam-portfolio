@@ -23,7 +23,7 @@ export const useAuthForm = (mode: AuthMode = 'login') => {
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(schema),
     defaultValues,
-    mode: 'onTouched',
+    mode: 'onSubmit',
   });
 
   return {
