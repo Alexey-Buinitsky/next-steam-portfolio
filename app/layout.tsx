@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
 import "@/app/globals.css";
 
+import NextTopLoader from 'nextjs-toploader';
 import { BackgroundSyncProvider, QueryProvider, ThemeProvider, Header, AppSidebar, } from "@/components/shared";
 import { SidebarInset, SidebarProvider, Toaster } from "@/components/ui";
 
@@ -36,6 +37,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 								</div>
 							</SidebarInset>
 						</SidebarProvider>
+						<NextTopLoader speed={1000} showSpinner={false} />
 						<Toaster position="bottom-right" richColors closeButton />
 					</ThemeProvider>
 					{/* </BackgroundSyncProvider> */}

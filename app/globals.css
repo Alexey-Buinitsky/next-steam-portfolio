@@ -139,3 +139,8 @@ html {
 		@apply bg-background text-foreground;
 	}
 }
+
+#nprogress {
+  position: fixed !important;
+  z-index: 1600 !important;
+}
