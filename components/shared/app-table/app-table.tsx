@@ -44,7 +44,7 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 
 	if (isFirstLoad) {
 		return (
-			<div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center">
+			<div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-center">
 				<p className="font-medium text-4xl 2k:text-6xl 4k:text-8xl 8k:text-[12rem] animate-bounce">A&D</p>
 				<p className="font-medium text-3xl 2k:text-4xl 4k:text-6xl 8k:text-[7.5rem] animate-pulse">Steam Portfolio</p>
 			</div>
