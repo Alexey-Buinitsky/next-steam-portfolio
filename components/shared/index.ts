@@ -17,7 +17,4 @@ export { AddToPortfolioForm, AddToPortfolioModal, AddToPortfolioPanel } from './
 export { CurrencyConverter, CurrencyRates } from './currency'
 export { AuthModal, AuthForm } from './auth'
 
-export { PortfoliosProvider, usePortfoliosContext } from './portfolios-provider'
-export { QueryProvider } from './query-provider'
-export { ThemeProvider } from './theme-provider'
-export { BackgroundSyncProvider } from './background-sync-provider'
+export { LayoutProvider, PortfoliosProvider, usePortfoliosContext } from './providers'

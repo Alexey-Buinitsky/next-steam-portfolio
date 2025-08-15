@@ -1,10 +1,9 @@
-import { AppTable, columns } from "@/components/shared";
-import { PortfoliosProvider } from "@/components/shared/portfolios-provider";
+import { AppTable, columns, PortfoliosProvider } from "@/components/shared";
 
 export default function Portfolio() {
 	return (
 		<PortfoliosProvider>
-			<AppTable columns={columns}/>
+			<AppTable columns={columns} />
 		</PortfoliosProvider>
 	)
 }

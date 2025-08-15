@@ -2,9 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
 import "@/app/globals.css";
 
-import NextTopLoader from 'nextjs-toploader';
-import { BackgroundSyncProvider, QueryProvider, ThemeProvider, Header, AppSidebar, } from "@/components/shared";
-import { SidebarInset, SidebarProvider, Toaster } from "@/components/ui";
+import { Header, AppSidebar, LayoutProvider, } from "@/components/shared";
+import { SidebarInset} from "@/components/ui";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -25,23 +24,15 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<QueryProvider>
-					{/* <BackgroundSyncProvider> */}
-					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-						<SidebarProvider>
-							<AppSidebar />
-							<SidebarInset className="overflow-x-auto">
-								<Header />
-								<div className="relative h-full p-2 2k:p-2.5 4k:p-4 8k:p-8">
-									{children}
-								</div>
-							</SidebarInset>
-						</SidebarProvider>
-						<NextTopLoader speed={1000} showSpinner={false} />
-						<Toaster position="bottom-right" richColors closeButton />
-					</ThemeProvider>
-					{/* </BackgroundSyncProvider> */}
-				</QueryProvider>
+				<LayoutProvider>
+					<AppSidebar />
+					<SidebarInset className="overflow-x-auto">
+						<Header />
+						<div className="relative h-full p-2 2k:p-2.5 4k:p-4 8k:p-8">
+							{children}
+						</div>
+					</SidebarInset>
+				</LayoutProvider>
 			</body>
 		</html>
 	)
