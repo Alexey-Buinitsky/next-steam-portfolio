@@ -1,7 +1,8 @@
 
 export type User = {
   id: number;
-  login: string;
+  email: string;
+  nickname?: string;
 };
 
 export async function checkAuth(): Promise<{ user: User | null }> {

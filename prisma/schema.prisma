@@ -9,10 +9,12 @@ datasource db {
 
 model User {
   id Int @id @default(autoincrement())
-
-  nickname String
-  login    String @unique
+  
+  email     String   @unique
   passwordHash String
+  nickname String
+  emailVerified Boolean @default(false)
+  verificationToken String?
 
   portfolios Portfolio[]
 

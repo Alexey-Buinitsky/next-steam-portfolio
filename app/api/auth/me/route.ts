@@ -1,3 +1,4 @@
+//app/api/auth/me
 import { NextResponse } from 'next/server'
 import { getIronSession } from 'iron-session'
 import { sessionOptions, IronSessionWithUser } from '@/lib/session'

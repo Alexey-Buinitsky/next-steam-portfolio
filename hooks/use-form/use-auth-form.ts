@@ -5,20 +5,25 @@ import { useForm, type DefaultValues } from "react-hook-form"
 import * as z from 'zod'
 
 const baseSchema = z.object({
-  login: z.string().min(3, 'Login must contain at least 3 characters'),
-  password: z.string().min(8, 'Password must contain at least 8 characters'),
+  email: z.string().min(3, 'Please enter a valid email address'),
+  password: z.string().min(8, 'Password must contain at least 8 characters')
 });
 
 const registerSchema = baseSchema.extend({
   nickname: z.string().min(1, 'Nickname must contain at least 1 character'),
+  // password: z.string()
+    // .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
+    // .regex(/[a-z]/, 'Must contain at least one lowercase letter')
+    // .regex(/[0-9]/, 'Must contain at least one number')
+    // .regex(/[^A-Za-z0-9]/, 'Must contain at least one special character'),
 });
 
 export const useAuthForm = (mode: AuthMode = 'login') => {
   const schema = mode === 'login' ? baseSchema : registerSchema;
   
   const defaultValues: DefaultValues<AuthFormValues> = mode === 'login' 
-    ? { login: '', password: '' }
-    : { login: '', password: '', nickname: '' };
+    ? { email: '', password: '' }
+    : { email: '', password: '', nickname: '' };
 
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(schema),

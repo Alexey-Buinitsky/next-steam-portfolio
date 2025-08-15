@@ -1,5 +1,5 @@
 import { SessionOptions } from 'iron-session'
-import { IronSessionData } from 'iron-session'
+// import { IronSessionData } from 'iron-session'
 
 //Файл для настроек сессии
 export const sessionOptions: SessionOptions = {
@@ -10,18 +10,12 @@ export const sessionOptions: SessionOptions = {
   },
 }
 
-declare module 'iron-session' {
-  interface IronSessionData {
-    user?: {
-      id: number
-      login: string
-    }
-  }
+export interface UserSession {
+  id: number;
+  email: string;
+  nickname?: string | null;
 }
 
-export interface IronSessionWithUser extends IronSessionData {
-  user: {
-    id: number
-    login: string
-  }
+export interface IronSessionWithUser {
+  user?: UserSession;  // Используем новый тип
 }

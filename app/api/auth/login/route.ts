@@ -1,3 +1,4 @@
+//app/api/auth/login
 import { NextResponse } from 'next/server'
 import { prisma } from '@/prisma/prisma-client'
 import { sessionOptions, IronSessionWithUser } from '@/lib/session'
@@ -9,12 +10,24 @@ export async function POST(request: Request) {
   const response = new NextResponse()
 
   try {
-    const { login, password } = await request.json()
+    const { email, password } = await request.json()
 
     // 1. Находим пользователя в БД
     const user = await prisma.user.findUnique({
-      where: { login },
+      where: { email },
     })
+
+    // Проверяем, подтверждён ли email
+    if (!user?.emailVerified) {
+      return NextResponse.json(
+        { 
+          error: 'Email not confirmed. Check your mail.', 
+          needsVerification: true,
+          email: user?.email,
+        },
+        { status: 403 }
+      );
+    }
 
     // 2. Проверяем пароль
     if (!user || !(await verifyPassword(password, user.passwordHash))) {
@@ -34,7 +47,8 @@ export async function POST(request: Request) {
     // 4. Записываем данные в сессию
     session.user = {
         id: user.id,
-        login: user.login,
+        email: user.email,
+        nickname: user.nickname || undefined
     }
     await session.save()
 

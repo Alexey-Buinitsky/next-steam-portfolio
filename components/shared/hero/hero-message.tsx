@@ -3,15 +3,14 @@ import { useAuthCheck } from '@/hooks/use-auth/use-auth-check';
 
 interface Props {
   user?: {
-    login: string;
+    email: string;
     nickname?: string;
   };
 }
 
 export const HeroMessage: React.FC<Props> = ({ user }) => {
   const { logout } = useAuthCheck();
-  
-  const displayName = user?.nickname || user?.login || 'Гость';
+  const displayName = user?.nickname || user?.email || 'Guest';
 
   return (
     <div className="mt-8 flex flex-col items-center sm:items-start gap-4">
