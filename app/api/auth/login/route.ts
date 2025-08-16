@@ -17,13 +17,21 @@ export async function POST(request: Request) {
       where: { email },
     })
 
+    // Проверяем существование пользователя
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Invalid credentials' },
+        { status: 401 }
+      );
+    }
+
     // Проверяем, подтверждён ли email
     if (!user?.emailVerified) {
       return NextResponse.json(
         { 
-          error: 'Email not confirmed. Check your mail.', 
-          needsVerification: true,
+          error: "Email address not confirmed. Try registering again.", 
           email: user?.email,
+          // needsVerification: true, // если реализовывать подтверждения кода при аутентификации
         },
         { status: 403 }
       );

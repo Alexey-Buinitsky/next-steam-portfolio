@@ -10,8 +10,8 @@ const baseSchema = z.object({
 });
 
 const registerSchema = baseSchema.extend({
-  nickname: z.string().min(1, 'Nickname must contain at least 1 character'),
-  // password: z.string()
+  nickname: z.string().max(32, 'Nickname must be less than 32 characters').optional(),
+  // password: z.string()                                                            //если нужна строгая система 
     // .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
     // .regex(/[a-z]/, 'Must contain at least one lowercase letter')
     // .regex(/[0-9]/, 'Must contain at least one number')

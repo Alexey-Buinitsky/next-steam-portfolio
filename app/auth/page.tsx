@@ -1,27 +1,17 @@
 'use client'
-import { useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { AuthModal } from '@/components/shared';
+
+import { Auth } from '@/components/shared'
+import { useSearchParams } from 'next/navigation'
 
 export default function AuthPage() {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const redirect = searchParams.get('redirect') || '/';
-
-    const [isModalOpen, setIsModalOpen] = useState(true);
-
-    const handleClose = () => {
-        setIsModalOpen(false);
-        router.push(redirect);
-    };
+    const searchParams = useSearchParams()
+    const redirect = searchParams.get('redirect') || '/'
 
     return (
-        <div className="flex items-center justify-center h-screen">
-            <AuthModal 
-                isOpen={isModalOpen} 
-                onClose={handleClose}
-                redirectAfterAuth={redirect}
-            />
+        <div className="flex items-center justify-center min-h-screen p-4">
+            <div className="w-full max-w-md">
+                <Auth onClose={() => window.location.href = redirect} />
+            </div>
         </div>
-    );
+    )
 }

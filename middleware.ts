@@ -19,7 +19,11 @@ export async function middleware(request: NextRequest) {
   // Защищаем клиентские роуты
   if (protectedRoutes.some(route => pathname.startsWith(route))) {
     const session = await getIronSession<IronSessionWithUser>(request, response, sessionOptions)
-    if (!session.user)return NextResponse.redirect(new URL('/?auth=required', request.url))
+    if (!session.user) {
+      const url = new URL('/auth', request.url)
+      url.searchParams.set('redirect', pathname)
+      return NextResponse.redirect(url)
+    }
   }
   
   return response
@@ -32,3 +36,7 @@ export const config = {
     '/api/portfolio-assets/:path*'
   ]
 }
+
+// export const config = {
+//     matcher: ['/portfolio', '/api/portfolios/:path*']
+// }

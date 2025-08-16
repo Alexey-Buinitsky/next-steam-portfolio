@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
         where: { id: existingUser.id },
         data: {
           passwordHash: await hashPassword(password),
-          nickname,
+          nickname: nickname || null,
           // другие поля при необходимости
         }
       });
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     data: {
       email,
       passwordHash: await hashPassword(password),
-      nickname,
+      nickname: nickname || undefined,
       emailVerified: false, // Помечаем как неподтверждённый
     },
   });

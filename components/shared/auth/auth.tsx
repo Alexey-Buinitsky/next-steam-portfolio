@@ -6,6 +6,7 @@ import { PasswordStrengthIndicator, AuthEmailVerification } from '@/components/s
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { useAuthForm, type AuthMode, type AuthFormValues, type RegisterFormValues } from '@/hooks/use-form/use-auth-form';
 import { SubmitHandler, Control } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
 
 interface Props {
     onClose: () => void;
@@ -49,7 +50,7 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
             const responseData = await response.json();
             
             if (!response.ok) {
-                if (responseData.needsVerification) {
+                if (responseData.needsVerification && mode === 'login') {
                     setNeedsVerification(true);
                     setVerificationEmail(responseData.email);
                     return;
@@ -72,10 +73,19 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
         }
     };
 
+    const searchParams = useSearchParams()
+
     return (
         <div>
             {needsVerification ? (
-                <AuthEmailVerification email={verificationEmail} userId={verificationUserId!} />
+                <AuthEmailVerification 
+                    email={verificationEmail} 
+                    userId={verificationUserId!} 
+                    onSuccess={() => {
+                        const redirect = searchParams.get('redirect') || '/'
+                        window.location.href = redirect
+                    }}
+                />
             ) : (
 
             <div>
