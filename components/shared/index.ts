@@ -7,6 +7,8 @@ export { Logo } from './logo'
 export { ModeToggle } from './mode-toggle'
 export { Slider } from './slider'
 
+export { ChartSkeleton, MetricSkeleton } from './skeletons'
+
 export { Header } from './header'
 export { Hero, HeroMessage } from './hero'
 export { PopularMarket } from './popular-market'
@@ -18,7 +20,4 @@ export { AuthModal, Auth, AuthEmailVerification } from './auth'
 export { ProtectedLink } from './protected-link'
 export { PasswordStrengthIndicator } from './password-strength-indicator'
 
-export { PortfoliosProvider, usePortfoliosContext } from './portfolios-provider'
-export { QueryProvider } from './query-provider'
-export { ThemeProvider } from './theme-provider'
-export { BackgroundSyncProvider } from './background-sync-provider'
+export { LayoutProvider, PortfoliosProvider, usePortfoliosContext } from './providers'

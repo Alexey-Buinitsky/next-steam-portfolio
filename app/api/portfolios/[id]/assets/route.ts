@@ -18,13 +18,17 @@ interface Props {
 
 export const GET = withAuth(async(req: NextRequest, userId: number, { params }: { params : { id: string }}): Promise<NextResponse<PortfolioAsset[] | { message: string}>> => {
 	try {
-		const portfolioId = Number(params.id)
+
+		const { id } = await params
+    	const portfolioId = Number(id)
 
 		const portfolio = await prisma.portfolio.findUnique({
 			where: { id: portfolioId, userId }
 		})
 
-		if (!portfolio) return NextResponse.json({ message: 'Portfolio not found or access denied' }, { status: 404 })
+		if (!portfolio) {
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
+		}
 
 		const portfolioAsset = await prisma.portfolioAsset.findMany({
 			where: { portfolioId },
@@ -43,14 +47,22 @@ export const GET = withAuth(async(req: NextRequest, userId: number, { params }: 
 
 export const POST = withAuth(async(req:NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string}>> => {
 	try {
-		const portfolioId = Number(params.id)
+
+		const { id } = await params
+    	const portfolioId = Number(id)
 		const data: Props = await req.json()
 
 		const portfolio = await prisma.portfolio.findUnique({
 			where: { id: portfolioId, userId}
 		})
 
-		if (!portfolio) return NextResponse.json({ message: 'Portfolio not found or access denied' }, { status: 404 })
+		if (!portfolio) {
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
+		}
+
+		if (!data.selectedAsset || !data.selectedAsset.id) {
+			return NextResponse.json({ message: 'Asset is required' }, { status: 400 })
+		}
 
 		await prisma.portfolioAsset.create({
 			data: {
@@ -58,7 +70,7 @@ export const POST = withAuth(async(req:NextRequest, userId: number, { params }: 
 					connect: { id: portfolioId }
 				},
 				asset: {
-					connect: { id: Number(data.selectedAsset!.id) }
+					connect: { id: Number(data.selectedAsset.id) }
 				},
 				quantity: Number(data.quantity),
 				buyPrice: Number(data.buyPrice),
@@ -83,16 +95,22 @@ export const POST = withAuth(async(req:NextRequest, userId: number, { params }: 
 
 export const PATCH = withAuth(async (req: NextRequest, userId: number , { params }: { params: { id: string }}): Promise<NextResponse< { message: string}>> => {
 	try {
-		const portfolioId = Number(params.id)
+
+		const { id } = await params
+    	const portfolioId = Number(id)
 		const data: Props = await req.json()
 
 		const portfolio = await prisma.portfolio.findUnique({
 			where: { id: portfolioId, userId}
 		})
 
-		if (!portfolio) return NextResponse.json({ message: 'Portfolio not found or access denied' }, { status: 404 })
+		if (!portfolio) {
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
+		}
 
-		if (!data.selectedPortfolioAsset?.id) return NextResponse.json({ message: 'Portfolio asset ID is required' }, { status: 400 })
+		if (!data.selectedPortfolioAsset || !data.selectedPortfolioAsset.id) {
+			return NextResponse.json({ message: 'Portfolio asset is required' }, { status: 400 })
+		}
 
 		await prisma.portfolioAsset.update({
 			where: {
@@ -124,14 +142,22 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number , { params
 
 export const DELETE = withAuth(async(req: NextRequest, userId: number, { params }: { params: {id: string}}): Promise<NextResponse<{ message: string }>> => {
 	try {
-		const portfolioId = Number(params.id)
+
+		const { id } = await params
+    	const portfolioId = Number(id)
 		const { selectedPortfolioAssets }: { selectedPortfolioAssets: PortfolioAssetWithRelations[] } = await req.json()
 
 		const portfolio = await prisma.portfolio.findUnique({
 			where: { id: portfolioId, userId }
 		})
 
-		if (!portfolio) return NextResponse.json({ message: 'Portfolio not found or access denied' }, { status: 404 })
+		if (!portfolio) {
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
+		}
+
+		if (!selectedPortfolioAssets || !selectedPortfolioAssets.length) {
+			return NextResponse.json({ message: 'Portfolio asset(s) is(are) required' }, { status: 400 })
+		}
 
 		if (!selectedPortfolioAssets?.length) return NextResponse.json({ message: 'Portfolio asset IDs are required' }, { status: 400 });
 		

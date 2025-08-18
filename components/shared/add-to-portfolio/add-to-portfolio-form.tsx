@@ -2,8 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import { Button, Input, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { useAddToPortfolioForm } from '@/hooks';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import type { AddToPortfolioFormData } from '@/hooks/use-form/use-add-to-portfolio-form';
 import type { CreatePortfolioAssetProps } from '@/hooks/use-portfolios';
@@ -36,12 +34,8 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                 quantity: values.quantity, 
                 buyPrice: values.buyPrice 
             })
-
             onClose();
-
-            toast.success('Item added to portfolio successfully!', {autoClose: 2000});
         } catch (error) {
-            toast.error('Failed to add item to portfolio', {autoClose: 2000});
             console.error('Error adding item to portfolio:', error);
         }
     }   

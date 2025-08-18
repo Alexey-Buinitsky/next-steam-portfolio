@@ -4,13 +4,16 @@ import { withAuth } from '@/lib/withAuth';
 
 export const DELETE = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
-		const portfolioId = Number(params.id)
+		const { id } = await params
+    	const portfolioId = Number(id)
 
 		const portfolio = prisma.portfolio.findUnique({
 			where: { id: portfolioId, userId }
 		})
 
-		if (!portfolio) return NextResponse.json({ message: 'Portfolio not found or access denied' }, { status: 404 })
+		if (!portfolio) {
+			return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
+		}
 
 		await prisma.portfolio.delete({
 			where: { id: portfolioId }

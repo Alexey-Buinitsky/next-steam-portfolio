@@ -4,18 +4,28 @@ import { withAuth } from '@/lib/withAuth';
 
 export const PATCH = withAuth(async(req: NextRequest, userId: number, { params }: { params: { id: string} }): Promise<NextResponse<{ message: string }>> => {
 	try {
-		const portfolioId = Number(params.id)
-		const { isActive }: { isActive: boolean} = await req.json()
 
-		const portfolio = await prisma.portfolio.findUnique({
-			where: { id: portfolioId, userId }
-		});
-
-		if (!portfolio) return NextResponse.json({ message: 'Portfolio not found or access denied' }, { status: 404 })
+		const { id } = await params
+		const portfolioId = Number(id)
+		const { isActive }: { isActive: boolean } = await req.json()
 
 		await prisma.$transaction(async () => {
+			const portfolio = await prisma.portfolio.findUnique({
+				where: { id: portfolioId },
+			})
+
+			if (!portfolio) {
+				return NextResponse.json({ message: 'Portfolio not found' }, { status: 400 })
+			}
+
+			if (typeof isActive !== 'boolean') {
+				return NextResponse.json({ message: 'Valid isActive flag is required' }, { status: 400 })
+			}
+
 			// Если пытаемся установить то же состояние - просто возвращаем
-			if (portfolio.isActive === isActive) return;
+			if (portfolio.isActive === isActive) {
+				return portfolio
+			}
 
 			// Если активируем портфель - деактивируем другие
 			if (isActive) {

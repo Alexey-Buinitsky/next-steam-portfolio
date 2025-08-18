@@ -21,6 +21,11 @@ export const GET = withAuth(async (req: NextRequest, userId:number): Promise<Nex
 export const POST = withAuth(async (req: NextRequest, userId: number): Promise<NextResponse<{ message: string }>> => {
   	try {
 		const { name }: { name: string } = await req.json()
+		
+		if (!name) {
+			return NextResponse.json({ message: 'Portfolio name is required' }, { status: 400 })
+		}
+
 		await prisma.portfolio.create({
 			data: {	
 				name,

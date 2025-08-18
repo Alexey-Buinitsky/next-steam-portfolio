@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { portfoliosApi } from "@/services/portfolios";
+import { toast } from 'sonner';
 
 interface ReturnProps {
 	isCreating: boolean;
@@ -11,10 +12,14 @@ export const useCreatePortfolio = (): ReturnProps => {
 	const queryClient = useQueryClient()
 
 	const { mutate, isPending, error } = useMutation<{ message: string }, Error, string>({
-		mutationFn: (portfolioName: string) => {
-			return portfoliosApi.create(portfolioName)
-    	},
-		onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['portfolios'] }); },
+		mutationFn: (portfolioName: string) => portfoliosApi.create(portfolioName),
+		onSuccess: (data) => {
+			queryClient.invalidateQueries({ queryKey: ['portfolios'] })
+			toast.success(data.message)
+		},
+		onError: (error, portfolioName) => {
+			toast.error(error.message, { action: { label: 'Retry', onClick: () => mutate(portfolioName) }, })
+		}
 	})
 
 	return { isCreating: isPending, createError: error, createPortfolio: mutate }
