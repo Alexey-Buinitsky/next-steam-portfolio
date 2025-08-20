@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { PasswordStrengthIndicator, AuthEmailVerification } from '@/components/shared';
+import { PasswordStrengthIndicator, AuthEmailVerification, ForgotPassword, ResetPassword } from '@/components/shared';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { useAuthForm, type AuthMode, type AuthFormValues, type RegisterFormValues } from '@/hooks/use-form/use-auth-form';
 import { SubmitHandler, Control } from 'react-hook-form';
@@ -12,16 +12,22 @@ interface Props {
     onClose: () => void;
 }
 
+type ExtendedAuthMode = AuthMode | 'forgot-password' | 'reset-password';
+
 export const Auth: React.FC<Props> = ({ onClose }) => {
-    const [mode, setMode] = useState<AuthMode>('login');
+    const [mode, setMode] = useState<ExtendedAuthMode>('login');
     
     const [serverError, setServerError] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [needsVerification, setNeedsVerification] = useState(false);
     const [verificationEmail, setVerificationEmail] = useState<string>('');
     const [verificationUserId, setVerificationUserId] = useState<number | null>(null);
+    
+    // Для восстановления пароля
+    const [resetEmail, setResetEmail] = useState<string>('');
+    const [resetUserId, setResetUserId] = useState<number | null>(null);
 
-    const { form } = useAuthForm(mode);
+    const { form } = useAuthForm(mode as AuthMode);
     const { handleSubmit, formState, reset, control } = form;
 
     const toggleMode = () => {
@@ -34,6 +40,22 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
         setServerError('');
     };
 
+    const handleForgotPassword = () => {
+        setMode('forgot-password');
+        setServerError('');
+    };
+
+    const handleBackToLogin = () => {
+        setMode('login');
+        setServerError('');
+    };
+
+    const handleForgotPasswordSuccess = (email: string, userId: number) => {
+        setResetEmail(email);
+        setResetUserId(userId);
+        setMode('reset-password');
+    };
+    
     const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
         setServerError('');
 
@@ -50,11 +72,6 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
             const responseData = await response.json();
             
             if (!response.ok) {
-                if (responseData.needsVerification && mode === 'login') {
-                    setNeedsVerification(true);
-                    setVerificationEmail(responseData.email);
-                    return;
-                }
                 throw new Error(responseData.error || 'Authentication error');
             }
             
@@ -68,6 +85,7 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
                 setVerificationEmail(responseData.email);
                 setVerificationUserId(responseData.userId);
             }
+            
         } catch (err) {
             setServerError(err instanceof Error ? err.message : 'Authentication failed');
         }
@@ -75,138 +93,170 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
 
     const searchParams = useSearchParams()
 
+    if (needsVerification) {
+        return (
+            <AuthEmailVerification 
+                email={verificationEmail} 
+                userId={verificationUserId!} 
+                onSuccess={() => {
+                    const redirect = searchParams.get('redirect') || '/'
+                    window.location.href = redirect
+                }}
+            />
+        );
+    }
+
+    if (mode === 'forgot-password') {
+        return (
+            <ForgotPassword 
+                onSuccess={handleForgotPasswordSuccess}
+                onBackToLogin={handleBackToLogin}
+            />
+        );
+    }
+
+    if (mode === 'reset-password') {
+        return (
+            <ResetPassword 
+                userId={resetUserId || undefined}
+                email={resetEmail}
+                onSuccess={() => {
+                    onClose();
+                    window.location.reload();
+                }}
+                onBackToForgot={handleForgotPassword}
+            />
+        );
+    }
+
     return (
         <div>
-            {needsVerification ? (
-                <AuthEmailVerification 
-                    email={verificationEmail} 
-                    userId={verificationUserId!} 
-                    onSuccess={() => {
-                        const redirect = searchParams.get('redirect') || '/'
-                        window.location.href = redirect
-                    }}
-                />
-            ) : (
-
-            <div>
-                <h2 className="text-x font-bold mb-4">
-                    {mode === 'login' ? 'Sign In' : 'Create Account'}
-                </h2>
-            
-                {serverError && (
-                    <p className="text-destructive mb-4 text-center text-sm">
-                        {serverError}
-                    </p>
-                )}
-            
-                <Form {...form}>
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        {mode === 'register' && (
-                            <FormField
-                                control={control as Control<RegisterFormValues>}
-                                name="nickname"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Nickname</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Your display name" 
-                                                {...field} 
-                                                autoComplete="username"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        )}
-                    
+            <h2 className="text-x font-bold mb-4">
+                {mode === 'login' ? 'Sign In' : 'Create Account'}
+            </h2>
+        
+            {serverError && (
+                <p className="text-destructive mb-4 text-center text-sm">
+                    {serverError}
+                </p>
+            )}
+        
+            <Form {...form}>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    {mode === 'register' && (
                         <FormField
-                            control={control}
-                            name="email"
-                            render={({field}) => (
+                            control={control as Control<RegisterFormValues>}
+                            name="nickname"
+                            render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel>Nickname</FormLabel>
                                     <FormControl>
-                                        <Input 
-                                            type='email'
-                                            placeholder="your@example.com" 
+                                        <Input
+                                            placeholder="Your display name" 
                                             {...field} 
-                                            autoComplete='email'
+                                            autoComplete="username"
                                         />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-    
-                        <FormField 
-                            control={control}
-                            name="password"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <Input 
-                                            type="password" 
-                                            placeholder="Enter your password" 
-                                            {...field} 
-                                            onChange={(e) => {
-                                                field.onChange(e);
-                                                setPasswordValue(e.target.value);
-                                            }}
-                                            autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                                        />
-                                    </FormControl>
-    
-                                    {mode === 'register' && (
-                                        <PasswordStrengthIndicator password={passwordValue} />
-                                    )}
-                                    <FormMessage />
-    
-                                </FormItem>
-                            )}
-                        />
-                    
-                        <div className="pt-1">
+                    )}
+                
+                    <FormField
+                        control={control}
+                        name="email"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Email</FormLabel>
+                                <FormControl>
+                                    <Input 
+                                        type='email'
+                                        placeholder="your@example.com" 
+                                        {...field} 
+                                        autoComplete='email'
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField 
+                        control={control}
+                        name="password"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Password</FormLabel>
+                                <FormControl>
+                                    <Input 
+                                        type="password" 
+                                        placeholder="Enter your password" 
+                                        {...field} 
+                                        onChange={(e) => {
+                                            field.onChange(e);
+                                            setPasswordValue(e.target.value);
+                                        }}
+                                        autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                                    />
+                                </FormControl>
+
+                                {mode === 'register' && (
+                                    <PasswordStrengthIndicator password={passwordValue} />
+                                )}
+                                <FormMessage />
+
+                            </FormItem>
+                        )}
+                    />
+
+                    <div className="flex items-center justify-between">
+                        <button
+                            type="button"
+                            onClick={toggleMode}
+                            className="text-primary text-sm hover:underline focus-visible:underline outline-none cursor-pointer"
+                        >
+                            {mode === 'login' 
+                            ? "Don't have an account? Register" 
+                            : "Already have an account? Sign in"}
+                        </button>
+
+                        {mode === 'login' && (
                             <button
                                 type="button"
-                                onClick={toggleMode}
-                                className="text-primary text-sm hover:underline focus-visible:underline outline-none cursor-pointer"
+                                onClick={handleForgotPassword}
+                                className="block text-primary text-sm hover:underline focus-visible:underline outline-none cursor-pointer"
                             >
-                                {mode === 'login' 
-                                ? "Don't have an account? Register" 
-                                : "Already have an account? Sign in"}
+                                Forgot your password?
                             </button>
-                        </div>
+                        )}
+                    </div>
+                    
+                    <div className="flex gap-2 pt-4">
+                        <Button
+                            variant="outline"
+                            onClick={onClose}
+                            type="button"
+                            className="flex-1"
+                        >
+                            Cancel
+                        </Button>
                         
-                        <div className="flex gap-2 pt-4">
-                            <Button
-                                variant="outline"
-                                onClick={onClose}
-                                type="button"
-                                className="flex-1"
-                            >
-                                Cancel
-                            </Button>
-                            
-                            <Button
-                                type="submit"
-                                // disabled={!formState.isValid || formState.isSubmitting}
-                                className="flex-1"
-                            >
-                                {formState.isSubmitting 
-                                    ? (<span>Processing...</span>) 
-                                    : mode === 'login' 
-                                        ? ('Sign In') 
-                                        : ('Register')
-                                }
-                            </Button>
-                        </div>
-                    </form>
-                </Form>
-            </div>
-            )}
+                        <Button
+                            type="submit"
+                            // disabled={!formState.isValid || formState.isSubmitting}
+                            className="flex-1"
+                        >
+                            {formState.isSubmitting 
+                                ? (<span>Processing...</span>) 
+                                : mode === 'login' 
+                                    ? ('Sign In') 
+                                    : ('Register')
+                            }
+                        </Button>
+                    </div>
+                </form>
+            </Form>
         </div>
     );
 };

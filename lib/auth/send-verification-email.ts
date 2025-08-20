@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import { generateEmailVerificationCode } from './verification';
+import { generateEmailVerificationCode } from './verification-email-code';
 import { redis } from '@/lib/redis';
 
 const resend = process.env.NODE_ENV === 'production' 
@@ -12,8 +12,6 @@ export const sendVerificationEmail = async ({ userId, email }: { userId: number;
   
     if (process.env.NODE_ENV === 'development') {
       console.log('Email verification code:', code); // Вот эта строка
-      const stored = await redis.get(`email-verification:${userId}`);
-      console.log('Stored in Redis:', stored);
       return;
     } //удалить после получения домена
       

@@ -5,7 +5,7 @@ import { useForm, type DefaultValues } from "react-hook-form"
 import * as z from 'zod'
 
 const baseSchema = z.object({
-  email: z.string().min(3, 'Please enter a valid email address'),
+  email: z.string().email('Please enter a valid email address'),
   password: z.string().min(8, 'Password must contain at least 8 characters')
 });
 

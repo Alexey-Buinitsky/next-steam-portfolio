@@ -8,4 +8,4 @@ export { useTotalItems } from '@/hooks/use-total-items';
 export { useImageError } from '@/hooks/use-image-error';
 
 export { useAuthCheck, useAuthAction } from '@/hooks/use-auth';
-export { useAddToPortfolioForm, useAuthForm, useCreatePortfolioForm } from '@/hooks/use-form'
+export { useAddToPortfolioForm, useAuthForm, useCreatePortfolioForm, useForgotPasswordForm, useResetPasswordForm } from '@/hooks/use-form'

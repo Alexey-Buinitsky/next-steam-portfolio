@@ -12,14 +12,15 @@ const portfolioSchema = z.object({
 });
 
 export const useCreatePortfolioForm = () => {
-  const form = useForm<z.infer<typeof portfolioSchema>>({
+  const form = useForm<PortfolioFormValues>({
     resolver: zodResolver(portfolioSchema),
     defaultValues: {
       name: ''
     },
     mode: 'onChange'
   });
-  return {form}
+
+  return { form }
 };
 
 export type PortfolioFormValues = z.infer<typeof portfolioSchema>;

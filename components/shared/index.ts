@@ -17,6 +17,7 @@ export { AddToPortfolio, AddToPortfolioForm, AddToPortfolioModal, AddToPortfolio
 export { CreatePortfolioForm, CreatePortfolioModal } from './create-portfolio' 
 export { CurrencyConverter, CurrencyRates } from './currency'
 export { AuthModal, Auth, AuthEmailVerification } from './auth'
+export { ForgotPassword, ResetPassword } from './password-recovery' 
 export { ProtectedLink } from './protected-link'
 export { PasswordStrengthIndicator } from './password-strength-indicator'
 
