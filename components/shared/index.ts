@@ -16,6 +16,7 @@ export { MarketItems, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItem
 export { AddToPortfolio, AddToPortfolioForm, AddToPortfolioModal, AddToPortfolioPanel } from './add-to-portfolio'
 export { CreatePortfolioForm, CreatePortfolioModal } from './create-portfolio' 
 export { CurrencyConverter, CurrencyRates } from './currency'
+export { InfiniteScrollSelect } from './infinite-scroll-select'
 export { AuthModal, Auth, AuthEmailVerification } from './auth'
 export { ForgotPassword, ResetPassword } from './password-recovery' 
 export { ProtectedLink } from './protected-link'

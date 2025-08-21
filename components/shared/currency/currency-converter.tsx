@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, Input, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui';
+import { Button, Input } from '@/components/ui';
+import { InfiniteScrollSelect } from '@/components/shared';
 
 interface Props {
   amount: string, 
@@ -27,7 +28,6 @@ export const CurrencyConverter: React.FC<Props> = ({
 }) => {
   return (
      <div className="w-full max-w-[780px] mx-auto lg:p-6 lg:grid grid-cols-1 lg:grid-cols-[max-content_1fr] items-start justify-center gap-x-6 gap-y-6">
-      {/* Кнопка - теперь будет перемещаться */}
       <Button 
         className={`order-1 lg:order-none p-4 lg:p-6 text-lg lg:mt-[198px] mb-6 md:mb-0
           ${showAllCurrencies 
@@ -61,29 +61,17 @@ export const CurrencyConverter: React.FC<Props> = ({
         </div>
 
         <div className="flex items-center gap-x-2 md:gap-x-6 mb-10">
-          <div className="flex-1">
-            <label htmlFor="fromCurrency" className="block text-xl font-medium text-gray-700 dark:text-zinc-500  mb-1">
-              From
-            </label>
-            <Select
-              value={fromCurrency}
-              onValueChange={handleFromCurrencyChange}
-              disabled={isLoading}
-            >
-              <SelectTrigger className='text-2xl p-6 w-full cursor-pointer'>
-                <SelectValue placeholder="Select currency" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                      {currentCurrencies.map((currency: string) => (
-                        <SelectItem key={`from-${currency}`} value={currency} className='text-xl cursor-pointer'>
-                          {currency}
-                        </SelectItem>
-                      ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+          <InfiniteScrollSelect
+            key="from-currency-select" // ← УНИКАЛЬНЫЙ КЛЮЧ
+            value={fromCurrency}
+            onValueChange={handleFromCurrencyChange}
+            options={currentCurrencies}
+            disabled={isLoading}
+            placeholder="Select currency"
+            id="fromCurrency"
+            label="From"
+            className="flex-1"
+          />
 
           <Button
             onClick={swapCurrencies}
@@ -96,29 +84,17 @@ export const CurrencyConverter: React.FC<Props> = ({
             ↔
           </Button>
 
-          <div className="flex-1">
-            <label htmlFor="toCurrency" className="block text-xl font-medium text-gray-700 dark:text-zinc-500   mb-1">
-              To
-            </label>
-            <Select
-              value={toCurrency}
-              onValueChange={handleToCurrencyChange}
-              disabled={isLoading}
-            >
-              <SelectTrigger  className='text-2xl p-6 w-full cursor-pointer'>
-                <SelectValue placeholder="Select currency" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                      {currentCurrencies.map((currency: string) => (
-                        <SelectItem key={`to-${currency}`} value={currency} className='text-xl cursor-pointer'>
-                          {currency}
-                        </SelectItem>
-                      ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+          <InfiniteScrollSelect
+            key="to-currency-select" // ← УНИКАЛЬНЫЙ КЛЮЧ
+            value={toCurrency}
+            onValueChange={handleToCurrencyChange}
+            options={currentCurrencies}
+            disabled={isLoading}
+            placeholder="Select currency"
+            id="toCurrency"
+            label="To"
+            className="flex-1"
+          />
         </div>
 
         <div className="flex justify-between items-start p-4 bg-gray-50 dark:bg-[var(--card)] rounded-md min-h-auto lg:min-h-[100px]">
