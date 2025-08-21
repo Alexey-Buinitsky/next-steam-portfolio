@@ -1,0 +1,33 @@
+import { ImageResponse } from 'next/og'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
+
+// Image metadata
+export const alt = 'Steam Portfolio'
+export const size = { width: 1200, height: 630, }
+export const contentType = 'image/png'
+
+// Image generation
+export default async function Image() {
+
+	// Font loading, process.cwd() is Next.js project directory
+  const geistSemiBold = await readFile(
+    join(process.cwd(), 'public/fonts/Geist-SemiBold.ttf')
+  )
+
+	return new ImageResponse(
+		(
+			// ImageResponse JSX element
+			<div style={{ fontSize: 128, background: 'white', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', }}>
+				<svg fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="384px" height="384px" viewBox="0 0 256 173" enable-background="new 0 0 256 173" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M128.253,56.864c15.186,0,27.432-12.247,27.432-27.432S143.536,2,128.253,2 c-15.186,0-27.432,12.247-27.432,27.432C100.918,44.716,113.165,56.864,128.253,56.864z M64.571,136.32h-49.28 c-15.969,0-16.851-24.395,0.294-24.395H58.3l24.493-36.054c7.25-9.895,15.48-14.598,27.138-14.598h36.544 c11.659,0,19.888,4.311,27.138,14.598l24.591,36.054h43.01c17.243,0,16.165,24.395,0.588,24.395h-49.28 c-3.919,0-8.622-1.372-11.365-5.584l-18.811-26.844l-0.098,67.209H94.844l-0.098-67.209l-18.811,26.844 C73.192,134.85,68.49,136.32,64.571,136.32z"></path> <path d="M224.957,99.543C240.939,99.543,254,86.568,254,70.5s-12.975-29.043-29.043-29.043S196,54.518,196,70.586 C196,86.568,208.975,99.543,224.957,99.543z M223.353,72.963c-5.327-1.862-8.65-4.554-8.65-9.337c0-4.411,2.921-7.877,8.278-8.965 v-4.783h4.01v4.554c3.322,0,5.728,0.687,7.504,1.633l-1.633,5.728c-1.318-0.544-3.466-1.461-6.416-1.461 c-2.95,0-4.554,1.461-4.554,2.921c0,2.005,1.862,2.778,5.872,4.411c5.471,2.005,8.02,4.783,8.02,9.337 c0,4.554-2.778,8.02-8.65,9.337v4.554h-4.01v-4.411c-3.466,0-6.96-0.917-8.65-1.862l1.461-5.872 c1.862,0.917,4.783,2.005,7.877,2.005c3.322,0,4.955-1.461,4.955-3.466S227.191,74.453,223.353,72.963z"></path> <path d="M49.241,74.071h10.902v21.804H2V74.071h10.902v3.634h7.268v-3.634h21.804v3.634h7.268V74.071z M60.143,55.902v14.536H2 V55.902h18.17V45h21.804v10.902H60.143z M24.712,55.902h12.719v-6.359H24.712V55.902z"></path> <g id="shopping_cart"> </g> <g id="cross"> </g> <g id="leaf"> </g> </g></svg>
+				Steam Portfolio
+			</div>
+		),
+		// ImageResponse options
+		{
+			// For convenience, we can re-use the exported opengraph-image
+			// size config to also set the ImageResponse's width and height.
+			...size, fonts: [{ name: 'Geist', data: geistSemiBold, style: 'normal', weight: 600, },],
+		}
+	)
+}
