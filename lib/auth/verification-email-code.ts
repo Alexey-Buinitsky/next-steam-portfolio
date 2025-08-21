@@ -2,6 +2,7 @@ import { generateRandomString } from 'oslo/crypto';
 import { TimeSpan } from 'oslo';
 import { redis } from '@/lib/redis';
 
+// Генерация кода верификации
 export const generateEmailVerificationCode = async ( userId: number, email: string ): Promise<string> => {
   // Удаляем старые коды
   await redis.del(`email-verification:${userId}`);
@@ -13,7 +14,7 @@ export const generateEmailVerificationCode = async ( userId: number, email: stri
   await redis.set(
     `email-verification:${userId}`,
     JSON.stringify({ code, email }),
-    { ex: new TimeSpan(0.1, 'h').seconds() }
+    { ex: new TimeSpan(24, 'h').seconds() }
   );
   
   return code;
