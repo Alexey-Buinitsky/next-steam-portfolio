@@ -32,11 +32,6 @@ export const InfiniteScrollSelect: React.FC<Props> = React.memo(({
     })
 
     React.useEffect(() => {
-        setVisibleCount(30)
-    }, [options]) // ← вот это важно!
-
-
-    React.useEffect(() => {
         if (inView && visibleCount < options.length) {
             requestAnimationFrame(() => {
                 setVisibleCount(prev => Math.min(prev + 20, options.length))

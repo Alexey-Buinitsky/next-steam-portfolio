@@ -61,8 +61,7 @@ export const CurrencyConverter: React.FC<Props> = ({
         </div>
 
         <div className="flex items-center gap-x-2 md:gap-x-6 mb-10">
-          <InfiniteScrollSelect
-            key="from-currency-select" // ← УНИКАЛЬНЫЙ КЛЮЧ
+          <InfiniteScrollSelect 
             value={fromCurrency}
             onValueChange={handleFromCurrencyChange}
             options={currentCurrencies}
@@ -85,7 +84,6 @@ export const CurrencyConverter: React.FC<Props> = ({
           </Button>
 
           <InfiniteScrollSelect
-            key="to-currency-select" // ← УНИКАЛЬНЫЙ КЛЮЧ
             value={toCurrency}
             onValueChange={handleToCurrencyChange}
             options={currentCurrencies}
