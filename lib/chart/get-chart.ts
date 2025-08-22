@@ -23,11 +23,8 @@ export const getChart = <T extends Record<string, unknown>>({ data, categoryPath
 
 	const valueLabel = options.valueLabel || "Value"
 
+	// Возвращаем специальные данные для пустой диаграммы
 	if (!data || data.length === 0) {
-
-		// 	return { chartData: [], chartConfig: { value: { label: valueLabel } } }
-
-		// Возвращаем специальные данные для пустой диаграммы
 		return {
 			chartData: [{ category: "No data", value: 1, fill: "var(--muted)" }],
 			chartConfig: { value: { label: valueLabel }, "No data": { label: "No data", color: "var(--muted)" } }

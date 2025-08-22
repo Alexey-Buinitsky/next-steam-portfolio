@@ -6,6 +6,8 @@ export { calculatePercentage } from './calculate-percentage';
 export { formatCurrency } from './format-currency';
 export { formatPercentage } from './format-percentage';
 
+export { formatValue, getValueColor } from './columns';
+
 export { formatContext } from './format-context';
 
 export { formatPrice } from './format-price'
