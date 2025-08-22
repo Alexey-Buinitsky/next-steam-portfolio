@@ -26,7 +26,7 @@ export const getChart = <T extends Record<string, unknown>>({ data, categoryPath
 	// Возвращаем специальные данные для пустой диаграммы
 	if (!data || data.length === 0) {
 		return {
-			chartData: [{ category: "No data", value: 1, fill: "var(--muted)" }],
+			chartData: [{ category: "No data", value: 100, fill: "var(--muted)" }],
 			chartConfig: { value: { label: valueLabel }, "No data": { label: "No data", color: "var(--muted)" } }
 		}
 	}
@@ -46,9 +46,12 @@ export const getChart = <T extends Record<string, unknown>>({ data, categoryPath
 	const mainEntries = sortedEntries.slice(0, 4)
 	const otherValue = sortedEntries.slice(4).reduce((sum, [, value]) => sum + value, 0)
 
-	// Формирование данных для диаграммы
-	const chartData: IChartData[] = mainEntries.map(([category, value], index) => ({ category, value, fill: `var(--chart-${index + 1})` }))
-	if (otherValue > 0) { chartData.push({ category: "Other", value: otherValue, fill: `var(--chart-5)` }) }
+	// Расчет общего значения для процентов
+	const totalValue = sortedEntries.reduce((sum, [, value]) => sum + value, 0)
+
+	// Формирование данных для диаграммы с процентами
+	const chartData: IChartData[] = mainEntries.map(([category, value], index) => ({ category, value: totalValue > 0 ? (value / totalValue) * 100 : 0, fill: `var(--chart-${index + 1})`, }))
+	if (otherValue > 0) { chartData.push({ category: "Other", value: totalValue > 0 ? (otherValue / totalValue) * 100 : 0, fill: `var(--chart-5)`, }) }
 
 	// Формирование конфига для диаграммы
 	const chartConfig: ChartConfig = {
