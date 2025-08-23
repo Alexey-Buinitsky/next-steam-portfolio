@@ -22,5 +22,7 @@ export {
 
 export { hashPassword, verifyPassword } from './password-hash'
 
+export { authLimiter, strictAuthLimiter } from './rate-limit'
+
 export type { IMetric } from './metrics';
 export type { IChartData } from './chart';
