@@ -1,7 +1,20 @@
 'use client'
 
-import { Auth } from '@/components/shared'
 import { useSearchParams } from 'next/navigation'
+import { Auth } from '@/components/shared'
+
+// import { Metadata } from 'next'
+
+// export const metadata: Metadata = {
+// 	title: "Auth",
+// 	openGraph: {
+// 		title: "Auth",
+// 	},
+// 	robots: {
+// 		index: false,
+// 		follow: true,
+// 	}
+// }
 
 export default function AuthPage() {
     const searchParams = useSearchParams()

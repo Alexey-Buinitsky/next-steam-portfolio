@@ -62,12 +62,12 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 				</div>
 			</div>
 
-			<Tabs defaultValue="table" className="w-full">
+			<Tabs defaultValue="holdings" className="w-full">
 				<TabsList className="grid w-full grid-cols-2">
-					<TabsTrigger value="table" disabled={isLoading}>Table</TabsTrigger>
-					<TabsTrigger value="analytics" disabled={isLoading}>Analytics</TabsTrigger>
+					<TabsTrigger value="holdings" disabled={isLoading}>Holdings</TabsTrigger>
+					<TabsTrigger value="dashboard" disabled={isLoading}>Dashboard</TabsTrigger>
 				</TabsList>
-				<TabsContent value="table">
+				<TabsContent value="holdings">
 					<div className="flex flex-col gap-2 p-2 rounded-md border 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
 						<div className="flex justify-between items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 							<AppTableFilter table={table} selectedPortfolio={selectedPortfolio} deletePortfolioAssets={deletePortfolioAssets} />
@@ -81,7 +81,7 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 						</div>
 					</div>
 				</TabsContent>
-				<TabsContent value="analytics">
+				<TabsContent value="dashboard">
 					<div className="flex flex-col gap-2 p-2 rounded-md border 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
 						<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 							{portfolioData.metrics.map((metric) => <AppTableMetric key={metric.key} isLoading={isLoading} metric={metric} />)}

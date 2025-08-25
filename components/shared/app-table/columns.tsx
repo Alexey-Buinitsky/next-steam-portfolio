@@ -6,7 +6,7 @@ import { Column, ColumnDef, Row, Table } from "@tanstack/react-table"
 import { Button, Checkbox, Dialog, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui"
 import { AppDialog, usePortfoliosContext } from "@/components/shared"
 import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon, EyeOffIcon, MoreHorizontal, PencilIcon, TrashIcon } from "lucide-react"
-import { formatCurrency, formatPercentage } from "@/lib"
+import { formatCurrency, formatValue, getValueColor } from "@/lib"
 import { PortfolioAssetWithRelations } from "@/types/portfolio"
 
 const SortableHeader = ({ column, children }: { column: Column<PortfolioAssetWithRelations>, children: React.ReactNode }) => {
@@ -162,17 +162,17 @@ export const columns: ColumnDef<PortfolioAssetWithRelations>[] = [
 	{
 		accessorKey: "percentage",
 		header: ({ column }) => <SortableHeader column={column}>%</SortableHeader>,
-		cell: ({ row }) => formatPercentage(row.getValue("percentage")),
+		cell: ({ row }) => { return <span className={getValueColor(row.getValue("percentage"))}>{formatValue(row.getValue("percentage"), 'percentage')}</span> },
 	},
 	{
 		accessorKey: "gain",
 		header: ({ column }) => <SortableHeader column={column}>Gain</SortableHeader>,
-		cell: ({ row }) => formatCurrency(row.getValue("gain")),
+		cell: ({ row }) => { return <span className={getValueColor(row.getValue("gain"))}>{formatValue(row.getValue("gain"))}</span> }
 	},
 	{
 		accessorKey: "gainAfterFees",
 		header: ({ column }) => <SortableHeader column={column}>Gain after fees</SortableHeader>,
-		cell: ({ row }) => formatCurrency(row.getValue("gainAfterFees")),
+		cell: ({ row }) => { return <span className={getValueColor(row.getValue("gainAfterFees"))}>{formatValue(row.getValue("gainAfterFees"))}</span> }
 	},
 	{
 		id: "actions",
