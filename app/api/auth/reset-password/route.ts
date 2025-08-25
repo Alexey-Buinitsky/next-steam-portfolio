@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
-import { verifyPasswordResetCode, hashPassword, invalidatePasswordResetCode } from '@/lib';
-import { authLimiter } from '@/lib';
+import { verifyPasswordResetCode, hashPassword, invalidatePasswordResetCode, authLimiter, validateDataWithSchema, resetPasswordSchema, userIdCommonSchema } from '@/lib';
 
 export async function POST(request: NextRequest) {
-  // RATE LIMIT - ПРОВЕРЯЕМ ЛИМИТ ПЕРЕД ВСЕМ ОСТАЛЬНЫМ 
-  const forwardedFor = request.headers.get('x-forwarded-for'); //получим с vercel
-  const identifier = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1'; // при dev режиме используем 127.0.0.1 - дальше можно использовать только forwardedFor.split(',')[0].trim()
-
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  const identifier = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1'; 
   const { success, limit, reset, remaining } = await authLimiter.limit(identifier);
     if (!success) {
-    // Если лимит исчерпан, сразу возвращаем ошибку
     const now = Date.now();
     const retryAfter = Math.floor((reset - now) / 1000);
     return NextResponse.json(
@@ -20,7 +16,6 @@ export async function POST(request: NextRequest) {
       { 
         status: 429,
         headers: {
-          // Устанавливаем стандартные заголовки для лимита
           'Retry-After': retryAfter.toString(),
           'X-RateLimit-Limit': limit.toString(),
           'X-RateLimit-Remaining': remaining.toString(),
@@ -29,29 +24,33 @@ export async function POST(request: NextRequest) {
       }
     );
   }
-  // RATE LIMIT
 
   try {
-    const { userId, code, password } = await request.json();
+    // 1. ВАЛИДАЦИЯ 1: Данные от пользователя (code, password, confirmPassword)
+    const json = await request.json()
 
-    // // СОБИРАЕМ ВСЕ ОШИБКИ В КУЧУ
-    // let errors = [];
-    // if (!userId) errors.push('Reset-password:  Reset-password: User ID is required');
-    // if (!code) errors.push('Reset-password:  Verification code is required');
-    // if (userId && typeof userId !== 'number') errors.push('Reset-password:  User ID must be a number');
-    // if (code && typeof code !== 'string') errors.push('Reset-password:  Verification code must be a string'); // временное логирование - убрать после dev 
+    const validation = validateDataWithSchema(resetPasswordSchema, json)
+    if (!validation.isValid) {
+        return NextResponse.json(
+          { error: validation.error },
+          { status: 400 }
+        );
+    }
+    const { code, password } = validation.data;
 
-    // // ЕСЛИ ЕСТЬ ОШИБКИ - ВОЗВРАЩАЕМ ИХ
-    // if (errors.length > 0) {
-    //   return NextResponse.json(
-    //     { error: 'Invalid input data', details: errors },
-    //     { status: 400 }
-    //   );
-    // }
+    // ВАЛИДАЦИЯ 2: т.к. userId нет в схеме (после валидации исчезает из validation) - отдельно провалидируем userId
+    const userIdValidation = validateDataWithSchema(userIdCommonSchema, json.userId);
+    if (!userIdValidation.isValid) {
+      console.error('Invalid userId received:', json.userId);
+      return NextResponse.json(
+        { error: userIdValidation.error },
+        { status: 400 }
+      );
+    }
+    const userId = userIdValidation.data; // <- Безопасное число
 
-    // Проверяем код через Redis
+    // 2. Проверяем код через Redis
     const verification = await verifyPasswordResetCode(userId, code);
-    
     if (!verification.success) {
       return NextResponse.json(
         { error: 'Invalid or expired reset code' },

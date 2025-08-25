@@ -1,8 +1,7 @@
 //app/api/auth/register
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
-import { sendVerificationEmail, hashPassword } from '@/lib';
-import { strictAuthLimiter } from '@/lib';
+import { sendVerificationEmail, hashPassword, strictAuthLimiter, validateDataWithSchema, registerSchema } from '@/lib';
 
 export async function POST(request: NextRequest) {
   // RATE LIMIT - ПРОВЕРЯЕМ ЛИМИТ ПЕРЕД ВСЕМ ОСТАЛЬНЫМ 
@@ -36,7 +35,19 @@ export async function POST(request: NextRequest) {
   let user
 
   try {
-  const { email, password, nickname } = await request.json();
+  const json = await request.json()
+
+  // ВАЛИДИРУЕМ ДАННЫЕ ПЕРЕД ОБРАБОТКОЙ
+  const validation = validateDataWithSchema(registerSchema, json);
+  if (!validation.isValid) {
+    return NextResponse.json(
+        { error: validation.error },
+        { status: 400 }
+      );
+  }
+
+  // Если валидация прошла, используем проверенные данные!
+  const { email, password, nickname } = validation.data;
 
   // 1. Проверка существующего пользователя
   const existingUser = await prisma.user.findUnique({ where: { email } });

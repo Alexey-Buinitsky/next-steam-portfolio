@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
-import { sendPasswordResetEmail } from '@/lib';
-import { strictAuthLimiter } from '@/lib';
+import { sendPasswordResetEmail, strictAuthLimiter, validateDataWithSchema, forgotPasswordSchema} from '@/lib';
 
 export async function POST(request: NextRequest) {
-  // RATE LIMIT - ПРОВЕРЯЕМ ЛИМИТ ПЕРЕД ВСЕМ ОСТАЛЬНЫМ 
-  const forwardedFor = request.headers.get('x-forwarded-for'); //получим с vercel
-  const identifier = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1'; // при dev режиме используем 127.0.0.1 - дальше можно использовать только forwardedFor.split(',')[0].trim()
+  const forwardedFor = request.headers.get('x-forwarded-for'); 
+  const identifier = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1';
 
   const { success, limit, reset, remaining } = await strictAuthLimiter.limit(identifier);
     if (!success) {
-    // Если лимит исчерпан, сразу возвращаем ошибку
     const now = Date.now();
     const retryAfter = Math.floor((reset - now) / 1000);
     return NextResponse.json(
@@ -20,7 +17,6 @@ export async function POST(request: NextRequest) {
       { 
         status: 429,
         headers: {
-          // Устанавливаем стандартные заголовки для лимита
           'Retry-After': retryAfter.toString(),
           'X-RateLimit-Limit': limit.toString(),
           'X-RateLimit-Remaining': remaining.toString(),
@@ -29,11 +25,19 @@ export async function POST(request: NextRequest) {
       }
     );
   }
-  // RATE LIMIT
 
 
   try {
-    const { email } = await request.json();
+    const json = await request.json()
+    const validation = validateDataWithSchema(forgotPasswordSchema, json);
+    if (!validation.isValid) {
+      return NextResponse.json(
+        { error: validation.error },
+        { status: 400 }
+      );
+    }
+
+    const { email } = validation.data;
 
     const user = await prisma.user.findUnique({
       where: { email },

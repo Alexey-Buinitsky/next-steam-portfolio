@@ -7,7 +7,7 @@ import { PasswordStrengthIndicator } from '@/components/shared';
 import { useRouter } from 'next/navigation';
 import { useResetPasswordForm } from '@/hooks';
 
-import type { ResetPasswordFormValues } from '@/hooks/use-form/use-reset-password-form'
+import type { ResetPasswordFormValues } from '@/lib'
 
 interface ResetPasswordProps {
   userId?: number;
@@ -38,7 +38,8 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userId, email, onB
         body: JSON.stringify({ 
           userId: userId, 
           code: values.code, 
-          password: values.password 
+          password: values.password,
+          confirmPassword: values.confirmPassword,
         }),
       });
 

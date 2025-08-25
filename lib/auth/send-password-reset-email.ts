@@ -1,6 +1,5 @@
 import { Resend } from 'resend';
 import { generatePasswordResetCode } from './index';
-import { redis } from '@/lib/redis';
 
 const resend = process.env.NODE_ENV === 'production' 
   ? new Resend(process.env.RESEND_API_KEY) 

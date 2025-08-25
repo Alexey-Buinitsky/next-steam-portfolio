@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Button, Input, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { useAddToPortfolioForm } from '@/hooks';
 
-import type { AddToPortfolioFormData } from '@/hooks/use-form/use-add-to-portfolio-form';
+import type { AddToPortfolioFormValues} from '@/lib';
 import type { CreatePortfolioAssetProps } from '@/hooks/use-portfolios';
 import type { Portfolio, Asset } from '@prisma/client';
 
@@ -25,7 +25,7 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
 
     const {handleSubmit, formState, control} = form
 
-    const onSubmit = async (values: AddToPortfolioFormData) => {
+    const onSubmit = async (values: AddToPortfolioFormValues) => {
         // отрабатывает только если все поля прошли проверку RHF через zod 
         try {
             createPortfolioAsset({ 

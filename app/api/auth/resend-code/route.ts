@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from '@/prisma/prisma-client';
-import { sendVerificationEmail } from "@/lib";
-import { authLimiter } from "@/lib";
+import { sendVerificationEmail, authLimiter, validateDataWithSchema, resendCodeSchema } from "@/lib";
 
 export async function POST(request: NextRequest) {
-    // RATE LIMIT - ПРОВЕРЯЕМ ЛИМИТ ПЕРЕД ВСЕМ ОСТАЛЬНЫМ 
-    const forwardedFor = request.headers.get('x-forwarded-for'); //получим с vercel
-    const identifier = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1'; // при dev режиме используем 127.0.0.1 - дальше можно использовать только forwardedFor.split(',')[0].trim()
-    
+    const forwardedFor = request.headers.get('x-forwarded-for');
+    const identifier = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1';
     const { success, limit, reset, remaining } = await authLimiter.limit(identifier);
         if (!success) {
         const now = Date.now();
@@ -27,11 +24,19 @@ export async function POST(request: NextRequest) {
         }
         );
     }
-    // RATE LIMIT
-    
+
     
     try {
-        const { userId, email } = await request.json()
+        const json = await request.json()
+        const validation = validateDataWithSchema(resendCodeSchema, json)
+        if (!validation.isValid) {
+            return NextResponse.json(
+                { error: validation.error },
+                { status: 400 }
+            );
+        }
+
+        const { userId, email } = validation.data
 
         const user = await prisma.user.findUnique({ 
             where: { id: userId, email} 

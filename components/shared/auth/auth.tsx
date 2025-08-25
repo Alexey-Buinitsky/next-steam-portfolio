@@ -4,7 +4,8 @@ import React from 'react';
 import { useState } from 'react';
 import { PasswordStrengthIndicator, AuthEmailVerification, ForgotPassword, ResetPassword } from '@/components/shared';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
-import { useAuthForm, type AuthMode, type AuthFormValues, type RegisterFormValues } from '@/hooks/use-form/use-auth-form';
+import { useAuthForm, type AuthMode} from '@/hooks/use-form/use-auth-form';
+import { type AuthFormValues, type RegisterFormValues } from '@/lib';
 import { SubmitHandler, Control } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
 

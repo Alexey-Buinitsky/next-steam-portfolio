@@ -4,8 +4,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { useForgotPasswordForm } from '@/hooks';
-
-import type { ForgotPasswordFormValues } from '@/hooks/use-form/use-forgot-password-form' 
+import type { ForgotPasswordFormValues } from '@/lib' 
 
 interface ForgotPasswordProps {
   onSuccess?: (email: string, userId: number) => void;

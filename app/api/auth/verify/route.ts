@@ -1,16 +1,14 @@
-//app/api/auth/verify
+//app/api/auth/verify-email
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
 import { getIronSession } from 'iron-session';
-import { verifyEmailVerificationCode, sessionOptions } from '@/lib';
-import { authLimiter } from '@/lib';
+import { sessionOptions, verifyEmailVerificationCode, authLimiter, validateDataWithSchema, verifyEmailSchema } from '@/lib';
 
 import type { IronSessionWithUser } from '@/lib/session';
 
 export async function POST(request: NextRequest) {
-  // RATE LIMIT - ПРОВЕРЯЕМ ЛИМИТ ПЕРЕД ВСЕМ ОСТАЛЬНЫМ 
-  const forwardedFor = request.headers.get('x-forwarded-for'); //получим с vercel
-  const identifier = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1'; // при dev режиме используем 127.0.0.1 - дальше можно использовать только forwardedFor.split(',')[0].trim()
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  const identifier = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1'; 
 
   const { success, limit, reset, remaining } = await authLimiter.limit(identifier);
     if (!success) {
@@ -31,27 +29,21 @@ export async function POST(request: NextRequest) {
       }
     );
   }
-  // RATE LIMIT
 
+  
   const response = new NextResponse();
 
   try {
-    const { userId, code } = await request.json();
+    const json = await request.json()
+    const validation = validateDataWithSchema(verifyEmailSchema, json)
+    if (!validation.isValid) {
+        return NextResponse.json(
+        { error: validation.error},
+        { status: 400 }
+      );
+    }
 
-    // // СОБИРАЕМ ВСЕ ОШИБКИ В КУЧУ
-    // let errors = [];
-    // if (!userId) errors.push('User ID is required');
-    // if (!code) errors.push('Verification code is required');
-    // if (userId && typeof userId !== 'number') errors.push('User ID must be a number');
-    // if (code && typeof code !== 'string') errors.push('Verification code must be a string'); // временное логирование - убрать после dev 
-
-    // // ЕСЛИ ЕСТЬ ОШИБКИ - ВОЗВРАЩАЕМ ИХ
-    // if (errors.length > 0) {
-    //   return NextResponse.json(
-    //     { error: 'Invalid input data', details: errors },
-    //     { status: 400 }
-    //   );
-    // }
+    const { userId, code } = validation.data;
 
     // 1. Проверка кода
     const verification = await verifyEmailVerificationCode(userId, code);
@@ -101,7 +93,6 @@ export async function POST(request: NextRequest) {
     successResponse.headers.set('X-RateLimit-Limit', limit.toString());
     successResponse.headers.set('X-RateLimit-Remaining', remaining.toString());
     successResponse.headers.set('X-RateLimit-Reset', new Date(reset).toISOString());
-
 
     return successResponse
     
