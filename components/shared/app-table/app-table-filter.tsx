@@ -33,7 +33,7 @@ export const AppTableFilter = ({ table, selectedPortfolio, deletePortfolioAssets
 	}
 
 	const handleDelete = () => {
-		if (selectedRows.length <= 0 || !selectedPortfolio) return
+		if (!selectedPortfolio || selectedRows.length <= 0) return
 
 		setIsDialogOpen(false)
 		deletePortfolioAssets({ portfolioId: selectedPortfolio.id, selectedPortfolioAssets: selectedRows })

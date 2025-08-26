@@ -5,6 +5,7 @@ export const portfolioFields: FormField<PortfolioFormValues>[] = [{
 	label: "Portfolio Name",
 	placeholder: "Enter a name...",
 	type: "text",
+	maxLength: 16,
 }]
 
 export const portfolioAssetFields: FormField<PortfolioAssetFormValues>[] = [
@@ -14,6 +15,7 @@ export const portfolioAssetFields: FormField<PortfolioAssetFormValues>[] = [
 		placeholder: "Enter an quantity...",
 		type: "number",
 		min: 1,
+		max: 9999999,
 		step: 1,
 	},
 	{
@@ -22,6 +24,7 @@ export const portfolioAssetFields: FormField<PortfolioAssetFormValues>[] = [
 		placeholder: "Enter a buy price...",
 		type: "number",
 		min: 0,
+		max: 9999999.99,
 		step: 0.01,
 	},
 ]

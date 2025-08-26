@@ -1,6 +1,6 @@
 export { AppSidebar } from './app-sidebar'
 export { AppBreadcrumb } from './app-breadcrumb'
-export { AppTable, columns } from './app-table'
+export * from './app-table'
 export { AppPagination } from './app-pagination'
 export { AppDialog } from './app-dialog'
 export { Logo } from './logo'

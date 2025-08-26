@@ -1,8 +1,8 @@
-import { prisma } from '@/prisma/prisma-client';
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/withAuth';
+import { prisma } from '@/prisma/prisma-client';
 
-export const PATCH = withAuth(async(req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
+export const PATCH = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
 		const { id } = await params
 		const portfolioId = Number(id)
@@ -21,14 +21,14 @@ export const PATCH = withAuth(async(req: NextRequest, userId: number, { params }
 		}
 
 		await prisma.portfolio.update({
-			where: {id: portfolioId, userId},
+			where: { id: portfolioId, userId },
 			data: { name }
 		})
-		
-		return NextResponse.json({ message: 'Portfolio edited successfuly'}, { status: 200 })
+
+		return NextResponse.json({ message: 'Portfolio name edited successfuly' }, { status: 200 })
 	} catch (error) {
 		console.error('[PORTFOLIO_EDIT_PATCH] Server error:', error)
-		return NextResponse.json({ message: 'Failed to edit portfolio' }, { status: 500 })
+		return NextResponse.json({ message: 'Failed to edit portfolio name' }, { status: 500 })
 	} finally {
 		await prisma.$disconnect()
 	}

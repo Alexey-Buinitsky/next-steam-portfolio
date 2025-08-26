@@ -3,8 +3,10 @@ export { getMetrics } from './metrics';
 
 export { calculateFee } from "./calculate-fee";
 export { calculatePercentage } from './calculate-percentage';
-export { formatCurrency } from './format-currency';
 export { formatPercentage } from './format-percentage';
+export { calculateAssetMetrics } from './calculate-asset-metrics';
+
+export * from './currency';
 
 export { formatValue, getValueColor } from './columns';
 
@@ -21,6 +23,8 @@ export {
     sendPasswordResetEmail, generatePasswordResetCode, verifyPasswordResetCode, invalidatePasswordResetCode,
     EMAIL_VERIFICATION_ERRORS, 
 } from './auth'
+
+export { withAuth } from './withAuth'
 
 export { hashPassword, verifyPassword } from './password-hash'
 

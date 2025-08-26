@@ -1,7 +1,8 @@
 import { useFetchPortfolios } from './use-fetch-portfolios';
 import { useCreatePortfolio } from './use-create-portfolio';
 import { useSelectPortfolio } from './use-select-portfolio';
-import { useEditPortfolio } from './use-edit-portfolio';
+import { useEditPortfolioName } from './use-edit-portfolio-name';
+import { useChangePortfolioCurrency } from './use-change-portfolio-currency';
 import { useDeletePortfolio } from './use-delete-portfolio';
 
 import { useFetchPortfolioAssets } from './use-fetch-portfolio-assets';
@@ -16,24 +17,26 @@ export const usePortfolios = () => {
 	const { portfolios, isFetching: isFetchingPortfolios, fetchError: portfoliosFetchError } = useFetchPortfolios()
 	const { createPortfolio, isCreating: isCreatingPortfolio, createError: portfolioCreateError } = useCreatePortfolio()
 	const { deletePortfolio, isDeleting: isDeletingPortfolio, deleteError: portfolioDeleteError } = useDeletePortfolio()
-	const { editPortfolio, isEditing: isEditingPortfolio, editError: portfolioEditError } = useEditPortfolio()
+	const { editPortfolioName, isEditing: isEditingPortfolioName, editError: portfolioNameEditError } = useEditPortfolioName()
+	const { changePortfolioCurrency, isChanging: isChangingPortfolioCurrency, changeError: portfolioCurrencyChangeError } = useChangePortfolioCurrency()
 	const { selectedPortfolio, isSelecting: isSelectingPortfolio, selectError: portfolioSelectError, selectPortfolio } = useSelectPortfolio({ portfolios })
+
 
 	const { portfolioAssets, isFetching: isFetchingPortfolioAssets, fetchError: portfolioAssetsFetchError } = useFetchPortfolioAssets(selectedPortfolio?.id)
 	const { isCreating: isCreatingPortfolioAsset, createError: portfolioAssetCreateError, createPortfolioAsset } = useCreatePortfolioAsset()
 	const { isEditing: isEditingPortfolioAsset, editError: portfolioAssetEditError, editPortfolioAsset } = useEditPortfolioAsset()
 	const { isDeleting: isDeletingPortfolioAssets, deleteError: portfolioAssetsDeleteError, deletePortfolioAssets } = useDeletePortfolioAssets()
 
-	const isLoading = isFetchingPortfolios || isCreatingPortfolio || isDeletingPortfolio || isEditingPortfolio || isSelectingPortfolio
+	const isLoading = isFetchingPortfolios || isCreatingPortfolio || isDeletingPortfolio || isEditingPortfolioName || isSelectingPortfolio || isChangingPortfolioCurrency
 		|| isFetchingPortfolioAssets || isEditingPortfolioAsset || isCreatingPortfolioAsset || isDeletingPortfolioAssets
 
-	const error = portfoliosFetchError || portfolioCreateError || portfolioDeleteError || portfolioEditError || portfolioSelectError
+	const error = portfoliosFetchError || portfolioCreateError || portfolioDeleteError || portfolioNameEditError || portfolioSelectError || portfolioCurrencyChangeError
 		|| portfolioAssetsFetchError || portfolioAssetCreateError || portfolioAssetEditError || portfolioAssetsDeleteError || null
 
 	return {
 		portfolios, selectedPortfolio, portfolioAssets,
 		isLoading, error,
-		createPortfolio, deletePortfolio, editPortfolio, selectPortfolio,
+		createPortfolio, deletePortfolio, editPortfolioName, selectPortfolio, changePortfolioCurrency,
 		createPortfolioAsset, editPortfolioAsset, deletePortfolioAssets
 	}
 }

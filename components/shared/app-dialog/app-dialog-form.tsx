@@ -25,8 +25,8 @@ export function AppDialogForm<T extends FieldValues>({ className, id, fields, on
 						<FormLabel>{field.label}</FormLabel>
 						<FormControl>
 							{isNumberField(field)
-								? <Input placeholder={field.placeholder} type="number" min={field.min} step={field.step} {...rhfField} />
-								: <Input placeholder={field.placeholder} type="text" {...rhfField} />
+								? <Input placeholder={field.placeholder} type="number" min={field.min} max={field.max} step={field.step} {...rhfField} />
+								: <Input placeholder={field.placeholder} type="text" maxLength={field.maxLength} {...rhfField} />
 							}
 						</FormControl>
 						<FormMessage />
