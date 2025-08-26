@@ -27,6 +27,7 @@ model Portfolio {
 
   name     String
   isActive Boolean @default(false)
+	currency  String   @default("USD")
 
   user   User? @relation(fields: [userId], references: [id])
   userId Int?
@@ -58,6 +59,7 @@ model PortfolioAsset {
 
   quantity      Int    @default(1)
   buyPrice      Float  @default(0)
+	currentPrice  Float?
 	
   totalInvested Float
   totalWorth    Float

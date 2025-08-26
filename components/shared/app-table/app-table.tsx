@@ -4,8 +4,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, RowSelectionState, SortingState, useReactTable, VisibilityState } from '@tanstack/react-table';
 import { Table, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui';
-import { AppTableAddition, AppTableBody, AppTableChart, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle } from '@/components/shared/app-table';
-import { usePortfoliosContext } from '@/components/shared';
+import { AppTableAddition, AppTableBody, AppTableChart, AppTableCurrency, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle, usePortfoliosContext } from '@/components/shared';
 import { getMetrics, getChart } from '@/lib';
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
@@ -16,13 +15,13 @@ interface Props<TValue> {
 
 export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 
-	const { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolio, deletePortfolio, isLoading, portfolioAssets, createPortfolioAsset, deletePortfolioAssets, } = usePortfoliosContext()
+	const { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolioName, deletePortfolio, isLoading, changePortfolioCurrency, portfolioAssets, createPortfolioAsset, deletePortfolioAssets, } = usePortfoliosContext()
 
 	const portfolioData = React.useMemo(() => ({
-		metrics: getMetrics(portfolioAssets),
+		metrics: getMetrics(portfolioAssets, selectedPortfolio?.currency),
 		volumeChart: getChart({ data: portfolioAssets, categoryPath: "asset.type", valueKey: "quantity", options: { valueLabel: "Volume" } }),
 		priceChart: getChart({ data: portfolioAssets, categoryPath: "asset.type", valueKey: "totalWorth", options: { valueLabel: "Price" } }),
-	}), [portfolioAssets])
+	}), [portfolioAssets, selectedPortfolio])
 
 	const [sorting, setSorting] = React.useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -54,11 +53,14 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 	return (
 		<div className={cn("flex flex-col gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8", className)}>
 
-			<div className="flex items-center justify-between flex-wrap gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+			<div className="flex flex-wrap items-start lg:items-center justify-between gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 				<AppTableSelection portfolios={portfolios} isLoading={isLoading} createPortfolio={createPortfolio} selectedPortfolio={selectedPortfolio} selectPortfolio={selectPortfolio} />
-				<div className="flex items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+				<div className="flex items-end lg:items-center flex-col lg:flex-row gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8 ml-auto lg:ml-0">
 					<AppTableAddition selectedPortfolio={selectedPortfolio} createPortfolioAsset={createPortfolioAsset} isLoading={isLoading} />
-					<AppTableSettings deletePortfolio={deletePortfolio} editPortfolio={editPortfolio} selectedPortfolio={selectedPortfolio} isLoading={isLoading} />
+					<div className="flex items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
+						<AppTableCurrency selectedPortfolio={selectedPortfolio} changePortfolioCurrency={changePortfolioCurrency} isLoading={isLoading} />
+						<AppTableSettings deletePortfolio={deletePortfolio} editPortfolioName={editPortfolioName} selectedPortfolio={selectedPortfolio} isLoading={isLoading} />
+					</div>
 				</div>
 			</div>
 

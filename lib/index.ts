@@ -3,8 +3,10 @@ export { getMetrics } from './metrics';
 
 export { calculateFee } from "./calculate-fee";
 export { calculatePercentage } from './calculate-percentage';
-export { formatCurrency } from './format-currency';
 export { formatPercentage } from './format-percentage';
+export { calculateAssetMetrics } from './calculate-asset-metrics';
+
+export * from './currency';
 
 export { formatValue, getValueColor } from './columns';
 
@@ -37,6 +39,8 @@ export {
 } from './auth'
 
 export { sessionOptions } from './session'
+export { withAuth } from './withAuth'
+
 export { hashPassword, verifyPassword } from './password-hash'
 export { authLimiter, strictAuthLimiter } from './rate-limit'
 

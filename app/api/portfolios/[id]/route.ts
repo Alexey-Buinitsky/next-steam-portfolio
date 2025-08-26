@@ -1,11 +1,11 @@
-import { prisma } from '@/prisma/prisma-client';
 import { NextRequest, NextResponse } from 'next/server';
-import { withAuth } from '@/lib/withAuth';
+import { withAuth } from '@/lib';
+import { prisma } from '@/prisma/prisma-client';
 
 export const DELETE = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
 		const { id } = await params
-    	const portfolioId = Number(id)
+		const portfolioId = Number(id)
 
 		const portfolio = prisma.portfolio.findUnique({
 			where: { id: portfolioId, userId }
@@ -20,7 +20,7 @@ export const DELETE = withAuth(async (req: NextRequest, userId: number, { params
 		})
 
 		return NextResponse.json({ message: 'Portfolio deleted successfully' }, { status: 200 })
-	} catch ( error ) {
+	} catch (error) {
 		console.error('[PORTFOLIO_DELETE] Server error:', error)
 		return NextResponse.json({ message: 'Failed to delete portfolio' }, { status: 500 })
 	} finally {

@@ -2,11 +2,12 @@
 
 import { useTheme } from "next-themes"
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui"
-import { Moon, Sun } from "lucide-react"
+import { CheckIcon, Moon, Sun } from "lucide-react"
 
 export const ModeToggle: React.FC = () => {
 
-	const { setTheme } = useTheme()
+	const themes: string[] = ["Light", "Dark", "System"]
+	const { theme, setTheme } = useTheme()
 
 	return (
 		<DropdownMenu>
@@ -18,15 +19,12 @@ export const ModeToggle: React.FC = () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem onClick={() => setTheme("light")}>
-					Light
-				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme("dark")}>
-					Dark
-				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme("system")}>
-					System
-				</DropdownMenuItem>
+				{themes.map((strTheme) => (
+					<DropdownMenuItem className="justify-between" key={strTheme} onClick={() => setTheme(strTheme.toLowerCase())}>
+						{strTheme}
+						{strTheme.toLowerCase() === theme && <CheckIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />}
+					</DropdownMenuItem>
+				))}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	)

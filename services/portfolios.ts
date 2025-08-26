@@ -34,7 +34,15 @@ export const portfoliosApi = {
 		try {
 			return (await apiInstance.patch<{ message: string }>(`${apiRoutes.PORTFOLIOS}/${id}/edit`, { name })).data
 		} catch (error) {
-			throw handleApiError(error, 'editPortfolio')
+			throw handleApiError(error, 'editPortfolioName')
+		}
+	},
+
+	change: async (id: number, currency: string): Promise<{ message: string }> => {
+		try {
+			return (await apiInstance.patch<{ message: string }>(`${apiRoutes.PORTFOLIOS}/${id}/change`, { currency })).data
+		} catch (error) {
+			throw handleApiError(error, 'changePortfolioCurrency')
 		}
 	},
 

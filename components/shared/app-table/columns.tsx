@@ -142,22 +142,22 @@ export const columns: ColumnDef<PortfolioAssetWithRelations>[] = [
 	{
 		accessorKey: "buyPrice",
 		header: ({ column }) => <SortableHeader column={column}>Buy price</SortableHeader>,
-		cell: ({ row }) => formatCurrency(row.getValue("buyPrice")),
+		cell: ({ row }) => formatCurrency(row.getValue("buyPrice"), row.original.portfolio.currency),
 	},
 	{
 		accessorKey: "currentPrice",
 		header: ({ column }) => <SortableHeader column={column}>Current price</SortableHeader>,
-		cell: ({ row }) => formatCurrency(row.original.asset.price ? row.original.asset.price / 100 : row.getValue("buyPrice")),
+		cell: ({ row }) => formatCurrency(row.original.currentPrice ? row.getValue("currentPrice") : row.original.asset.price ? row.original.asset.price / 100 : row.getValue("buyPrice"), row.original.portfolio.currency),
 	},
 	{
 		accessorKey: "totalInvested",
 		header: ({ column }) => <SortableHeader column={column}>Total invested</SortableHeader>,
-		cell: ({ row }) => formatCurrency(row.getValue("totalInvested")),
+		cell: ({ row }) => formatCurrency(row.getValue("totalInvested"), row.original.portfolio.currency),
 	},
 	{
 		accessorKey: "totalWorth",
 		header: ({ column }) => <SortableHeader column={column}>Total worth</SortableHeader>,
-		cell: ({ row }) => formatCurrency(row.getValue("totalWorth")),
+		cell: ({ row }) => formatCurrency(row.getValue("totalWorth"), row.original.portfolio.currency),
 	},
 	{
 		accessorKey: "percentage",
@@ -167,12 +167,12 @@ export const columns: ColumnDef<PortfolioAssetWithRelations>[] = [
 	{
 		accessorKey: "gain",
 		header: ({ column }) => <SortableHeader column={column}>Gain</SortableHeader>,
-		cell: ({ row }) => { return <span className={getValueColor(row.getValue("gain"))}>{formatValue(row.getValue("gain"))}</span> }
+		cell: ({ row }) => { return <span className={getValueColor(row.getValue("gain"))}>{formatValue(row.getValue("gain"), "currency", row.original.portfolio.currency)}</span> }
 	},
 	{
 		accessorKey: "gainAfterFees",
 		header: ({ column }) => <SortableHeader column={column}>Gain after fees</SortableHeader>,
-		cell: ({ row }) => { return <span className={getValueColor(row.getValue("gainAfterFees"))}>{formatValue(row.getValue("gainAfterFees"))}</span> }
+		cell: ({ row }) => { return <span className={getValueColor(row.getValue("gainAfterFees"))}>{formatValue(row.getValue("gainAfterFees"), "currency", row.original.portfolio.currency)}</span> }
 	},
 	{
 		id: "actions",

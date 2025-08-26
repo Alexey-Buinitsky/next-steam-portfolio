@@ -5,10 +5,10 @@ import { toast } from 'sonner';
 interface ReturnProps {
 	isEditing: boolean;
 	editError: Error | null;
-	editPortfolio: ({ id, name }: { id: number; name: string }) => void;
+	editPortfolioName: ({ id, name }: { id: number; name: string }) => void;
 }
 
-export const useEditPortfolio = (): ReturnProps => {
+export const useEditPortfolioName = (): ReturnProps => {
 	const queryClient = useQueryClient()
 
 	const { mutate, isPending, error } = useMutation<{ message: string }, Error, { id: number; name: string }>({
@@ -22,5 +22,5 @@ export const useEditPortfolio = (): ReturnProps => {
 		}
 	})
 
-	return { isEditing: isPending, editError: error, editPortfolio: mutate }
+	return { isEditing: isPending, editError: error, editPortfolioName: mutate }
 }
