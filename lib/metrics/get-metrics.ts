@@ -10,7 +10,7 @@ export interface IMetric {
 	icon: React.ComponentType<LucideProps>
 }
 
-export const getMetrics = (portfolioAssets: PortfolioAsset[] | undefined): IMetric[] => {
+export const getMetrics = (portfolioAssets: PortfolioAsset[] | undefined, currency: string = 'USD'): IMetric[] => {
 	const { totalInvested, totalWorth, gain, estimatedGainAfterFees } = calculateMetrics(portfolioAssets)
 
 	const determineTrend = (value: number, compareTo?: number): TrendType => {
@@ -26,10 +26,10 @@ export const getMetrics = (portfolioAssets: PortfolioAsset[] | undefined): IMetr
 	}
 
 	const metricsData: IMetric[] = [
-		{ key: "Total Invested", value: formatCurrency(totalInvested), trend: "neutral", icon: getTrendIcon("neutral"), },
-		{ key: "Total Worth", value: formatCurrency(totalWorth), trend: determineTrend(totalWorth, totalInvested), icon: getTrendIcon(determineTrend(totalWorth, totalInvested)) },
-		{ key: "Gain", value: formatCurrency(gain), trend: determineTrend(gain), icon: getTrendIcon(determineTrend(gain)), },
-		{ key: "Estimated gain after fees", value: formatCurrency(estimatedGainAfterFees), trend: determineTrend(estimatedGainAfterFees), icon: getTrendIcon(determineTrend(estimatedGainAfterFees)), }
+		{ key: "Total Invested", value: formatCurrency(totalInvested, currency), trend: "neutral", icon: getTrendIcon("neutral"), },
+		{ key: "Total Worth", value: formatCurrency(totalWorth, currency), trend: determineTrend(totalWorth, totalInvested), icon: getTrendIcon(determineTrend(totalWorth, totalInvested)) },
+		{ key: "Gain", value: formatCurrency(gain, currency), trend: determineTrend(gain), icon: getTrendIcon(determineTrend(gain)), },
+		{ key: "Estimated gain after fees", value: formatCurrency(estimatedGainAfterFees, currency), trend: determineTrend(estimatedGainAfterFees), icon: getTrendIcon(determineTrend(estimatedGainAfterFees)), }
 	]
 
 	return metricsData

@@ -1,9 +1,9 @@
+import { NextResponse, NextRequest } from 'next/server';
+import { withAuth } from '@/lib';
 import { prisma } from '@/prisma/prisma-client';
 import { Portfolio } from '@prisma/client';
-import { NextResponse, NextRequest } from 'next/server';
-import { withAuth } from '@/lib/withAuth';
 
-export const GET = withAuth(async (req: NextRequest, userId:number): Promise<NextResponse<Portfolio[] | { message: string }>> => {
+export const GET = withAuth(async (req: NextRequest, userId: number): Promise<NextResponse<Portfolio[] | { message: string }>> => {
 	try {
 		const portfolios = await prisma.portfolio.findMany({
 			where: { userId },
@@ -19,18 +19,17 @@ export const GET = withAuth(async (req: NextRequest, userId:number): Promise<Nex
 })
 
 export const POST = withAuth(async (req: NextRequest, userId: number): Promise<NextResponse<{ message: string }>> => {
-  	try {
+	try {
 		const { name }: { name: string } = await req.json()
-		
+
 		if (!name) {
 			return NextResponse.json({ message: 'Portfolio name is required' }, { status: 400 })
 		}
 
 		await prisma.portfolio.create({
-			data: {	
+			data: {
 				name,
 				user: { connect: { id: userId } }
-				// isActive: false, // Значение по умолчанию
 			}
 		})
 		return NextResponse.json({ message: 'Portfolio created successfully' }, { status: 200 })

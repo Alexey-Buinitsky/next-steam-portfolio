@@ -8,12 +8,12 @@ import { Portfolio } from '@prisma/client';
 interface Props {
 	className?: string;
 	deletePortfolio: (id: number) => void;
-	editPortfolio: ({ id, name }: { id: number; name: string; }) => void
+	editPortfolioName: ({ id, name }: { id: number; name: string; }) => void
 	selectedPortfolio: Portfolio | undefined;
 	isLoading: boolean;
 }
 
-export const AppTableSettings: React.FC<Props> = ({ className, deletePortfolio, editPortfolio, selectedPortfolio, isLoading }) => {
+export const AppTableSettings: React.FC<Props> = ({ className, deletePortfolio, editPortfolioName, selectedPortfolio, isLoading }) => {
 
 	const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false)
 
@@ -27,7 +27,7 @@ export const AppTableSettings: React.FC<Props> = ({ className, deletePortfolio, 
 	}
 
 	const onSubmit = (name: string): void => {
-		editPortfolio({ id: selectedPortfolio!.id, name })
+		editPortfolioName({ id: selectedPortfolio!.id, name })
 		setIsDialogOpen(false)
 	}
 

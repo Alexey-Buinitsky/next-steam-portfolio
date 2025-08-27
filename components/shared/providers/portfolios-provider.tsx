@@ -8,7 +8,8 @@ interface PortfoliosContextType {
 	createPortfolio: ReturnType<typeof usePortfolios>["createPortfolio"];
 	selectPortfolio: ReturnType<typeof usePortfolios>["selectPortfolio"];
 	selectedPortfolio: ReturnType<typeof usePortfolios>["selectedPortfolio"];
-	editPortfolio: ReturnType<typeof usePortfolios>["editPortfolio"];
+	editPortfolioName: ReturnType<typeof usePortfolios>["editPortfolioName"];
+	changePortfolioCurrency: ReturnType<typeof usePortfolios>["changePortfolioCurrency"];
 	deletePortfolio: ReturnType<typeof usePortfolios>["deletePortfolio"];
 	portfolioAssets: ReturnType<typeof usePortfolios>["portfolioAssets"];
 	createPortfolioAsset: ReturnType<typeof usePortfolios>["createPortfolioAsset"];
@@ -21,9 +22,9 @@ interface PortfoliosContextType {
 const PortfoliosContext = React.createContext<PortfoliosContextType | undefined>(undefined)
 
 export const PortfoliosProvider = ({ children }: { children: React.ReactNode }) => {
-	const { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolio, deletePortfolio, portfolioAssets, createPortfolioAsset, deletePortfolioAssets, editPortfolioAsset, isLoading, error, } = usePortfolios()
+	const { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolioName, changePortfolioCurrency, deletePortfolio, portfolioAssets, createPortfolioAsset, deletePortfolioAssets, editPortfolioAsset, isLoading, error, } = usePortfolios()
 
-	const value = { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolio, deletePortfolio, portfolioAssets, createPortfolioAsset, deletePortfolioAssets, editPortfolioAsset, isLoading, error, }
+	const value = { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolioName, changePortfolioCurrency, deletePortfolio, portfolioAssets, createPortfolioAsset, deletePortfolioAssets, editPortfolioAsset, isLoading, error, }
 
 	return (
 		<PortfoliosContext.Provider value={value}>

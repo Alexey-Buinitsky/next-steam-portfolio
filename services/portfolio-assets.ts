@@ -1,38 +1,8 @@
 import { apiInstance } from './api-instance';
 import { apiRoutes } from './api-routes';
 import { handleApiError } from './api-error';
-import { calculateFee, calculatePercentage } from '@/lib';
 import { Asset } from '@prisma/client';
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
-
-interface ReturnProps {
-	totalInvested: number,
-	totalWorth: number,
-	percentage: number,
-	gain: number,
-	gainAfterFees: number,
-}
-
-const calculateAssetMetrics = (asset: Asset | PortfolioAssetWithRelations, quantity: number, buyPrice: number): ReturnProps => {
-	let currentPrice: number
-  
-  if ('price' in asset) {
-    currentPrice = asset.price !== null ? asset.price / 100 : buyPrice
-  } else {
-    currentPrice = asset.asset.price !== null ? asset.asset.price / 100 : buyPrice
-  }
-	
-	const totalInvested = buyPrice * quantity
-	const totalWorth = currentPrice * quantity
-	const percentage = calculatePercentage(currentPrice, buyPrice)
-	const gain = totalWorth - totalInvested
-
-	const fee5Percent = calculateFee(totalWorth, 23)
-	const fee10Percent = calculateFee(totalWorth, 11.5)
-	const gainAfterFees = gain - fee5Percent - fee10Percent
-
-	return { totalInvested, totalWorth, percentage, gain, gainAfterFees, }
-}
 
 export const portfolioAssetsApi = {
 
@@ -46,8 +16,7 @@ export const portfolioAssetsApi = {
 
 	create: async (id: number, selectedAsset: Asset, quantity: number, buyPrice: number): Promise<{ message: string }> => {
 		try {
-			const metrics = calculateAssetMetrics(selectedAsset, quantity, buyPrice)
-			return (await apiInstance.post<{ message: string }>(`${apiRoutes.PORTFOLIOS}/${id}/assets`, { selectedAsset, quantity, buyPrice, ...metrics },)).data
+			return (await apiInstance.post<{ message: string }>(`${apiRoutes.PORTFOLIOS}/${id}/assets`, { selectedAsset, quantity, buyPrice },)).data
 		} catch (error) {
 			throw handleApiError(error, 'createPortfolioAsset')
 		}
@@ -55,8 +24,7 @@ export const portfolioAssetsApi = {
 
 	edit: async (id: number, selectedPortfolioAsset: PortfolioAssetWithRelations, quantity: number, buyPrice: number): Promise<{ message: string }> => {
 		try {
-			const metrics = calculateAssetMetrics(selectedPortfolioAsset, quantity, buyPrice)
-			return (await apiInstance.patch<{ message: string }>(`${apiRoutes.PORTFOLIOS}/${id}/assets`, { selectedPortfolioAsset, quantity, buyPrice, ...metrics })).data
+			return (await apiInstance.patch<{ message: string }>(`${apiRoutes.PORTFOLIOS}/${id}/assets`, { selectedPortfolioAsset, quantity, buyPrice })).data
 		} catch (error) {
 			throw handleApiError(error, 'editPortfolioAsset')
 		}

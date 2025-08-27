@@ -1,26 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { calculateAssetMetrics, getExchangeRate, withAuth } from '@/lib';
+import { PortfolioAssetWithRelations } from '@/types/portfolio';
 import { prisma } from '@/prisma/prisma-client';
 import { Asset, PortfolioAsset } from '@prisma/client';
-import { PortfolioAssetWithRelations } from '@/types/portfolio';
-import { withAuth } from '@/lib/withAuth';
 
 interface Props {
 	selectedAsset?: Asset;
 	selectedPortfolioAsset?: PortfolioAssetWithRelations;
 	quantity: string;
 	buyPrice: string;
-	totalInvested: number;
-	totalWorth: number;
-	percentage: number;
-	gain: number;
-	gainAfterFees: number;
 }
 
-export const GET = withAuth(async(req: NextRequest, userId: number, { params }: { params : { id: string }}): Promise<NextResponse<PortfolioAsset[] | { message: string}>> => {
+export const GET = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<PortfolioAsset[] | { message: string }>> => {
 	try {
 
 		const { id } = await params
-    	const portfolioId = Number(id)
+		const portfolioId = Number(id)
 
 		const portfolio = await prisma.portfolio.findUnique({
 			where: { id: portfolioId, userId }
@@ -45,15 +40,16 @@ export const GET = withAuth(async(req: NextRequest, userId: number, { params }: 
 	}
 })
 
-export const POST = withAuth(async(req:NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string}>> => {
+export const POST = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
 
 		const { id } = await params
-    	const portfolioId = Number(id)
+		const portfolioId = Number(id)
 		const data: Props = await req.json()
 
 		const portfolio = await prisma.portfolio.findUnique({
-			where: { id: portfolioId, userId}
+			where: { id: portfolioId, userId },
+			select: { currency: true }
 		})
 
 		if (!portfolio) {
@@ -64,6 +60,15 @@ export const POST = withAuth(async(req:NextRequest, userId: number, { params }: 
 			return NextResponse.json({ message: 'Asset is required' }, { status: 400 })
 		}
 
+		let currentPrice = data.selectedAsset.price !== null ? data.selectedAsset.price / 100 : Number(data.buyPrice)
+
+		if (portfolio.currency !== 'USD') {
+			const exchangeRate = await getExchangeRate('USD', portfolio.currency)
+			currentPrice = currentPrice * exchangeRate
+		}
+
+		const metrics = calculateAssetMetrics(data.selectedAsset, Number(data.quantity), Number(data.buyPrice), currentPrice)
+
 		await prisma.portfolioAsset.create({
 			data: {
 				portfolio: {
@@ -73,18 +78,19 @@ export const POST = withAuth(async(req:NextRequest, userId: number, { params }: 
 					connect: { id: Number(data.selectedAsset.id) }
 				},
 				quantity: Number(data.quantity),
-				buyPrice: Number(data.buyPrice),
-				totalInvested: Number(data.totalInvested),
-				totalWorth: Number(data.totalWorth),
-				percentage: Number(data.percentage),
-				gain: Number(data.gain),
-				gainAfterFees: Number(data.gainAfterFees),
+				buyPrice: parseFloat(Number(data.buyPrice).toFixed(2)),
+				currentPrice: parseFloat(currentPrice.toFixed(2)),
+				totalInvested: metrics.totalInvested,
+				totalWorth: metrics.totalWorth,
+				percentage: metrics.percentage,
+				gain: metrics.gain,
+				gainAfterFees: metrics.gainAfterFees,
 				createdAt: new Date(),
-				updatedAt: new Date(), 
+				updatedAt: new Date(),
 			}
 		})
 
-		return NextResponse.json({ message: 'Portfolio Asset added successfuly'}, { status: 200 })
+		return NextResponse.json({ message: 'Portfolio Asset added successfuly' }, { status: 200 })
 	} catch (error) {
 		console.error('[PORTFOLIO_ASSETS_POST] Server error:', error)
 		return NextResponse.json({ message: 'Failed to add asset' }, { status: 500 })
@@ -93,15 +99,15 @@ export const POST = withAuth(async(req:NextRequest, userId: number, { params }: 
 	}
 })
 
-export const PATCH = withAuth(async (req: NextRequest, userId: number , { params }: { params: { id: string }}): Promise<NextResponse< { message: string}>> => {
+export const PATCH = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
 
 		const { id } = await params
-    	const portfolioId = Number(id)
+		const portfolioId = Number(id)
 		const data: Props = await req.json()
 
 		const portfolio = await prisma.portfolio.findUnique({
-			where: { id: portfolioId, userId}
+			where: { id: portfolioId, userId }
 		})
 
 		if (!portfolio) {
@@ -112,39 +118,41 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number , { params
 			return NextResponse.json({ message: 'Portfolio asset is required' }, { status: 400 })
 		}
 
+		const currentPrice = data.selectedPortfolioAsset.currentPrice !== null ? data.selectedPortfolioAsset.currentPrice : data.selectedPortfolioAsset.asset?.price ? data.selectedPortfolioAsset.asset.price / 100 : Number(data.buyPrice)
+
+		const metrics = calculateAssetMetrics(data.selectedPortfolioAsset, Number(data.quantity), Number(data.buyPrice), currentPrice)
+
 		await prisma.portfolioAsset.update({
 			where: {
 				id: data.selectedPortfolioAsset.id,
-				portfolio: {
-					id: portfolioId,
-					userId
-				}
+				portfolio: { id: portfolioId, userId }
 			},
 			data: {
 				quantity: Number(data.quantity),
-				buyPrice: Number(data.buyPrice),
-				totalInvested: data.totalInvested,
-				totalWorth: data.totalWorth,
-				percentage: data.percentage,
-				gain: data.gain,
-				gainAfterFees: data.gainAfterFees,
+				buyPrice: parseFloat(Number(data.buyPrice).toFixed(2)),
+				currentPrice: parseFloat(currentPrice.toFixed(2)),
+				totalInvested: metrics.totalInvested,
+				totalWorth: metrics.totalWorth,
+				percentage: metrics.percentage,
+				gain: metrics.gain,
+				gainAfterFees: metrics.gainAfterFees,
 			}
-		})	
+		})
 
-		return NextResponse.json({ message: 'Portfolio asset edited successfuly'}, { status: 200 })
+		return NextResponse.json({ message: 'Portfolio asset edited successfuly' }, { status: 200 })
 	} catch (error) {
 		console.error('[PORTFOLIO_ASSET_PATCH] Server error:', error)
-		return NextResponse.json({ message: 'Failed to edit portfolio asset'}, { status: 500 })
+		return NextResponse.json({ message: 'Failed to edit portfolio asset' }, { status: 500 })
 	} finally {
 		await prisma.$disconnect()
 	}
 })
 
-export const DELETE = withAuth(async(req: NextRequest, userId: number, { params }: { params: {id: string}}): Promise<NextResponse<{ message: string }>> => {
+export const DELETE = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
 
 		const { id } = await params
-    	const portfolioId = Number(id)
+		const portfolioId = Number(id)
 		const { selectedPortfolioAssets }: { selectedPortfolioAssets: PortfolioAssetWithRelations[] } = await req.json()
 
 		const portfolio = await prisma.portfolio.findUnique({
@@ -160,7 +168,7 @@ export const DELETE = withAuth(async(req: NextRequest, userId: number, { params 
 		}
 
 		if (!selectedPortfolioAssets?.length) return NextResponse.json({ message: 'Portfolio asset IDs are required' }, { status: 400 });
-		
+
 		await prisma.portfolioAsset.deleteMany({
 			where: {
 				id: { in: selectedPortfolioAssets.map(portfolioAsset => portfolioAsset.id) },
