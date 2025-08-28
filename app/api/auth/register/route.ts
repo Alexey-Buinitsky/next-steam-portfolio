@@ -31,14 +31,14 @@ async function registerHandler({ json }: { request: NextRequest, json?: unknown 
     
     if(!existingUser.emailVerified) { // Случай когда пользователь заново регистрируется из-за неподтвержденного кода
 
-      await prisma.user.update({      // Если в форме данных вдруг что-то поменялось
-        where: { id: existingUser.id },
-        data: {
-          passwordHash: await hashPassword(password),
-          nickname: nickname || null,
-          // другие поля при необходимости
-        }
-      });
+      // await prisma.user.update({      // Если в форме данных вдруг что-то поменялось
+      //   where: { id: existingUser.id },
+      //   data: {
+      //     passwordHash: await hashPassword(password),
+      //     nickname: nickname || null,
+      //     // другие поля при необходимости
+      //   }
+      // });
 
       await sendVerificationEmail({
         userId: existingUser.id,
@@ -55,7 +55,10 @@ async function registerHandler({ json }: { request: NextRequest, json?: unknown 
     }
 
     return NextResponse.json(
-      { error: 'User with this email already exists' },
+      {  
+        error: 'User with this email already exists',
+        code: 'EMAIL_ALREADY_EXISTS'
+      },
       { status: 400 }
     );
   }
@@ -71,7 +74,6 @@ async function registerHandler({ json }: { request: NextRequest, json?: unknown 
   });
 
   // 3. Отправляем код верификации
-  
     await sendVerificationEmail({
       userId: user.id,
       email: user.email,

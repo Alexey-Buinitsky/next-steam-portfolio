@@ -72,6 +72,7 @@ async function loginHandler({ request, json }: { request: NextRequest; json?: un
     return NextResponse.json(
       { 
         error: "Email address not confirmed. Try registering again.", 
+        code: "EMAIL_NOT_VERIFIED",
         email: user.email,
       },
       { status: 403 }

@@ -8,6 +8,7 @@ import { useAuthForm, type AuthMode} from '@/hooks/use-form/use-auth-form';
 import { type AuthFormValues, type RegisterFormValues } from '@/lib';
 import { SubmitHandler, Control } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
+import { getFetchError } from '@/lib';
 
 interface Props {
     onClose: () => void;
@@ -69,12 +70,21 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
                     password: data.password 
                 })
             });
-
-            const responseData = await response.json();
             
             if (!response.ok) {
-                throw new Error(responseData.error || 'Authentication error');
+                const apiError = await getFetchError(response);
+                
+                // // Специфичная обработка ошибок
+                // if (error.code === 'EMAIL_NOT_VERIFIED') {
+                //     setNeedsVerification(true);
+                //     setVerificationEmail(data.email);
+                //     return;
+                // }
+                
+                throw new Error(apiError.error);
             }
+
+            const responseData = await response.json();
             
             if (mode === 'login') {
                 onClose();

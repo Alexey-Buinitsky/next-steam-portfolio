@@ -7,6 +7,9 @@ export const sessionOptions: SessionOptions = {
   cookieName: 'steamfolio-session',
   cookieOptions: {
     secure: process.env.NODE_ENV === 'production',
+      // httpOnly: true, // - в продакшн
+      // sameSite: 'lax', // - в продакшн
+      // maxAge: 60 * 60 * 24 * 7, // 1 week - при необходимости
   },
 }
 

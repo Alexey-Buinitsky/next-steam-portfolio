@@ -2,6 +2,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Button, Input } from '@/components/ui/'
+import { getFetchError } from '@/lib';
 
 const COOLDOWN_SECONDS = 60; // 1 минута
 const MAX_ATTEMPTS = 5
@@ -36,17 +37,21 @@ export const AuthEmailVerification = ({ userId, email, onSuccess }: { userId: nu
         body: JSON.stringify(body),
       });
 
-      const data = await response.json();
       if (!response.ok) {
+        const apiError = await getFetchError(response);
+        
         // Обработка rate limit с сервера
         if (response.status === 429) {
-          const retryAfter = response.headers.get('Retry-After') || COOLDOWN_SECONDS
-          setResendCooldown(Number(retryAfter))
+          const retryAfter = response.headers.get('Retry-After') || COOLDOWN_SECONDS;
+          setResendCooldown(Number(retryAfter));
         }
-        throw new Error(data.error || 'Request failed')
-      }
-      
+        
+        throw new Error(apiError.error);
+      }    
+
+      const data = await response.json();
       return data;
+      
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Request failed');
       throw err; // Пробрасываем ошибку для дополнительной обработки

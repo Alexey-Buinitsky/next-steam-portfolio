@@ -32,7 +32,10 @@ async function verify({ request, json }: { request: NextRequest, json?: unknown}
   const verification = await verifyEmailVerificationCode(userId, code);
   if (!verification.success) {
     return NextResponse.json(
-      { error: 'Invalid verification code' },
+      { 
+        error: 'Invalid verification code',
+        code: 'INVALID_VERIFICATION_CODE'
+      },
       { status: 400 }
     );
   }

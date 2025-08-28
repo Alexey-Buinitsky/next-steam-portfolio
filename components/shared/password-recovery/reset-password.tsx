@@ -7,7 +7,7 @@ import { PasswordStrengthIndicator } from '@/components/shared';
 import { useRouter } from 'next/navigation';
 import { useResetPasswordForm } from '@/hooks';
 
-import type { ResetPasswordFormValues } from '@/lib'
+import { getFetchError, type ResetPasswordFormValues } from '@/lib'
 
 interface ResetPasswordProps {
   userId?: number;
@@ -32,7 +32,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userId, email, onB
     setMessage('');
 
     try {
-      const resetResponse = await fetch('/api/auth/reset-password', {
+      const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -42,10 +42,20 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userId, email, onB
           confirmPassword: values.confirmPassword,
         }),
       });
-
-      const resetData = await resetResponse.json();
       
-      if (resetResponse.ok) {
+      if (!response.ok) {
+        const error = await getFetchError(response);
+      
+        // Обрабатываем ошибки валидации кода
+        if (error.code === 'INVALID_RESET_CODE') {
+          setError('code', { message: error.error });
+        } else {
+            throw new Error(error.error);
+        }
+        return;
+      }
+
+        const data = await response.json();
         setMessage('Password has been reset successfully');
         setTimeout(() => {
           if (onSuccess) {
@@ -54,22 +64,14 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userId, email, onB
             router.push('/auth?mode=login');
           }
         }, 2000);
-      } else {
-      // Обрабатываем ошибки валидации кода
-      if (resetData.error?.includes('Invalid or expired')) {
-        setError('code', { message: resetData.error });
-      } else {
-        setMessage(resetData.error || 'An error occurred');
-      }
-    }
 
-    } catch (error) {
-      console.error('Full error details:', error);
-      setMessage('An error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        } catch (error) {
+          console.error('Full error details:', error);
+          setMessage('An error occurred. Please try again.');
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
   return (
     <div className="space-y-4">

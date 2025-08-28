@@ -29,7 +29,7 @@ async function forgotPasswordHandler({ json }: {request: NextRequest, json?:unkn
   if (!user) {
     // В целях безопасности не сообщаем, что пользователь не существует
     return NextResponse.json({
-      success: true,
+      code: 'USER_NOT_FOUND',
       message: 'If the email exists, a password reset code has been sent',
     });
   }

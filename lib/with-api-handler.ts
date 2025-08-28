@@ -77,7 +77,7 @@ export function withApiHandler( handler: ApiHandler, options: WithApiHandlerOpti
         json: jsonData,
       });
       // 4. ДОБАВЛЯЕМ ЗАГОЛОВКИ RATE LIMIT К УСПЕШНОМУ ОТВЕТУ
-      if (rateLimiter && response.status < 400) {
+      if (rateLimiter && response.status !== 429) {
         for (const [key, value] of Object.entries(rateLimitHeaders)) {
           response.headers.set(key, value as string);
         }

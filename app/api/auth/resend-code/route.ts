@@ -28,14 +28,20 @@ async function resendCodeHandler({ json }: {request: NextRequest, json?: unknown
     
     if (!user) {
         return NextResponse.json(
-            { error: 'User not found' },
+            { 
+                error: 'User not found',
+                code: 'USER_NOT_FOUND'
+            },
             { status: 404 }
         );
     }
 
     if (user.emailVerified) {
         return NextResponse.json(
-            { error: 'Email already verified' },
+            { 
+                error: 'Email already verified',
+                code: 'EMAIL_ALREADY_VERIFIED' 
+            },
             { status: 400 }
         );
     }

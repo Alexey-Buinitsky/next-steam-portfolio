@@ -4,7 +4,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { useForgotPasswordForm } from '@/hooks';
-import type { ForgotPasswordFormValues } from '@/lib' 
+import { getFetchError, type ForgotPasswordFormValues } from '@/lib' 
 
 interface ForgotPasswordProps {
   onSuccess?: (email: string, userId: number) => void;
@@ -29,22 +29,22 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onSuccess, onBac
         body: JSON.stringify(values),
       });
 
-      const data = await response.json();
-      
-      if (response.ok) {
-        setMessage('If the email exists, a password reset code has been sent');
-         // Если есть userId (в случае успешной отправки), передаем его
-        if (data.userId) {
-          onSuccess?.(values.email, data.userId);
-        } else {
-          onSuccess?.(values.email, 0); // Fallback
-        }  
-      } else {
-        setMessage(data.error || 'An error occurred');
+      if (!response.ok) {
+        const apiError = await getFetchError(response);
+        throw new Error(apiError.error);
       }
 
+      const data = await response.json();
+
+      setMessage('If the email exists, a password reset code has been sent');
+      if (data.userId) {
+        onSuccess?.(values.email, data.userId);
+      } else {
+        onSuccess?.(values.email, 0);
+      }  
+
     } catch (error) {
-      setMessage('An error occurred. Please try again.');
+       setMessage(error instanceof Error ? error.message : 'An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }

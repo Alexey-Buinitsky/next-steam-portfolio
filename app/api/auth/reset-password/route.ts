@@ -36,7 +36,10 @@ async function resetPasswordHandler({ json }: { request: NextRequest, json?: unk
   const verification = await verifyPasswordResetCode(userId, code);
   if (!verification.success) {
     return NextResponse.json(
-      { error: 'Invalid or expired reset code' },
+      { 
+        error: 'Invalid or expired reset code',
+        code: 'INVALID_RESET_CODE' // ← ДОБАВЛЯЕМ КОД
+      },
       { status: 400 }
     );
   }
