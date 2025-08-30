@@ -1,3 +1,4 @@
+//app/components/shared/password-recovery/reset-password.tsx
 'use client'
 
 import React from 'react';
@@ -55,15 +56,10 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userId, email, onB
         return;
       }
 
-        const data = await response.json();
+        // const data = await response.json();
         setMessage('Password has been reset successfully');
-        setTimeout(() => {
-          if (onSuccess) {
-            onSuccess();
-          } else {
-            router.push('/auth?mode=login');
-          }
-        }, 2000);
+
+        onSuccess?.() ?? router.push('/auth?mode=login'); // Если onSuccess не передан, делаем мягкий редирект
 
         } catch (error) {
           console.error('Full error details:', error);

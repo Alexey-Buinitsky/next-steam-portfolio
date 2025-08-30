@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     if (!session.user) {
       return NextResponse.json(
         { user: null },
-        { status: 401 }
+        { status: 401 } 
       )
     }
 

@@ -1,3 +1,4 @@
+//app/services/auth.ts
 
 export type User = {
   id: number;
@@ -7,7 +8,10 @@ export type User = {
 
 export async function checkAuth(): Promise<{ user: User | null }> {
   try {
-    const response = await fetch('/api/auth/me');
+    const response = await fetch('/api/auth/me', {
+      credentials: 'include',
+      cache: 'no-store' // FIX: Добавляем чтобы избежать кэширования
+    });
     
     if (!response.ok) {
       if (response.status !== 401) {
@@ -24,7 +28,7 @@ export async function checkAuth(): Promise<{ user: User | null }> {
   }
 }
 
-export async function performLogout(): Promise<void> {
+export async function performLogout(): Promise<void> {  
   try {
     await fetch('/api/auth/logout', { method: 'POST' });
   } catch (error) {

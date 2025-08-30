@@ -1,3 +1,4 @@
+//app/components/shared/auth/auth.tsx
 'use client'
 
 import React from 'react';
@@ -7,16 +8,16 @@ import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormM
 import { useAuthForm, type AuthMode} from '@/hooks/use-form/use-auth-form';
 import { type AuthFormValues, type RegisterFormValues } from '@/lib';
 import { SubmitHandler, Control } from 'react-hook-form';
-import { useSearchParams } from 'next/navigation';
 import { getFetchError } from '@/lib';
 
 interface Props {
     onClose: () => void;
+    onSuccess: () => void;
 }
 
 type ExtendedAuthMode = AuthMode | 'forgot-password' | 'reset-password';
 
-export const Auth: React.FC<Props> = ({ onClose }) => {
+export const Auth: React.FC<Props> = ({ onClose, onSuccess }) => {
     const [mode, setMode] = useState<ExtendedAuthMode>('login');
     
     const [serverError, setServerError] = useState('');
@@ -87,8 +88,7 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
             const responseData = await response.json();
             
             if (mode === 'login') {
-                onClose();
-                window.location.reload();
+                onSuccess()
             }
 
             if (mode === 'register' && responseData.success) {
@@ -102,17 +102,13 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
         }
     };
 
-    const searchParams = useSearchParams()
 
     if (needsVerification) {
         return (
             <AuthEmailVerification 
                 email={verificationEmail} 
                 userId={verificationUserId!} 
-                onSuccess={() => {
-                    const redirect = searchParams.get('redirect') || '/'
-                    window.location.href = redirect
-                }}
+                onSuccess={onSuccess}
             />
         );
     }
@@ -120,8 +116,8 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
     if (mode === 'forgot-password') {
         return (
             <ForgotPassword 
-                onSuccess={handleForgotPasswordSuccess}
                 onBackToLogin={handleBackToLogin}
+                onSuccess={handleForgotPasswordSuccess}
             />
         );
     }
@@ -131,10 +127,7 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
             <ResetPassword 
                 userId={resetUserId || undefined}
                 email={resetEmail}
-                onSuccess={() => {
-                    onClose();
-                    window.location.reload();
-                }}
+                onSuccess={onSuccess}
                 onBackToForgot={handleForgotPassword}
             />
         );

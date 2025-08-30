@@ -1,3 +1,4 @@
+//app/components/shared/auth/auth-email-verification.tsx
 'use client'
 import React from 'react';
 import { useState, useEffect } from 'react';
@@ -7,7 +8,13 @@ import { getFetchError } from '@/lib';
 const COOLDOWN_SECONDS = 60; // 1 минута
 const MAX_ATTEMPTS = 5
 
-export const AuthEmailVerification = ({ userId, email, onSuccess }: { userId: number, email: string, onSuccess: () => void }) => {
+interface AuthEmailVerificationProps {
+  userId: number;
+  email: string;
+  onSuccess?: () => void; // Принимаем колбэк вместо поиска параметров
+}
+
+export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ userId, email, onSuccess }) => {
   const [code, setCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -51,7 +58,7 @@ export const AuthEmailVerification = ({ userId, email, onSuccess }: { userId: nu
 
       const data = await response.json();
       return data;
-      
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Request failed');
       throw err; // Пробрасываем ошибку для дополнительной обработки
@@ -68,7 +75,7 @@ export const AuthEmailVerification = ({ userId, email, onSuccess }: { userId: nu
 
     try {
       await handleApiRequest('/api/auth/verify', { userId, code })
-      onSuccess()
+      onSuccess?.()
     } catch {
       setAttempts(prev => prev + 1)
     }

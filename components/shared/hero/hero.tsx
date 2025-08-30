@@ -3,7 +3,7 @@
 import React from 'react';
 import { HeroMessage, AuthModal} from '@/components/shared';
 import { Button } from '@/components/ui';
-import { useAuthCheck } from '@/hooks/use-auth/use-auth-check';
+import { useAuthCheck } from '@/hooks';
 import { Warehouse } from "lucide-react";
 
 interface Props {
