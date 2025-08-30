@@ -1,6 +1,6 @@
 'use server';
 
-import { totalStartSync } from './total-start-sync';
+import { totalStartSync } from '@/lib/total-start-sync';
 
 export async function initializeBackgroundSync() {
   totalStartSync();

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { prisma } from '@/prisma/prisma-client';
 import type { SteamMarketItem } from '@/types/steam';
-import { PrismaSyncAssets } from './prisma-sync-assets';
+import { PrismaSyncAssets } from '@/lib/prisma-sync-assets';
 
 const STEAM_DELAY_MS = 5000 // Текущая задержка (5 * 2(ниже) = 10 сек)
 const STEAM_ITEMS_COUNT = 10 // Количество предметов за запрос

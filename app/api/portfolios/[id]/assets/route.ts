@@ -67,7 +67,7 @@ export const POST = withAuth(async (req: NextRequest, userId: number, { params }
 			currentPrice = currentPrice * exchangeRate
 		}
 
-		const metrics = calculateAssetMetrics(data.selectedAsset, Number(data.quantity), Number(data.buyPrice), currentPrice)
+		const metrics = calculateAssetMetrics(Number(data.quantity), Number(data.buyPrice), currentPrice)
 
 		await prisma.portfolioAsset.create({
 			data: {
@@ -120,7 +120,7 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number, { params 
 
 		const currentPrice = data.selectedPortfolioAsset.currentPrice !== null ? data.selectedPortfolioAsset.currentPrice : data.selectedPortfolioAsset.asset?.price ? data.selectedPortfolioAsset.asset.price / 100 : Number(data.buyPrice)
 
-		const metrics = calculateAssetMetrics(data.selectedPortfolioAsset, Number(data.quantity), Number(data.buyPrice), currentPrice)
+		const metrics = calculateAssetMetrics(Number(data.quantity), Number(data.buyPrice), currentPrice)
 
 		await prisma.portfolioAsset.update({
 			where: {
