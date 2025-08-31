@@ -6,15 +6,15 @@ import { sessionOptions, IronSessionWithUser } from '@/lib/session'
 export function withAuth<T extends { [key: string]: any } = {}>(handler: (req: NextRequest, userId: number, context: { params: T }) => Promise<NextResponse>) {
   return async (req: NextRequest, context: { params: T }) => {
     // 1. Получаем сессию
-    const response = new NextResponse();
-    const session = await getIronSession<IronSessionWithUser>(req, response, sessionOptions);
+    const response = new NextResponse()
+    const session = await getIronSession<IronSessionWithUser>(req, response, sessionOptions)
 
     // 2. Проверяем userId
     if (!session.user?.id) {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401, headers: response.headers }
-      );
+      )
     }
 
     // 3. Вызываем обработчик
@@ -25,7 +25,7 @@ export function withAuth<T extends { [key: string]: any } = {}>(handler: (req: N
       return NextResponse.json(
         { error: error instanceof Error ? error.message : 'Internal Server Error' },
         { status: 500 }
-      );
+      )
     }
-  };
+  }
 }

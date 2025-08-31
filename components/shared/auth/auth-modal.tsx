@@ -27,5 +27,5 @@ export const AuthModal: React.FC<Props> = ({ onClose, isOpen }) => {
                 <Auth onClose={handleClose} />
             </DialogContent>
         </Dialog>
-    );
-};
+    )
+}

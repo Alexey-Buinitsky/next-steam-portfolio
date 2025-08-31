@@ -17,19 +17,19 @@ interface ResetPasswordProps {
 }
 
 export const ResetPassword: React.FC<ResetPasswordProps> = ({ userId, email, onBackToForgot, onSuccess }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState('')
   
-  const [passwordValue, setPasswordValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('')
 
   const { form } = useResetPasswordForm()
   const { handleSubmit, setError, control } = form
   
-  const router = useRouter();
+  const router = useRouter()
 
   const onSubmit = async (values: ResetPasswordFormValues) => {
-    setIsLoading(true);
-    setMessage('');
+    setIsLoading(true)
+    setMessage('')
 
     try {
       const response = await fetch('/api/auth/reset-password', {
@@ -41,37 +41,37 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userId, email, onB
           password: values.password,
           confirmPassword: values.confirmPassword,
         }),
-      });
+      })
       
       if (!response.ok) {
-        const error = await getFetchError(response);
+        const error = await getFetchError(response)
       
         // Обрабатываем ошибки валидации кода
         if (error.code === 'INVALID_RESET_CODE') {
-          setError('code', { message: error.error });
+          setError('code', { message: error.error })
         } else {
-            throw new Error(error.error);
+            throw new Error(error.error)
         }
-        return;
+        return
       }
 
-        const data = await response.json();
-        setMessage('Password has been reset successfully');
+        const data = await response.json()
+        setMessage('Password has been reset successfully')
         setTimeout(() => {
           if (onSuccess) {
-            onSuccess();
+            onSuccess()
           } else {
-            router.push('/auth?mode=login');
+            router.push('/auth?mode=login')
           }
-        }, 2000);
+        }, 2000)
 
         } catch (error) {
-          console.error('Full error details:', error);
-          setMessage('An error occurred. Please try again.');
+          console.error('Full error details:', error)
+          setMessage('An error occurred. Please try again.')
         } finally {
-          setIsLoading(false);
+          setIsLoading(false)
         }
-      };
+      }
 
   return (
     <div className="space-y-4">
@@ -183,5 +183,5 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userId, email, onB
         </form>
       </Form>
     </div>
-  );
-};
+  )
+}

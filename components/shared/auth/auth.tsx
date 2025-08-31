@@ -14,52 +14,52 @@ interface Props {
     onClose: () => void;
 }
 
-type ExtendedAuthMode = AuthMode | 'forgot-password' | 'reset-password';
+type ExtendedAuthMode = AuthMode | 'forgot-password' | 'reset-password'
 
 export const Auth: React.FC<Props> = ({ onClose }) => {
-    const [mode, setMode] = useState<ExtendedAuthMode>('login');
+    const [mode, setMode] = useState<ExtendedAuthMode>('login')
     
-    const [serverError, setServerError] = useState('');
-    const [passwordValue, setPasswordValue] = useState('');
-    const [needsVerification, setNeedsVerification] = useState(false);
-    const [verificationEmail, setVerificationEmail] = useState<string>('');
-    const [verificationUserId, setVerificationUserId] = useState<number | null>(null);
+    const [serverError, setServerError] = useState('')
+    const [passwordValue, setPasswordValue] = useState('')
+    const [needsVerification, setNeedsVerification] = useState(false)
+    const [verificationEmail, setVerificationEmail] = useState<string>('')
+    const [verificationUserId, setVerificationUserId] = useState<number | null>(null)
     
     // Для восстановления пароля
-    const [resetEmail, setResetEmail] = useState<string>('');
-    const [resetUserId, setResetUserId] = useState<number | null>(null);
+    const [resetEmail, setResetEmail] = useState<string>('')
+    const [resetUserId, setResetUserId] = useState<number | null>(null)
 
-    const { form } = useAuthForm(mode as AuthMode);
-    const { handleSubmit, formState, reset, control } = form;
+    const { form } = useAuthForm(mode as AuthMode)
+    const { handleSubmit, formState, reset, control } = form
 
     const toggleMode = () => {
-        const newMode = mode === 'login' ? 'register' : 'login';
-        setMode(newMode);
+        const newMode = mode === 'login' ? 'register' : 'login'
+        setMode(newMode)
         reset(newMode === 'login' 
             ? { email: '', password: '' }
             : { email: '', password: '', nickname: '' }
-        );
-        setServerError('');
-    };
+        )
+        setServerError('')
+    }
 
     const handleForgotPassword = () => {
-        setMode('forgot-password');
-        setServerError('');
-    };
+        setMode('forgot-password')
+        setServerError('')
+    }
 
     const handleBackToLogin = () => {
-        setMode('login');
-        setServerError('');
-    };
+        setMode('login')
+        setServerError('')
+    }
 
     const handleForgotPasswordSuccess = (email: string, userId: number) => {
-        setResetEmail(email);
-        setResetUserId(userId);
-        setMode('reset-password');
-    };
+        setResetEmail(email)
+        setResetUserId(userId)
+        setMode('reset-password')
+    }
     
     const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
-        setServerError('');
+        setServerError('')
 
         try {
             const response = await fetch(`/api/auth/${mode}`, { // Используем mode вместо endpoint
@@ -69,38 +69,38 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
                     email: data.email, 
                     password: data.password 
                 })
-            });
+            })
             
             if (!response.ok) {
-                const apiError = await getFetchError(response);
+                const apiError = await getFetchError(response)
                 
                 // // Специфичная обработка ошибок
                 // if (error.code === 'EMAIL_NOT_VERIFIED') {
-                //     setNeedsVerification(true);
-                //     setVerificationEmail(data.email);
-                //     return;
+                //     setNeedsVerification(true)
+                //     setVerificationEmail(data.email)
+                //     return
                 // }
                 
-                throw new Error(apiError.error);
+                throw new Error(apiError.error)
             }
 
-            const responseData = await response.json();
+            const responseData = await response.json()
             
             if (mode === 'login') {
-                onClose();
-                window.location.reload();
+                onClose()
+                window.location.reload()
             }
 
             if (mode === 'register' && responseData.success) {
-                setNeedsVerification(true);
-                setVerificationEmail(responseData.email);
-                setVerificationUserId(responseData.userId);
+                setNeedsVerification(true)
+                setVerificationEmail(responseData.email)
+                setVerificationUserId(responseData.userId)
             }
             
         } catch (err) {
-            setServerError(err instanceof Error ? err.message : 'Authentication failed');
+            setServerError(err instanceof Error ? err.message : 'Authentication failed')
         }
-    };
+    }
 
     const searchParams = useSearchParams()
 
@@ -114,7 +114,7 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
                     window.location.href = redirect
                 }}
             />
-        );
+        )
     }
 
     if (mode === 'forgot-password') {
@@ -123,7 +123,7 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
                 onSuccess={handleForgotPasswordSuccess}
                 onBackToLogin={handleBackToLogin}
             />
-        );
+        )
     }
 
     if (mode === 'reset-password') {
@@ -132,12 +132,12 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
                 userId={resetUserId || undefined}
                 email={resetEmail}
                 onSuccess={() => {
-                    onClose();
-                    window.location.reload();
+                    onClose()
+                    window.location.reload()
                 }}
                 onBackToForgot={handleForgotPassword}
             />
-        );
+        )
     }
 
     return (
@@ -269,5 +269,5 @@ export const Auth: React.FC<Props> = ({ onClose }) => {
                 </form>
             </Form>
         </div>
-    );
-};
+    )
+}

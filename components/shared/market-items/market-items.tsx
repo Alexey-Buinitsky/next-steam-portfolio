@@ -37,5 +37,5 @@ export function MarketItems() {
 				/>
 			)}
 		</div>
-	);
+	)
 }

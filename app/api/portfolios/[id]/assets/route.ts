@@ -167,7 +167,7 @@ export const DELETE = withAuth(async (req: NextRequest, userId: number, { params
 			return NextResponse.json({ message: 'Portfolio asset(s) is(are) required' }, { status: 400 })
 		}
 
-		if (!selectedPortfolioAssets?.length) return NextResponse.json({ message: 'Portfolio asset IDs are required' }, { status: 400 });
+		if (!selectedPortfolioAssets?.length) return NextResponse.json({ message: 'Portfolio asset IDs are required' }, { status: 400 })
 
 		await prisma.portfolioAsset.deleteMany({
 			where: {

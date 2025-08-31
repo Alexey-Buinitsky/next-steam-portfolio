@@ -36,5 +36,5 @@ export const CurrencyRates:React.FC<Props> = React.memo(function CurrencyRates({
         </div>
       )}
     </div>
-  );
-});
+  )
+})

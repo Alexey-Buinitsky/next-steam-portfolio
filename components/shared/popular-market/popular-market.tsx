@@ -7,5 +7,5 @@ export const PopularMarket: React.FC = () => {
       <h2 className="text-2xl font-bold mb-4">The most popular investment cases</h2>
       <PopularMarketCases />
     </div>
-  );
+  )
 }

@@ -9,8 +9,8 @@ interface Props {
 }
 
 export const HeroMessage: React.FC<Props> = ({ user }) => {
-  const { logout } = useAuthCheck();
-  const displayName = user?.nickname || user?.email || 'Guest';
+  const { logout } = useAuthCheck()
+  const displayName = user?.nickname || user?.email || 'Guest'
 
   return (
     <div className="mt-8 flex flex-col items-center sm:items-start gap-4">
@@ -24,5 +24,5 @@ export const HeroMessage: React.FC<Props> = ({ user }) => {
             <Button variant="outline" onClick={logout}>Logout</Button>
         </div>
     </div>
-  );
-};
+  )
+}

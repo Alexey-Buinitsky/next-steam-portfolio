@@ -35,7 +35,7 @@ export const Slider: React.FC<SwiperProps> = ({
     1440: { slidesPerView: 4, spaceBetween: 25 },
     1920: { slidesPerView: 5, spaceBetween: 30 },
     2560: { slidesPerView: 6, spaceBetween: 40 }, 
-  };
+  }
 
   return (
     <div style={{ ...style, margin: '0 auto'}}>
@@ -68,5 +68,5 @@ export const Slider: React.FC<SwiperProps> = ({
         />
       </Swiper>
     </div>
-  );
-};
+  )
+}

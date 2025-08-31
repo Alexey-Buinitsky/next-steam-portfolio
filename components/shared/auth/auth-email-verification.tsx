@@ -4,15 +4,15 @@ import { useState, useEffect } from 'react';
 import { Button, Input } from '@/components/ui/'
 import { getFetchError } from '@/lib';
 
-const COOLDOWN_SECONDS = 60; // 1 минута
+const COOLDOWN_SECONDS = 60 // 1 минута
 const MAX_ATTEMPTS = 5
 
 export const AuthEmailVerification = ({ userId, email, onSuccess }: { userId: number, email: string, onSuccess: () => void }) => {
-  const [code, setCode] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [code, setCode] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resendCooldown, setResendCooldown] = useState(0)
   const [attempts, setAttempts] = useState(0)
 
   useEffect(() => {
@@ -35,30 +35,30 @@ export const AuthEmailVerification = ({ userId, email, onSuccess }: { userId: nu
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
-      });
+      })
 
       if (!response.ok) {
-        const apiError = await getFetchError(response);
+        const apiError = await getFetchError(response)
         
         // Обработка rate limit с сервера
         if (response.status === 429) {
-          const retryAfter = response.headers.get('Retry-After') || COOLDOWN_SECONDS;
-          setResendCooldown(Number(retryAfter));
+          const retryAfter = response.headers.get('Retry-After') || COOLDOWN_SECONDS
+          setResendCooldown(Number(retryAfter))
         }
         
-        throw new Error(apiError.error);
+        throw new Error(apiError.error)
       }    
 
-      const data = await response.json();
-      return data;
+      const data = await response.json()
+      return data
       
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Request failed');
-      throw err; // Пробрасываем ошибку для дополнительной обработки
+      setError(err instanceof Error ? err.message : 'Request failed')
+      throw err // Пробрасываем ошибку для дополнительной обработки
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleVerify = async () => {
     if (attempts >= MAX_ATTEMPTS) {
@@ -76,13 +76,13 @@ export const AuthEmailVerification = ({ userId, email, onSuccess }: { userId: nu
 
   const handleResendCode = async () => {
     try {
-      await handleApiRequest('/api/auth/resend-code', { userId, email });
-      setResendCooldown(COOLDOWN_SECONDS);
+      await handleApiRequest('/api/auth/resend-code', { userId, email })
+      setResendCooldown(COOLDOWN_SECONDS)
       setAttempts(0)
     } catch {
       // Ошибка уже обработана
     }
-  };
+  }
 
   return (
      <div className="space-y-6">
@@ -141,5 +141,5 @@ export const AuthEmailVerification = ({ userId, email, onSuccess }: { userId: nu
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}

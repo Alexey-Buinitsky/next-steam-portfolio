@@ -17,8 +17,8 @@ export const PopularMarketCases: React.FC<Props> = ({ className }) => {
 
   const { data, isLoading, error } = usePopularCases()
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {error.message}</div>
 
   return (
     <div className={className} >
@@ -62,5 +62,5 @@ export const PopularMarketCases: React.FC<Props> = ({ className }) => {
         />
       )}
     </div>
-  );
-};
+  )
+}

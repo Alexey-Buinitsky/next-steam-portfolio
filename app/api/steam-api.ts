@@ -11,7 +11,7 @@ const steamApi: AxiosInstance = axios.create({
         appid: 730,
         norender: 1
     }
-});
+})
 
 export async function getSteamItems(params: object) {
     try {
@@ -20,10 +20,10 @@ export async function getSteamItems(params: object) {
                 start: 0,
                 ...params
             }
-        });
-        return response.data;
+        })
+        return response.data
     } catch (error) {
-        console.error('Steam API error:', error);
-        throw error;
+        console.error('Steam API error:', error)
+        throw error
     }
 }

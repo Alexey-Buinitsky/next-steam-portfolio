@@ -55,5 +55,5 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
             )}
 
         </div>
-    );
-};
+    )
+}

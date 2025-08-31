@@ -22,7 +22,7 @@ export async function GET() {
 
     return NextResponse.json(cases)
   } catch (error) {
-    console.error('Error fetching popular cases assets:', error);
+    console.error('Error fetching popular cases assets:', error)
   }
 }
 

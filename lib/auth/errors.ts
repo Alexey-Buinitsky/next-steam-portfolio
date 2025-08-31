@@ -9,4 +9,4 @@ export const EMAIL_VERIFICATION_ERRORS = {
   INVALID_CODE: new VerificationError('Invalid verification code'),
   EXPIRED_CODE: new VerificationError('Verification code has expired'),
   USER_NOT_FOUND: new VerificationError('User not found'),
-};
+}

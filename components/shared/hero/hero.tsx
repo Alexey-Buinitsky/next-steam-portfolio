@@ -11,8 +11,8 @@ interface Props {
 }
 
 export const Hero: React.FC<Props> = ({ className }) => {
-    const { user } = useAuthCheck();
-    const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false);
+    const { user } = useAuthCheck()
+    const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false)
 
     return (
         <div className={`relative flex h-[500px] overflow-hidden rounded-4xl mt-4 p-6 sm:p-20 xl:p-40 ${className}`}>
@@ -52,5 +52,5 @@ export const Hero: React.FC<Props> = ({ className }) => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}

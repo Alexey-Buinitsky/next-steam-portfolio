@@ -12,43 +12,43 @@ interface ForgotPasswordProps {
 }
 
 export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onSuccess, onBackToLogin }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState('')
 
   const { form } = useForgotPasswordForm()
   const { handleSubmit, control } = form
 
   const onSubmit = async (values: ForgotPasswordFormValues) => {
-    setIsLoading(true);
-    setMessage('');
+    setIsLoading(true)
+    setMessage('')
 
     try {
       const response = await fetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
-      });
+      })
 
       if (!response.ok) {
-        const apiError = await getFetchError(response);
-        throw new Error(apiError.error);
+        const apiError = await getFetchError(response)
+        throw new Error(apiError.error)
       }
 
-      const data = await response.json();
+      const data = await response.json()
 
-      setMessage('If the email exists, a password reset code has been sent');
+      setMessage('If the email exists, a password reset code has been sent')
       if (data.userId) {
-        onSuccess?.(values.email, data.userId);
+        onSuccess?.(values.email, data.userId)
       } else {
-        onSuccess?.(values.email, 0);
+        onSuccess?.(values.email, 0)
       }  
 
     } catch (error) {
-       setMessage(error instanceof Error ? error.message : 'An error occurred. Please try again.');
+       setMessage(error instanceof Error ? error.message : 'An error occurred. Please try again.')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="space-y-4">
@@ -106,5 +106,5 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onSuccess, onBac
         </div>
       )}
     </div>
-  );
-};
+  )
+}

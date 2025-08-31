@@ -4,18 +4,18 @@ import { useState } from 'react';
 import { useAuthCheck } from './use-auth-check';
 
 export const useAuthAction = <T>() => {
-    const { user } = useAuthCheck();
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState<T | null>(null);
+    const { user } = useAuthCheck()
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+    const [selectedItem, setSelectedItem] = useState<T | null>(null)
 
     const handleAction = (item: T) => {
         if (!user) {
-            setIsAuthModalOpen(true);
-            return false;
+            setIsAuthModalOpen(true)
+            return false
         }
-        setSelectedItem(item);
-        return true;
-    };
+        setSelectedItem(item)
+        return true
+    }
 
     return {
         isAuthModalOpen,
@@ -24,5 +24,5 @@ export const useAuthAction = <T>() => {
         setSelectedItem,
         handleAction,
         user
-    };
-};
+    }
+}

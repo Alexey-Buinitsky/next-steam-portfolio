@@ -36,7 +36,7 @@ export const PortfoliosProvider = ({ children }: { children: React.ReactNode }) 
 export const usePortfoliosContext = () => {
 	const context = React.useContext(PortfoliosContext)
 	if (context === undefined) {
-		throw new Error("usePortfoliosContext must be used within a PortfoliosProvider");
+		throw new Error("usePortfoliosContext must be used within a PortfoliosProvider")
 	}
 	return context
 }

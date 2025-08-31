@@ -28,34 +28,34 @@ export const formatAssetType = (assetType: string): string => {
 
 	// AGENTS
 	if (lowerType.includes('agent') || lowerType.includes('character')) {
-		return 'Agents';
+		return 'Agents'
 	}
 
 	// MUSIC KITS
 	if (lowerType.includes('music') || lowerType.includes('kit')) {
-		return 'Music Kits';
+		return 'Music Kits'
 	}
 
 	// CHARMS
 	if (lowerType.includes('charm')) {
-		return 'Charm';
+		return 'Charm'
 	}
 
 	// GRAFFITI
 	if (lowerType.includes('graffiti')) {
-		return 'Graffiti';
+		return 'Graffiti'
 	}
 
 	// PATCHES
 	if (lowerType.includes('patch')) {
-		return 'Patches';
+		return 'Patches'
 	}
 
 	// PASSES
 	if (lowerType.includes('pass') || lowerType.includes('operation') || lowerType.includes('access')) {
-		return 'Passes';
+		return 'Passes'
 	}
 
 	// По умолчанию возвращаем оригинальный тип, если не удалось классифицировать
-	return assetType;
+	return assetType
 }

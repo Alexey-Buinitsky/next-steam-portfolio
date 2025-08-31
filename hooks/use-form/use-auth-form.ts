@@ -15,13 +15,13 @@ export const useAuthForm = (mode: AuthMode = 'login') => {
     resolver: zodResolver(schema),
     defaultValues,
     mode: 'onSubmit',
-  });
+  })
 
   return {
     form,
     schema,
     mode,
-  };
-};
+  }
+}
 
-export type AuthMode = 'login' | 'register';
+export type AuthMode = 'login' | 'register'

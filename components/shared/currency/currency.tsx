@@ -6,12 +6,12 @@ import { allCurrencies, popularCurrencies } from '@/data/currencies';
 
 export const Currency: React.FC = () => {
 
-	const [showAllCurrencies, setShowAllCurrencies] = useState(true);
-	const currentCurrencies = showAllCurrencies ? allCurrencies : popularCurrencies;
+	const [showAllCurrencies, setShowAllCurrencies] = useState(true)
+	const currentCurrencies = showAllCurrencies ? allCurrencies : popularCurrencies
 
 	const toggleCurrenciesView = () => {
-		setShowAllCurrencies(!showAllCurrencies);
-	};
+		setShowAllCurrencies(!showAllCurrencies)
+	}
 
 	const {
 		amount, fromCurrency, toCurrency, convertedAmount, exchangeRate, conversionRates,
@@ -43,5 +43,5 @@ export const Currency: React.FC = () => {
 				error={error}
 			/>
 		</div>
-	);
+	)
 }

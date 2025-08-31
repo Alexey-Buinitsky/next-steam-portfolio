@@ -37,7 +37,7 @@ export const useSelectPortfolio = ({ portfolios }: Props): ReturnProps => {
 			return { previousPortfolios }
 		},
 		onSuccess: (data) => {
-			toast.success(data.message);
+			toast.success(data.message)
 		},
 		onError: (error: Error, selectedPortfolio: Portfolio, context?: MutationContext) => {
 			// Откатываем изменения при ошибке

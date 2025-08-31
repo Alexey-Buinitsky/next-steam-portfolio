@@ -20,12 +20,12 @@ export const SliderNavigationButtons = ({
   const mergedLeftStyle = {
     ...navButtonStyle,
     ...leftButtonStyle,
-  };
+  }
 
   const mergedRightStyle = {
     ...navButtonStyle,
     ...rightButtonStyle,
-  };
+  }
 
   return (
     <div className="swiper-buttons">
@@ -44,5 +44,5 @@ export const SliderNavigationButtons = ({
         {rightIcon}
       </button>
     </div>
-  );
-};
+  )
+}

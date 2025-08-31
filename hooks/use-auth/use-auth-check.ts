@@ -10,19 +10,19 @@ export function useAuthCheck() {
 
     useEffect(() => {
         const verifyAuth = async () => {
-            const { user } = await checkAuth();
-            setUser(user);
-            setLoading(false);
-        };
+            const { user } = await checkAuth()
+            setUser(user)
+            setLoading(false)
+        }
 
-        verifyAuth();
+        verifyAuth()
     }, [])
 
     const logout = async () => {
-        await performLogout();
-        setUser(null);
-        window.location.reload();
-    };
+        await performLogout()
+        setUser(null)
+        window.location.reload()
+    }
 
     return { user, loading, logout }
 }

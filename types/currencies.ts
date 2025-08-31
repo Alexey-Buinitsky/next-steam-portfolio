@@ -9,7 +9,7 @@ export type CurrencyData = {
   base_code: string;
   conversion_rates: ConversionRate;
   error?: string;
-};
+}
 
 export interface ConversionRate {
   [currency: string]: number;

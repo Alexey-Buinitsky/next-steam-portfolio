@@ -1,14 +1,17 @@
+import { NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
 import { calculateAssetMetrics, getExchangeRate } from '@/lib';
 
-export const syncAssetPrices = async () => {
+export async function POST() {
 	try {
 		const assetsToSync = await prisma.asset.findMany({
 			where: { isSync: false },
 			include: { portfolioAssets: { include: { portfolio: true } } }
 		})
 
-		if (assetsToSync.length === 0) return
+		if (assetsToSync.length === 0) {
+			return NextResponse.json({ message: 'Asset prices synced successfully' }, { status: 200 })
+		}
 
 		const exchangeRates = new Map<string, number>()
 		const currencies = new Set<string>()
@@ -37,7 +40,6 @@ export const syncAssetPrices = async () => {
 			const currentPriceUSD = asset.price / 100
 
 			for (const portfolioAsset of asset.portfolioAssets) {
-
 				if (!portfolioAsset.portfolio) continue
 
 				try {
@@ -71,8 +73,12 @@ export const syncAssetPrices = async () => {
 				data: { isSync: true }
 			})
 		}
+
+		return NextResponse.json({ message: 'Asset prices synced successfully' }, { status: 200 })
 	} catch (error) {
-		console.error('Asset price synchronization failed:', error)
-		throw error
+		console.error('[ASSETS_PRICES_POST] Server error:', error)
+		return NextResponse.json({ message: 'Failed to sync asset prices' }, { status: 500 })
+	} finally {
+		await prisma.$disconnect()
 	}
 }

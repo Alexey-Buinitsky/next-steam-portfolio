@@ -14,7 +14,7 @@ export function useAddToPortfolioForm (initialPrice: number = 0, resetOnPriceCha
       buyPrice: initialPrice || 0,
       quantity: 1,
     },
-  });
+  })
 
    useEffect(() => { // необходимо для реализации разделения статичного и модального окна
     if (resetOnPriceChange) {
@@ -22,10 +22,10 @@ export function useAddToPortfolioForm (initialPrice: number = 0, resetOnPriceCha
         buyPrice: initialPrice,
         quantity: 1,
         portfolioId: form.getValues("portfolioId"), // Сохраняем выбранный портфель
-      });
+      })
     }
-  }, [initialPrice, resetOnPriceChange, form]);
+  }, [initialPrice, resetOnPriceChange, form])
 
   return form
-};
+}
 
