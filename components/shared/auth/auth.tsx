@@ -5,10 +5,9 @@ import React from 'react';
 import { useState } from 'react';
 import { PasswordStrengthIndicator, AuthEmailVerification, ForgotPassword, ResetPassword } from '@/components/shared';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
-import { useAuthForm, type AuthMode} from '@/hooks/use-form/use-auth-form';
-import { type AuthFormValues, type RegisterFormValues } from '@/lib';
+import { useAuthForm, type AuthMode} from '@/hooks';
+import { type AuthFormValues, type RegisterFormValues, getFetchError, isEmailVerificationRequiredError } from '@/lib';
 import { SubmitHandler, Control } from 'react-hook-form';
-import { getFetchError } from '@/lib';
 
 interface Props {
     onClose: () => void;
@@ -74,14 +73,15 @@ export const Auth: React.FC<Props> = ({ onClose, onSuccess }) => {
             
             if (!response.ok) {
                 const apiError = await getFetchError(response);
-                
-                // // Специфичная обработка ошибок
-                // if (error.code === 'EMAIL_NOT_VERIFIED') {
-                //     setNeedsVerification(true);
-                //     setVerificationEmail(data.email);
-                //     return;
-                // }
-                
+
+                //  Специфичная обработка ошибок
+                if (isEmailVerificationRequiredError(apiError)) {
+                    setNeedsVerification(true);
+                    setVerificationEmail(apiError.email);
+                    setVerificationUserId(apiError.userId);
+                    return // Уходим к вводу кода подтверждения 
+                }
+
                 throw new Error(apiError.error);
             }
 

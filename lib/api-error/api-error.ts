@@ -1,5 +1,5 @@
-//app/lib/api-error.ts
-interface ApiError {
+//app/lib/api-error/api-error.ts
+export interface ApiError {
   error: string;
   code?: string;    // Опциональный код ошибки (например, 'USER_NOT_FOUND')
   details?: any;    // Дополнительные детали
@@ -7,23 +7,6 @@ interface ApiError {
 
 function isApiError(error: unknown): error is ApiError {
   return typeof error === 'object' && error !== null && 'error' in error;
-}
-
-export async function handleFetchError(response:  Response): Promise<void> {
-  if (response.ok) return;
-  
-  let errorData: unknown;
-  try {
-    errorData = await response.json();
-  } catch {
-    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-  }
-  
-  if (isApiError(errorData)) {
-    throw new Error(errorData.error);
-  }
-  
-  throw new Error('An unexpected error occurred');
 }
 
 export async function getFetchError(response: Response): Promise<ApiError> {
@@ -41,4 +24,21 @@ export async function getFetchError(response: Response): Promise<ApiError> {
       error: `HTTP ${response.status}: ${response.statusText}` 
     };
   }
+}
+
+export async function handleFetchError(response:  Response): Promise<void> {
+  if (response.ok) return;
+  
+  let errorData: unknown;
+  try {
+    errorData = await response.json();
+  } catch {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+  }
+  
+  if (isApiError(errorData)) {
+    throw new Error(errorData.error);
+  }
+  
+  throw new Error('An unexpected error occurred');
 }

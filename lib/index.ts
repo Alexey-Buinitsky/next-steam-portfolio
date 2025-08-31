@@ -44,7 +44,7 @@ export { withAuth } from './withAuth'
 export { hashPassword, verifyPassword } from './password-hash'
 export { authLimiter, strictAuthLimiter } from './rate-limit'
 export { withApiHandler, withAuthRateLimit, withDefaultRateLimit, withStrictAuthRateLimit} from './with-api-handler'
-export { getFetchError, handleFetchError } from './api-error'
+export { getFetchError, handleFetchError, isEmailVerificationRequiredError } from './api-error'
 
 export type { IMetric } from './metrics';
 export type { IChartData } from './chart';
