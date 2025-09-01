@@ -2,7 +2,7 @@ export { getChart } from "./chart";
 export { getMetrics } from './metrics';
 
 export { calculateFee } from "./calculate-fee";
-export { calculatePercentage } from './calculate-percentage';
+export { calculateGainPercentage } from './calculate-gain-percentage';
 export { formatPercentage } from './format-percentage';
 export { calculateAssetMetrics } from './calculate-asset-metrics';
 

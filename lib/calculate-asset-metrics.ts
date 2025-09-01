@@ -1,4 +1,4 @@
-import { calculateFee, calculatePercentage } from '@/lib';
+import { calculateFee, calculateGainPercentage } from '@/lib';
 
 interface ReturnProps {
 	totalInvested: number;
@@ -12,8 +12,8 @@ export const calculateAssetMetrics = (quantity: number, buyPrice: number, curren
 
 	const totalInvested = parseFloat((buyPrice * quantity).toFixed(2))
 	const totalWorth = parseFloat((currentPrice * quantity).toFixed(2))
-	const percentage = parseFloat(calculatePercentage(currentPrice, buyPrice).toFixed(2))
 	const gain = parseFloat((totalWorth - totalInvested).toFixed(2))
+	const percentage = parseFloat(calculateGainPercentage(gain, totalInvested).toFixed(2))
 
 	const fee5Percent = parseFloat(calculateFee(totalWorth, 23).toFixed(2))
 	const fee10Percent = parseFloat(calculateFee(totalWorth, 11.5).toFixed(2))
