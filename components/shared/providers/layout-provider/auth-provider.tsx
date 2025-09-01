@@ -3,6 +3,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { checkAuth, type User } from '@/services/api-auth'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface AuthContextType {
   user: User | null
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const queryClient = useQueryClient() 
 
   // Загружаем состояние при монтировании
   useEffect(() => {
@@ -23,6 +25,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(false)  
     })
   }, [])
+
+  // Очистка кэша при ЛЮБОМ изменении user на null
+  useEffect(() => {
+    if (!user) {
+      // Более агрессивная очистка - удаляем все queries
+      // queryClient.removeQueries()
+
+      queryClient.removeQueries({ queryKey: ['portfolios'] })
+      queryClient.removeQueries({ queryKey: ['portfolioAssets'] })
+    }
+  }, [user, queryClient])
 
   const updateUser = (newUser: User | null) => {
     setUser(newUser)
