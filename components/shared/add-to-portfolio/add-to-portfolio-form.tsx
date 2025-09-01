@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import { Button, Input, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
+import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
+import { CustomSelect } from '../custom-select';
 import { useAddToPortfolioForm } from '@/hooks';
 
 import type { AddToPortfolioFormValues} from '@/lib';
@@ -23,7 +24,12 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
         !!disableClose // true для статичной панели, false для модалки
     );
 
-    const {handleSubmit, formState, control} = form
+    const {handleSubmit, formState, control, setValue} = form
+
+    const portfolioOptions = portfolioList?.map(portfolio => ({
+        value: portfolio.id.toString(),
+        label: portfolio.name
+    })) || [];
 
     const onSubmit = async (values: AddToPortfolioFormValues) => {
         // отрабатывает только если все поля прошли проверку RHF через zod 
@@ -61,24 +67,21 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                         <FormField 
                             control={control} // ← Передаём управление формой RHF вместо useState
                             name="portfolioId" // ← Ключ для доступа к значению (вместо имя переменной)
-                            render={({ field }) => ( // ← Автоматически подставляет value/onChange
+                            render={({ field, fieldState }) => ( // ← Автоматически подставляет value/onChange
                                 <FormItem>
                                     <FormLabel>Portfolio</FormLabel>
-                                    <Select onValueChange={field.onChange} value={field.value}>
-                                        <FormControl>
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Select Portfolio" />
-                                        </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent className="select-content">
-                                            {portfolioList?.map(portfolio => (
-                                                <SelectItem key={portfolio.id} value={portfolio.id.toString()}>
-                                                    {portfolio.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
+                                    <FormControl>
+                                        <CustomSelect
+                                            value={field.value || ''}
+                                            onValueChange={field.onChange}
+                                            options={portfolioOptions}
+                                            placeholder="Select Portfolio"
+                                            className={fieldState.error ? "border-destructive" : ""}
+                                        />
+                                    </FormControl>
+                                    {fieldState.error && (
+                                        <FormMessage>{fieldState.error.message}</FormMessage>
+                                    )}
                                 </FormItem>
                             )}
                         />
