@@ -7,7 +7,7 @@ interface ReturnProps {
 	estimatedGainAfterFees: number,
 }
 
-export const calculateMetrics = (portfolioAssets: PortfolioAsset[] | undefined): ReturnProps => {
+export const calculatePortfolioMetrics = (portfolioAssets: PortfolioAsset[] | undefined): ReturnProps => {
 
 	const initialValues = { totalInvested: 0, totalWorth: 0, gain: 0, estimatedGainAfterFees: 0, }
 

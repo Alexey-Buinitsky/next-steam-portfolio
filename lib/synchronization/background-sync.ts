@@ -1,4 +1,4 @@
-import { syncSteamMarket } from '@/lib/sync';
+import { syncSteamMarket } from '@/lib/synchronization';
 
 const SYNC_INTERVAL = 5 * 60 * 1000
 

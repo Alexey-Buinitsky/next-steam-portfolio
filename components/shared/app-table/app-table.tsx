@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, RowSelectionState, SortingState, useReactTable, VisibilityState } from '@tanstack/react-table';
 import { Table, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui';
 import { AppTableAddition, AppTableBody, AppTableChart, AppTableCurrency, AppTableFilter, AppTableHeader, AppTableMetric, AppTableSelection, AppTableSettings, AppTableToggle, usePortfoliosContext } from '@/components/shared';
-import { getMetrics, getChart } from '@/lib';
+import { getMetricsData, getChartData } from '@/lib';
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
 interface Props<TValue> {
@@ -18,9 +18,9 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 	const { portfolios, createPortfolio, selectPortfolio, selectedPortfolio, editPortfolioName, deletePortfolio, isLoading, changePortfolioCurrency, portfolioAssets, createPortfolioAsset, deletePortfolioAssets, } = usePortfoliosContext()
 
 	const portfolioData = React.useMemo(() => ({
-		metrics: getMetrics(portfolioAssets, selectedPortfolio?.currency),
-		volumeChart: getChart({ data: portfolioAssets, categoryPath: "asset.type", valueKey: "quantity", options: { valueLabel: "Volume" } }),
-		priceChart: getChart({ data: portfolioAssets, categoryPath: "asset.type", valueKey: "totalWorth", options: { valueLabel: "Price" } }),
+		metrics: getMetricsData(portfolioAssets, selectedPortfolio?.currency),
+		volumeChart: getChartData({ data: portfolioAssets, categoryPath: "asset.type", valueKey: "quantity", options: { valueLabel: "Volume" } }),
+		priceChart: getChartData({ data: portfolioAssets, categoryPath: "asset.type", valueKey: "totalWorth", options: { valueLabel: "Price" } }),
 	}), [portfolioAssets, selectedPortfolio])
 
 	const [sorting, setSorting] = React.useState<SortingState>([])

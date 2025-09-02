@@ -1,5 +1,5 @@
 import { ChartConfig } from "@/components/ui";
-import { formatAssetType, getNestedValue, NestedObject } from "@/lib/chart";
+import { formatAssetType, getNestedValue, NestedObject } from "@/lib";
 
 export interface IChartData {
 	category: string;
@@ -19,7 +19,7 @@ interface ReturnProps {
 	chartConfig: ChartConfig;
 }
 
-export const getChart = <T extends Record<string, unknown>>({ data, categoryPath, valueKey, options = {} }: Props<T>): ReturnProps => {
+export const getChartData = <T extends Record<string, unknown>>({ data, categoryPath, valueKey, options = {} }: Props<T>): ReturnProps => {
 
 	const valueLabel = options.valueLabel || "Value"
 
