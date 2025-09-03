@@ -20,5 +20,5 @@ export const AppSidebar: React.FC<Props> = ({ className }) => {
 			<AppSidebarFooter sidebar={sidebar} />
 			<SidebarRail />
 		</Sidebar>
-	);
-};
+	)
+}

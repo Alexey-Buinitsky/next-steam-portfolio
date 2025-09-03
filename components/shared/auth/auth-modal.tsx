@@ -33,5 +33,5 @@ export const AuthModal: React.FC<Props> = ({ onClose, isOpen, onSuccess }) => {
                 <Auth onClose={onClose} onSuccess={handleSuccess} />
             </DialogContent>
         </Dialog>
-    );
-};
+    )
+}

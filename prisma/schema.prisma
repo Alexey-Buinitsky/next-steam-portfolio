@@ -47,6 +47,7 @@ model Asset {
   price    Float?
   volume   Int?
   isActive Boolean @default(true)
+	isSync   Boolean @default(true)
 
   portfolioAssets PortfolioAsset[]
 

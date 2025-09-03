@@ -9,12 +9,12 @@ import type { CreatePortfolioAssetProps } from '@/hooks/use-portfolios';
 import type { Portfolio, Asset } from '@prisma/client';
 
 interface Props {
-    item: Asset
-    onClose: () => void
+    item: Asset;
+    onClose: () => void;
     disableClose?: boolean;
-    createPortfolioAsset: (params: CreatePortfolioAssetProps) => void
+    createPortfolioAsset: (params: CreatePortfolioAssetProps) => void;
     portfolioList?: Portfolio[];
-    handleCreateClick: () => void
+    handleCreateClick: () => void;
 }
 
 export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClose, createPortfolioAsset, portfolioList, handleCreateClick }) => {
@@ -22,7 +22,7 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
     const form = useAddToPortfolioForm(
         item.price ? item.price / 100 : undefined,
         !!disableClose // true для статичной панели, false для модалки
-    );
+    )
 
     const {handleSubmit, formState, control, setValue} = form
 
@@ -40,13 +40,11 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                 quantity: values.quantity, 
                 buyPrice: values.buyPrice 
             })
-            onClose();
+            onClose()
         } catch (error) {
-            console.error('Error adding item to portfolio:', error);
+            console.error('Error adding item to portfolio:', error)
         }
     }   
-
-    console.log(portfolioList!?.length);
     
     return (
         <div>
@@ -63,7 +61,7 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
-                    {portfolioList!?.length > 0 ? (
+                    {portfolioList && portfolioList?.length > 0 ? (
                         <FormField 
                             control={control} // ← Передаём управление формой RHF вместо useState
                             name="portfolioId" // ← Ключ для доступа к значению (вместо имя переменной)
@@ -157,7 +155,7 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                         <Button
                             type="submit"
                             className="bg-green-600 hover:bg-green-700 text-white"
-                            disabled={formState.isSubmitting || !portfolioList || portfolioList!?.length <= 0}
+                            disabled={formState.isSubmitting || !portfolioList || portfolioList?.length <= 0}
                         >
                             {formState.isSubmitting ? 'Adding...' : 'Add to Portfolio'}
                         </Button>
@@ -165,5 +163,5 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                 </form>
             </Form>
         </div>
-    );
-};
+    )
+}

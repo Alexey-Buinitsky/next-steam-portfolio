@@ -53,5 +53,5 @@ export const AddToPortfolio: React.FC<Props> = ({ item, onClose, disableClose })
                 onClose={() => setIsAuthModalOpen(false)}
             />
         </div>
-    );
-};
+    )
+}

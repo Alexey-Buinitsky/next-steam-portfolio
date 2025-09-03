@@ -3,17 +3,17 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 
-type PasswordStrength = 'weak' | 'medium' | 'strong' | 'very-strong';
+type PasswordStrength = 'weak' | 'medium' | 'strong' | 'very-strong'
 
 export const PasswordStrengthIndicator = ({ password }: { password: string }) => {
   const calculateStrength = (): PasswordStrength => {
-    if (!password) return 'weak';
+    if (!password) return 'weak'
     
-    const hasMinLength = password.length >= 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    const hasSpecialChar = /[^A-Za-z0-9]/.test(password);
+    const hasMinLength = password.length >= 8
+    const hasUpperCase = /[A-Z]/.test(password)
+    const hasLowerCase = /[a-z]/.test(password)
+    const hasNumber = /[0-9]/.test(password)
+    const hasSpecialChar = /[^A-Za-z0-9]/.test(password)
     
     const strengthPoints = [
       hasMinLength,
@@ -21,21 +21,21 @@ export const PasswordStrengthIndicator = ({ password }: { password: string }) =>
       hasLowerCase,
       hasNumber,
       hasSpecialChar
-    ].filter(Boolean).length;
+    ].filter(Boolean).length
 
-    if (strengthPoints <= 2) return 'weak';
-    if (strengthPoints === 3) return 'medium';
-    if (strengthPoints === 4) return 'strong';
-    return 'very-strong';
-  };
+    if (strengthPoints <= 2) return 'weak'
+    if (strengthPoints === 3) return 'medium'
+    if (strengthPoints === 4) return 'strong'
+    return 'very-strong'
+  }
 
-  const strength = calculateStrength();
+  const strength = calculateStrength()
   const strengthPercent = {
     'weak': 25,
     'medium': 50,
     'strong': 75,
     'very-strong': 100
-  }[strength];
+  }[strength]
 
   return (
     <div className="  mt-1 space-y-1">
@@ -57,5 +57,5 @@ export const PasswordStrengthIndicator = ({ password }: { password: string }) =>
         />
       </div>
     </div>
-  );
-};
+  )
+}

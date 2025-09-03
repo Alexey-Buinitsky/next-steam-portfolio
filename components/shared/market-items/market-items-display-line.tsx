@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => {
-    const [selectedItem, setSelectedItem] = useState<AssetsResponse['assets'][0] | null>(data?.assets?.[0] || null);
+    const [selectedItem, setSelectedItem] = useState<AssetsResponse['assets'][0] | null>(data?.assets?.[0] || null)
     const {imageErrors, handleImageError} = useImageError()
 
     return (
@@ -65,5 +65,5 @@ export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => 
                 </div>
             )}
         </div>
-    );
-};
+    )
+}

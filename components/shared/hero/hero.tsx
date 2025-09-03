@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { HeroMessage, AuthModal} from '@/components/shared';
 import { Button } from '@/components/ui';
 import { useAuthCheck } from '@/hooks';
-import { Warehouse } from "lucide-react";
 
 interface Props {
     className?: string;
@@ -73,5 +72,5 @@ export const Hero: React.FC<Props> = ({ className }) => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}

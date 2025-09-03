@@ -28,7 +28,7 @@ export const AppBreadcrumb: React.FC<Props> = ({ className }) => {
 		const href = '/' + pathSegments.slice(0, index + 1).join('/')
 		const label = segment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
 		return { href, label, isCurrent: index === pathSegments.length - 1 }
-	});
+	})
 
 	if (breadcrumbs.length <= ITEMS_TO_DISPLAY) {
 		return <AppBreadcrumbDefault className={cn('', className)} breadcrumbs={breadcrumbs} />

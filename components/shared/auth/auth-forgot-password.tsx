@@ -26,7 +26,7 @@ export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSucces
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
-      });
+      })
 
       if (!response.ok) {
         const apiError = await getFetchError(response);
@@ -40,20 +40,20 @@ export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSucces
         throw new Error(apiError.error);
       }
 
-      const data = await response.json();
+      const data = await response.json()
 
       showSuccess('If the email exists, a password reset code has been sent');
 
       if (data.userId && data.userId > 0) {
         onSuccess?.(values.email, data.userId);
       } else {
-        onSuccess?.(values.email, 0);
+        onSuccess?.(values.email, 0)
       }  
 
     } catch (err) {
        showError(err, 'Failed to send reset code');
     }
-  };
+  }
 
   return (
     <div className="space-y-4">
@@ -105,5 +105,5 @@ export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSucces
         </div>
       )}
     </div>
-  );
-};
+  )
+}

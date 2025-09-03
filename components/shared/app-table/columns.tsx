@@ -6,7 +6,7 @@ import { Column, ColumnDef, Row, Table } from "@tanstack/react-table"
 import { Button, Checkbox, Dialog, DialogTrigger, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui"
 import { AppDialog, usePortfoliosContext } from "@/components/shared"
 import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon, EyeOffIcon, MoreHorizontal, PencilIcon, TrashIcon } from "lucide-react"
-import { formatCurrency, formatValue, getValueColor } from "@/lib"
+import { formatCurrency, formatValue, formatValueColor } from "@/lib"
 import { PortfolioAssetWithRelations } from "@/types/portfolio"
 
 const SortableHeader = ({ column, children }: { column: Column<PortfolioAssetWithRelations>, children: React.ReactNode }) => {
@@ -162,17 +162,17 @@ export const columns: ColumnDef<PortfolioAssetWithRelations>[] = [
 	{
 		accessorKey: "percentage",
 		header: ({ column }) => <SortableHeader column={column}>%</SortableHeader>,
-		cell: ({ row }) => { return <span className={getValueColor(row.getValue("percentage"))}>{formatValue(row.getValue("percentage"), 'percentage')}</span> },
+		cell: ({ row }) => { return <span className={formatValueColor(row.getValue("percentage"))}>{formatValue(row.getValue("percentage"), 'percentage')}</span> },
 	},
 	{
 		accessorKey: "gain",
 		header: ({ column }) => <SortableHeader column={column}>Gain</SortableHeader>,
-		cell: ({ row }) => { return <span className={getValueColor(row.getValue("gain"))}>{formatValue(row.getValue("gain"), "currency", row.original.portfolio.currency)}</span> }
+		cell: ({ row }) => { return <span className={formatValueColor(row.getValue("gain"))}>{formatValue(row.getValue("gain"), "currency", row.original.portfolio.currency)}</span> }
 	},
 	{
 		accessorKey: "gainAfterFees",
 		header: ({ column }) => <SortableHeader column={column}>Gain after fees</SortableHeader>,
-		cell: ({ row }) => { return <span className={getValueColor(row.getValue("gainAfterFees"))}>{formatValue(row.getValue("gainAfterFees"), "currency", row.original.portfolio.currency)}</span> }
+		cell: ({ row }) => { return <span className={formatValueColor(row.getValue("gainAfterFees"))}>{formatValue(row.getValue("gainAfterFees"), "currency", row.original.portfolio.currency)}</span> }
 	},
 	{
 		id: "actions",

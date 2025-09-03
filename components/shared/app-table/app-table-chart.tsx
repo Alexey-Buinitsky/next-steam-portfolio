@@ -22,9 +22,9 @@ export const AppTableChart: React.FC<Props> = ({ className, isLoading, title, de
 			{isLoading
 				? <ChartSkeleton />
 				: <>
-					<CardHeader>
+					<CardHeader className="h-full">
 						<CardTitle className="text-lg 2k:text-2xl 4k:text-4xl 8k:text-7xl">{title}</CardTitle>
-						<CardDescription>{description}</CardDescription>
+						<CardDescription className="self-end">{description}</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<ChartContainer config={chartConfig} className="mx-auto aspect-square xl:max-h-[calc(100vh-445px)] 2xl:max-h-[calc(100vh-425px)] 2k:max-h-[calc(100vh-555px)] 4k:max-h-[calc(100vh-810px)] 8k:max-h-[calc(100vh-1580px)]">

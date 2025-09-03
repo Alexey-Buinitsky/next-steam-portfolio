@@ -6,7 +6,7 @@ import { Button, Input } from '@/components/ui/'
 import { getFetchError } from '@/lib';
 import { useAuthNotifications } from '@/hooks';
 
-const COOLDOWN_SECONDS = 60; // 1 минута
+const COOLDOWN_SECONDS = 60 // 1 минута
 const MAX_ATTEMPTS = 5
 
 interface AuthEmailVerificationProps {
@@ -20,7 +20,7 @@ export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ us
 
   const [code, setCode] = useState('');
 
-  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resendCooldown, setResendCooldown] = useState(0)
   const [attempts, setAttempts] = useState(0)
 
   const { showError, showSuccess } = useAuthNotifications();
@@ -44,18 +44,18 @@ export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ us
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
-      });
+      })
 
       if (!response.ok) {
-        const apiError = await getFetchError(response);
+        const apiError = await getFetchError(response)
         
         // Обработка rate limit с сервера
         if (response.status === 429) {
-          const retryAfter = response.headers.get('Retry-After') || COOLDOWN_SECONDS;
-          setResendCooldown(Number(retryAfter));
+          const retryAfter = response.headers.get('Retry-After') || COOLDOWN_SECONDS
+          setResendCooldown(Number(retryAfter))
         }
         
-        throw new Error(apiError.error);
+        throw new Error(apiError.error)
       }    
 
       const data = await response.json();
@@ -65,9 +65,9 @@ export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ us
       showError(err, 'Request failed');
       throw err; // Пробрасываем ошибку для дополнительной обработки
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleVerify = async () => {
     if (attempts >= MAX_ATTEMPTS) {
@@ -86,14 +86,14 @@ export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ us
 
   const handleResendCode = async () => {
     try {
-      await handleApiRequest('/api/auth/resend-code', { userId, email });
-      setResendCooldown(COOLDOWN_SECONDS);
+      await handleApiRequest('/api/auth/resend-code', { userId, email })
+      setResendCooldown(COOLDOWN_SECONDS)
       setAttempts(0)
       showSuccess('Verification code sent');
     } catch {
       // Ошибка уже обработана в handleApiRequest
     }
-  };
+  }
 
   return (
      <div className="space-y-6">
@@ -145,5 +145,5 @@ export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ us
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}

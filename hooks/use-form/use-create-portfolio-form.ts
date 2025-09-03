@@ -11,7 +11,7 @@ export const useCreatePortfolioForm = () => {
       name: ''
     },
     mode: 'onChange'
-  });
+  })
 
   return { form }
-};
+}

@@ -1,12 +1,9 @@
-'use client';
+'use client'
 
 import { useEffect } from 'react';
-import { initializeBackgroundSync } from '@/lib/background-sync-init';
+import { initializeBackgroundSync } from '@/lib/synchronization';
 
 export function BackgroundSyncProvider({ children }: { children?: React.ReactNode }) {
-  useEffect(() => {
-    initializeBackgroundSync();
-  }, []);
-
-  return children ? <>{children}</> : null;
+	useEffect(() => { if (typeof window !== 'undefined') { return initializeBackgroundSync() } }, [])
+	return children ? <>{children}</> : null
 }

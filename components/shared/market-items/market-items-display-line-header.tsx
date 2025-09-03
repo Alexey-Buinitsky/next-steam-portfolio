@@ -9,5 +9,5 @@ export const MarketItemsDisplayLineHeader: React.FC = () => {
             <div className='w-14'><p className='text-right text-sm lg:text-lg font-semibold'>Rating</p></div>
         </div>
     </div>
-  );
-};
+  )
+}

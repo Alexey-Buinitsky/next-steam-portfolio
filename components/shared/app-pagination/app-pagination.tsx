@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPages, onPageChange }) => {
-	const [maxVisiblePages, setMaxVisiblePages] = useState(5);
+	const [maxVisiblePages, setMaxVisiblePages] = useState(5)
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -23,19 +23,19 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 		return () => window.removeEventListener('resize', handleResize)
 	}, [])
 
-	let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-	let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+	let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2))
+	let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
 
 	if (endPage - startPage + 1 < maxVisiblePages) {
-		startPage = Math.max(1, endPage - maxVisiblePages + 1);
+		startPage = Math.max(1, endPage - maxVisiblePages + 1)
 	}
 
-	const pages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+	const pages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
 
 	// Использовать в случае большого значения totalPages
 	// const pages = React.useMemo(() => (
 	//     Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i) 
-	// ), [startPage, endPage]);
+	// ), [startPage, endPage])
 
 	return (
 		<div className={className}>

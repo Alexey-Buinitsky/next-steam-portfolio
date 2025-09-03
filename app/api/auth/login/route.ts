@@ -6,7 +6,7 @@ import { getIronSession } from 'iron-session'
 import { verifyPassword, validateDataWithSchema, authSchema, withStrictAuthRateLimit } from '@/lib'
 
 // Экспортируем обернутый обработчик
-export const POST = withStrictAuthRateLimit(loginHandler);
+export const POST = withStrictAuthRateLimit(loginHandler)
 
 async function loginHandler({ request, json }: { request: NextRequest; json?: unknown }) {
 // export async function POST(request: NextRequest) {

@@ -30,7 +30,7 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number, { params 
 				data: { currency: toCurrency }
 			})
 
-			return NextResponse.json({ message: `Portfolio currency changed from ${fromCurrency} to ${toCurrency} successfully` }, { status: 200 });
+			return NextResponse.json({ message: `Portfolio currency changed from ${fromCurrency} to ${toCurrency} successfully` }, { status: 200 })
 		}
 
 		const exchangeRate = await getExchangeRate(fromCurrency, toCurrency)
@@ -56,7 +56,7 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number, { params 
 				const convertedBuyPrice = portfolioAsset.buyPrice * exchangeRate
 				const convertedCurrentPrice = currentPrice * exchangeRate
 
-				const metrics = calculateAssetMetrics(portfolioAsset, portfolioAsset.quantity, convertedBuyPrice, convertedCurrentPrice)
+				const metrics = calculateAssetMetrics(portfolioAsset.quantity, convertedBuyPrice, convertedCurrentPrice)
 
 				await tx.portfolioAsset.update({
 					where: { id: portfolioAsset.id },

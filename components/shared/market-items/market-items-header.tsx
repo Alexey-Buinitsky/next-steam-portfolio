@@ -56,5 +56,5 @@ export const MarketItemsHeader: React.FC<Props> = ({ className, searchQuery, set
                 onClose={() => setIsAuthModalOpen(false)} 
             /> */}
         </div>
-    );
-};
+    )
+}

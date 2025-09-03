@@ -19,12 +19,12 @@ interface AuthResetPasswordProps {
 export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, email, onBackToForgot, onSuccess }) => {
   const { showError, showSuccess } = useAuthNotifications();
   
-  const [passwordValue, setPasswordValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('')
 
   const { form } = useResetPasswordForm()
   const { handleSubmit, setError, control, formState } = form
   
-  const router = useRouter();
+  const router = useRouter()
 
   const onSubmit = async (values: ResetPasswordFormValues) => {
     try {
@@ -37,18 +37,18 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
           password: values.password,
           confirmPassword: values.confirmPassword,
         }),
-      });
+      })
       
       if (!response.ok) {
-        const error = await getFetchError(response);
+        const error = await getFetchError(response)
       
         // Обрабатываем ошибки валидации кода
         if (error.code === 'INVALID_RESET_CODE') {
-          setError('code', { message: error.error });
+          setError('code', { message: error.error })
         } else {
-            throw new Error(error.error);
+            throw new Error(error.error)
         }
-        return;
+        return
       }
 
       showSuccess('Password has been reset successfully');
@@ -155,5 +155,5 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
         </form>
       </Form>
     </div>
-  );
-};
+  )
+}

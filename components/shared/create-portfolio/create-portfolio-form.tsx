@@ -11,9 +11,9 @@ export const CreatePortfolioForm:React.FC<Props> = ({ onClose, onCreatePortfolio
     const { form } = useCreatePortfolioForm()
 
     const handleSubmit = (values: { name: string }) => {
-        onCreatePortfolio(values.name);
-        form.reset();
-        onClose();
+        onCreatePortfolio(values.name)
+        form.reset()
+        onClose()
     }
     
     return (

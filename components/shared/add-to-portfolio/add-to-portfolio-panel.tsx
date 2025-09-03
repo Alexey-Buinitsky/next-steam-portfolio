@@ -16,5 +16,5 @@ export const AddToPortfolioPanel: React.FC<Props> = ({ className, item}) => {
                 disableClose // Добавим этот пропс в AddToPortfolio
             />
         </div>
-    );
-};
+    )
+}
