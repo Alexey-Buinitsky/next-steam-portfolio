@@ -60,7 +60,15 @@ export const POST = withAuth(async (req: NextRequest, userId: number, { params }
 			return NextResponse.json({ message: 'Asset is required' }, { status: 400 })
 		}
 
-		let currentPrice = data.selectedAsset.price !== null ? data.selectedAsset.price / 100 : Number(data.buyPrice)
+		const selectedAsset = await prisma.asset.findUnique({
+			where: { id: data.selectedAsset.id }
+		})
+
+		if (!selectedAsset) {
+			return NextResponse.json({ message: 'Asset not found' }, { status: 400 })
+		}
+
+		let currentPrice = selectedAsset.price !== null ? selectedAsset.price / 100 : Number(data.buyPrice)
 
 		if (portfolio.currency !== 'USD') {
 			const exchangeRate = await getExchangeRate('USD', portfolio.currency)
@@ -130,12 +138,12 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number, { params 
 			data: {
 				quantity: Number(data.quantity),
 				buyPrice: parseFloat(Number(data.buyPrice).toFixed(2)),
-				currentPrice: parseFloat(currentPrice.toFixed(2)),
 				totalInvested: metrics.totalInvested,
 				totalWorth: metrics.totalWorth,
 				percentage: metrics.percentage,
 				gain: metrics.gain,
 				gainAfterFees: metrics.gainAfterFees,
+				updatedAt: new Date(),
 			}
 		})
 
@@ -172,10 +180,7 @@ export const DELETE = withAuth(async (req: NextRequest, userId: number, { params
 		await prisma.portfolioAsset.deleteMany({
 			where: {
 				id: { in: selectedPortfolioAssets.map(portfolioAsset => portfolioAsset.id) },
-				portfolio: {
-					id: portfolioId,
-					userId
-				}
+				portfolio: { id: portfolioId, userId }
 			}
 		})
 

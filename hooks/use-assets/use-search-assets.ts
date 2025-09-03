@@ -13,6 +13,9 @@ export const useSearchAssets = (query = '', take = 10) => {
 			if (!lastPage.hasMore) return undefined
 			return allPages.reduce((total, page) => total + page.assets.length, 0)
 		},
+		staleTime: Infinity,
+		gcTime: 10 * 60 * 1000,
+		refetchOnWindowFocus: false,
 	})
 
 	const assets = data?.pages.flatMap(page => page.assets) || []

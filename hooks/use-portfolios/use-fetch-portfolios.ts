@@ -12,6 +12,8 @@ export const useFetchPortfolios = (): ReturnProps => {
 	const { data, isLoading, error } = useQuery<Portfolio[], Error>({
 		queryKey: ['portfolios'],
 		queryFn: portfoliosApi.fetch,
+		refetchInterval: 5 * 60 * 1000,
+		staleTime: 2 * 60 * 1000,
 	})
 
 	return { portfolios: data, isFetching: isLoading, fetchError: error }

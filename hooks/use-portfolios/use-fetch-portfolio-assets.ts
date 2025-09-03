@@ -15,6 +15,15 @@ export const useFetchPortfolioAssets = (portfolioId: number | undefined): Return
 			if (!portfolioId) { return Promise.resolve([]) }
 			return portfolioAssetsApi.fetch(portfolioId)
 		},
+		refetchInterval: (query) => {
+			if (!portfolioId) return false
+
+			const data = query.state.data
+			if (!data || data.length === 0) return 3 * 60 * 1000
+
+			return 30 * 1000
+		},
+		refetchIntervalInBackground: true,
 	})
 
 	return { portfolioAssets: data, isFetching: isLoading, fetchError: error }
