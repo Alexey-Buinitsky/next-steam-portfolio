@@ -1,3 +1,5 @@
+//app/components/shared/auth/auth-forgot-password.tsx
+
 'use client'
 
 import React from 'react';
@@ -6,12 +8,12 @@ import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormM
 import { useForgotPasswordForm } from '@/hooks';
 import { getFetchError, type ForgotPasswordFormValues } from '@/lib' 
 
-interface ForgotPasswordProps {
+interface AuthForgotPasswordProps {
   onSuccess?: (email: string, userId: number) => void;
   onBackToLogin?: () => void;
 }
 
-export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onSuccess, onBackToLogin }) => {
+export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSuccess, onBackToLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -37,7 +39,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onSuccess, onBac
       const data = await response.json();
 
       setMessage('If the email exists, a password reset code has been sent');
-      if (data.userId) {
+      if (data.userId && data.userId > 0) {
         onSuccess?.(values.email, data.userId);
       } else {
         onSuccess?.(values.email, 0);

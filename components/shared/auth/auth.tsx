@@ -1,55 +1,32 @@
 //app/components/shared/auth/auth.tsx
 'use client'
 
-import React from 'react';
-import { useState } from 'react';
-import { PasswordStrengthIndicator, AuthEmailVerification, ForgotPassword, ResetPassword } from '@/components/shared';
-import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
-import { useAuthForm, type AuthMode} from '@/hooks';
-import { type AuthFormValues, type RegisterFormValues, getFetchError, isEmailVerificationRequiredError } from '@/lib';
-import { SubmitHandler, Control } from 'react-hook-form';
+import React, { useState } from 'react';
+import { AuthManager } from './auth-manager';
+import type { AuthMode } from '@/hooks';
 
 interface Props {
     onClose: () => void;
     onSuccess: () => void;
 }
 
-type ExtendedAuthMode = AuthMode | 'forgot-password' | 'reset-password';
+export type ExtendedAuthMode = AuthMode | 'forgot-password' | 'reset-password' | 'email-verification';
 
 export const Auth: React.FC<Props> = ({ onClose, onSuccess }) => {
     const [mode, setMode] = useState<ExtendedAuthMode>('login');
-    
-    const [serverError, setServerError] = useState('');
-    const [passwordValue, setPasswordValue] = useState('');
-    const [needsVerification, setNeedsVerification] = useState(false);
     const [verificationEmail, setVerificationEmail] = useState<string>('');
     const [verificationUserId, setVerificationUserId] = useState<number | null>(null);
-    
-    // Для восстановления пароля
     const [resetEmail, setResetEmail] = useState<string>('');
     const [resetUserId, setResetUserId] = useState<number | null>(null);
 
-    const { form } = useAuthForm(mode as AuthMode);
-    const { handleSubmit, formState, reset, control } = form;
-
-    const toggleMode = () => {
-        const newMode = mode === 'login' ? 'register' : 'login';
+    const handleModeChange = (newMode: ExtendedAuthMode) => {
         setMode(newMode);
-        reset(newMode === 'login' 
-            ? { email: '', password: '' }
-            : { email: '', password: '', nickname: '' }
-        );
-        setServerError('');
     };
 
-    const handleForgotPassword = () => {
-        setMode('forgot-password');
-        setServerError('');
-    };
-
-    const handleBackToLogin = () => {
-        setMode('login');
-        setServerError('');
+    const handleVerificationRequired = (email: string, userId: number) => {
+        setVerificationEmail(email);
+        setVerificationUserId(userId);
+        setMode('email-verification');
     };
 
     const handleForgotPasswordSuccess = (email: string, userId: number) => {
@@ -57,210 +34,287 @@ export const Auth: React.FC<Props> = ({ onClose, onSuccess }) => {
         setResetUserId(userId);
         setMode('reset-password');
     };
-    
-    const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
-        setServerError('');
-
-        try {
-            const response = await fetch(`/api/auth/${mode}`, { // Используем mode вместо endpoint
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(mode === 'register' ? data : { 
-                    email: data.email, 
-                    password: data.password 
-                })
-            });
-            
-            if (!response.ok) {
-                const apiError = await getFetchError(response);
-
-                //  Специфичная обработка ошибок
-                if (isEmailVerificationRequiredError(apiError)) {
-                    setNeedsVerification(true);
-                    setVerificationEmail(apiError.email);
-                    setVerificationUserId(apiError.userId);
-                    return // Уходим к вводу кода подтверждения 
-                }
-
-                throw new Error(apiError.error);
-            }
-
-            const responseData = await response.json();
-            
-            if (mode === 'login') {
-                onSuccess()
-            }
-
-            if (mode === 'register' && responseData.success) {
-                setNeedsVerification(true);
-                setVerificationEmail(responseData.email);
-                setVerificationUserId(responseData.userId);
-            }
-            
-        } catch (err) {
-            setServerError(err instanceof Error ? err.message : 'Authentication failed');
-        }
-    };
-
-
-    if (needsVerification) {
-        return (
-            <AuthEmailVerification 
-                email={verificationEmail} 
-                userId={verificationUserId!} 
-                onSuccess={onSuccess}
-            />
-        );
-    }
-
-    if (mode === 'forgot-password') {
-        return (
-            <ForgotPassword 
-                onBackToLogin={handleBackToLogin}
-                onSuccess={handleForgotPasswordSuccess}
-            />
-        );
-    }
-
-    if (mode === 'reset-password') {
-        return (
-            <ResetPassword 
-                userId={resetUserId || undefined}
-                email={resetEmail}
-                onSuccess={onSuccess}
-                onBackToForgot={handleForgotPassword}
-            />
-        );
-    }
 
     return (
-        <div>
-            <h2 className="text-x font-bold mb-4">
-                {mode === 'login' ? 'Sign In' : 'Create Account'}
-            </h2>
-        
-            {serverError && (
-                <p className="text-destructive mb-4 text-center text-sm">
-                    {serverError}
-                </p>
-            )}
-        
-            <Form {...form}>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    {mode === 'register' && (
-                        <FormField
-                            control={control as Control<RegisterFormValues>}
-                            name="nickname"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Nickname</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Your display name" 
-                                            {...field} 
-                                            autoComplete="username"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    )}
-                
-                    <FormField
-                        control={control}
-                        name="email"
-                        render={({field}) => (
-                            <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl>
-                                    <Input 
-                                        type='email'
-                                        placeholder="your@example.com" 
-                                        {...field} 
-                                        autoComplete='email'
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField 
-                        control={control}
-                        name="password"
-                        render={({field}) => (
-                            <FormItem>
-                                <FormLabel>Password</FormLabel>
-                                <FormControl>
-                                    <Input 
-                                        type="password" 
-                                        placeholder="Enter your password" 
-                                        {...field} 
-                                        onChange={(e) => {
-                                            field.onChange(e);
-                                            setPasswordValue(e.target.value);
-                                        }}
-                                        autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                                    />
-                                </FormControl>
-
-                                {mode === 'register' && (
-                                    <PasswordStrengthIndicator password={passwordValue} />
-                                )}
-                                <FormMessage />
-
-                            </FormItem>
-                        )}
-                    />
-
-                    <div className="flex items-center justify-between">
-                        <button
-                            type="button"
-                            onClick={toggleMode}
-                            className="text-primary text-sm hover:underline focus-visible:underline outline-none cursor-pointer"
-                        >
-                            {mode === 'login' 
-                            ? "Don't have an account? Register" 
-                            : "Already have an account? Sign in"}
-                        </button>
-
-                        {mode === 'login' && (
-                            <button
-                                type="button"
-                                onClick={handleForgotPassword}
-                                className="block text-primary text-sm hover:underline focus-visible:underline outline-none cursor-pointer"
-                            >
-                                Forgot your password?
-                            </button>
-                        )}
-                    </div>
-                    
-                    <div className="flex gap-2 pt-4">
-                        <Button
-                            variant="outline"
-                            onClick={onClose}
-                            type="button"
-                            className="flex-1"
-                        >
-                            Cancel
-                        </Button>
-                        
-                        <Button
-                            type="submit"
-                            // disabled={!formState.isValid || formState.isSubmitting}
-                            className="flex-1"
-                        >
-                            {formState.isSubmitting 
-                                ? (<span>Processing...</span>) 
-                                : mode === 'login' 
-                                    ? ('Sign In') 
-                                    : ('Register')
-                            }
-                        </Button>
-                    </div>
-                </form>
-            </Form>
-        </div>
+        <AuthManager
+            mode={mode}
+            onModeChange={handleModeChange}
+            onSuccess={onSuccess}
+            onClose={onClose}
+            onVerificationRequired={handleVerificationRequired}
+            onForgotPasswordSuccess={handleForgotPasswordSuccess}
+            verificationEmail={verificationEmail}
+            verificationUserId={verificationUserId}
+            resetEmail={resetEmail}
+            resetUserId={resetUserId}
+        />
     );
 };
+
+
+// //app/components/shared/auth/auth.tsx
+// 'use client'
+
+// import React from 'react';
+// import { useState } from 'react';
+// import { PasswordStrengthIndicator, AuthEmailVerification, ForgotPassword, ResetPassword } from '@/components/shared';
+// import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
+// import { useAuthForm, type AuthMode} from '@/hooks';
+// import { type AuthFormValues, getFetchError, isEmailVerificationRequiredError } from '@/lib';
+// import { SubmitHandler } from 'react-hook-form';
+
+// interface Props {
+//     onClose: () => void;
+//     onSuccess: () => void;
+// }
+
+// type ExtendedAuthMode = AuthMode | 'forgot-password' | 'reset-password' | 'email-verification';
+
+// export const Auth: React.FC<Props> = ({ onClose, onSuccess }) => {
+//     const [mode, setMode] = useState<ExtendedAuthMode>('login');
+    
+//     const [serverError, setServerError] = useState('');
+//     const [passwordValue, setPasswordValue] = useState('');
+//     const [needsVerification, setNeedsVerification] = useState(false);
+//     const [verificationEmail, setVerificationEmail] = useState<string>('');
+//     const [verificationUserId, setVerificationUserId] = useState<number | null>(null);
+    
+//     // Для восстановления пароля
+//     const [resetEmail, setResetEmail] = useState<string>('');
+//     const [resetUserId, setResetUserId] = useState<number | null>(null);
+
+//     const { form } = useAuthForm(mode as AuthMode);
+//     const { handleSubmit, formState, reset, control } = form;
+
+//     const toggleMode = () => {
+//         const newMode = mode === 'login' ? 'register' : 'login';
+//         setMode(newMode);
+//         reset(newMode === 'login' 
+//             ? { email: '', password: '' }
+//             : { email: '', password: '', nickname: '' }
+//         );
+//         setServerError('');
+//     };
+
+//     const handleForgotPassword = () => {
+//         setMode('forgot-password');
+//         setServerError('');
+//     };
+
+//     const handleBackToLogin = () => {
+//         setMode('login');
+//         setServerError('');
+//     };
+
+//     const handleForgotPasswordSuccess = (email: string, userId: number) => {
+//         setResetEmail(email);
+//         setResetUserId(userId);
+//         setMode('reset-password');
+//     };
+    
+//     const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
+//         setServerError('');
+
+//         try {
+//             const response = await fetch(`/api/auth/${mode}`, { // Используем mode вместо endpoint
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json' },
+//                 body: JSON.stringify(mode === 'register' ? data : { 
+//                     email: data.email, 
+//                     password: data.password 
+//                 })
+//             });
+            
+//             if (!response.ok) {
+//                 const apiError = await getFetchError(response);
+
+//                 //  Специфичная обработка ошибок
+//                 if (isEmailVerificationRequiredError(apiError)) {
+//                     setNeedsVerification(true);
+//                     setVerificationEmail(apiError.email);
+//                     setVerificationUserId(apiError.userId);
+//                     return // Уходим к вводу кода подтверждения 
+//                 }
+
+//                 throw new Error(apiError.error);
+//             }
+
+//             const responseData = await response.json();
+            
+//             if (mode === 'login') {
+//                 onSuccess()
+//             }
+
+//             if (mode === 'register' && responseData.success) {
+//                 setNeedsVerification(true);
+//                 setVerificationEmail(responseData.email);
+//                 setVerificationUserId(responseData.userId);
+//             }
+            
+//         } catch (err) {
+//             setServerError(err instanceof Error ? err.message : 'Authentication failed');
+//         }
+//     };
+
+
+//     if (needsVerification) {
+//         return (
+//             <AuthEmailVerification 
+//                 email={verificationEmail} 
+//                 userId={verificationUserId!} 
+//                 onSuccess={onSuccess}
+//             />
+//         );
+//     }
+
+//     if (mode === 'forgot-password') {
+//         return (
+//             <ForgotPassword 
+//                 onBackToLogin={handleBackToLogin}
+//                 onSuccess={handleForgotPasswordSuccess}
+//             />
+//         );
+//     }
+
+//     if (mode === 'reset-password') {
+//         return (
+//             <ResetPassword 
+//                 userId={resetUserId || undefined}
+//                 email={resetEmail}
+//                 onSuccess={onSuccess}
+//                 onBackToForgot={handleForgotPassword}
+//             />
+//         );
+//     }
+
+//     return (
+//         <div>
+//             <h2 className="text-x font-bold mb-4">
+//                 {mode === 'login' ? 'Sign In' : 'Create Account'}
+//             </h2>
+        
+//             {serverError && (
+//                 <p className="text-destructive mb-4 text-center text-sm">
+//                     {serverError}
+//                 </p>
+//             )}
+        
+//             <Form {...form}>
+//                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+//                     {mode === 'register' && (
+//                         <FormField
+//                             control={control}
+//                             name="nickname"
+//                             render={({ field }) => (
+//                                 <FormItem>
+//                                     <FormLabel>Nickname</FormLabel>
+//                                     <FormControl>
+//                                         <Input
+//                                             placeholder="Your display name" 
+//                                             {...field} 
+//                                             autoComplete="username"
+//                                         />
+//                                     </FormControl>
+//                                     <FormMessage />
+//                                 </FormItem>
+//                             )}
+//                         />
+//                     )}
+                
+//                     <FormField
+//                         control={control}
+//                         name="email"
+//                         render={({field}) => (
+//                             <FormItem>
+//                                 <FormLabel>Email</FormLabel>
+//                                 <FormControl>
+//                                     <Input 
+//                                         type='email'
+//                                         placeholder="your@example.com" 
+//                                         {...field} 
+//                                         autoComplete='email'
+//                                     />
+//                                 </FormControl>
+//                                 <FormMessage />
+//                             </FormItem>
+//                         )}
+//                     />
+
+//                     <FormField 
+//                         control={control}
+//                         name="password"
+//                         render={({field}) => (
+//                             <FormItem>
+//                                 <FormLabel>Password</FormLabel>
+//                                 <FormControl>
+//                                     <Input 
+//                                         type="password" 
+//                                         placeholder="Enter your password" 
+//                                         {...field} 
+//                                         onChange={(e) => {
+//                                             field.onChange(e);
+//                                             setPasswordValue(e.target.value);
+//                                         }}
+//                                         autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+//                                     />
+//                                 </FormControl>
+
+//                                 {mode === 'register' && (
+//                                     <PasswordStrengthIndicator password={passwordValue} />
+//                                 )}
+//                                 <FormMessage />
+
+//                             </FormItem>
+//                         )}
+//                     />
+
+//                     <div className="flex items-center justify-between">
+//                         <button
+//                             type="button"
+//                             onClick={toggleMode}
+//                             className="text-primary text-sm hover:underline focus-visible:underline outline-none cursor-pointer"
+//                         >
+//                             {mode === 'login' 
+//                             ? "Don't have an account? Register" 
+//                             : "Already have an account? Sign in"}
+//                         </button>
+
+//                         {mode === 'login' && (
+//                             <button
+//                                 type="button"
+//                                 onClick={handleForgotPassword}
+//                                 className="block text-primary text-sm hover:underline focus-visible:underline outline-none cursor-pointer"
+//                             >
+//                                 Forgot your password?
+//                             </button>
+//                         )}
+//                     </div>
+                    
+//                     <div className="flex gap-2 pt-4">
+//                         <Button
+//                             variant="outline"
+//                             onClick={onClose}
+//                             type="button"
+//                             className="flex-1"
+//                         >
+//                             Cancel
+//                         </Button>
+                        
+//                         <Button
+//                             type="submit"
+//                             // disabled={!formState.isValid || formState.isSubmitting}
+//                             className="flex-1"
+//                         >
+//                             {formState.isSubmitting 
+//                                 ? (<span>Processing...</span>) 
+//                                 : mode === 'login' 
+//                                     ? ('Sign In') 
+//                                     : ('Register')
+//                             }
+//                         </Button>
+//                     </div>
+//                 </form>
+//             </Form>
+//         </div>
+//     );
+// };

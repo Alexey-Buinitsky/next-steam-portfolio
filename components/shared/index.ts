@@ -18,8 +18,7 @@ export { AddToPortfolio, AddToPortfolioForm, AddToPortfolioModal, AddToPortfolio
 export { CreatePortfolioForm, CreatePortfolioModal } from './create-portfolio' 
 export { InfiniteScrollSelect } from './infinite-scroll-select'
 export { Currency } from './currency'
-export { AuthModal, Auth, AuthEmailVerification } from './auth'
-export { ForgotPassword, ResetPassword } from './password-recovery' 
+export { AuthModal, Auth, AuthManager, AuthLoginForm, AuthRegisterForm, AuthForgotPassword, AuthResetPassword, AuthEmailVerification } from './auth'
 export { ProtectedLink } from './protected-link'
 export { PasswordStrengthIndicator } from './password-strength-indicator'
 

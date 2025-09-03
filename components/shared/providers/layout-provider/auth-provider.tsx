@@ -16,7 +16,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const queryClient = useQueryClient() 
+  const queryClient = useQueryClient() // ← Получаем QueryClient
 
   // Загружаем состояние при монтировании
   useEffect(() => {
@@ -29,9 +29,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Очистка кэша при ЛЮБОМ изменении user на null
   useEffect(() => {
     if (!user) {
-      // Более агрессивная очистка - удаляем все queries
-      // queryClient.removeQueries()
-
       queryClient.removeQueries({ queryKey: ['portfolios'] })
       queryClient.removeQueries({ queryKey: ['portfolioAssets'] })
     }

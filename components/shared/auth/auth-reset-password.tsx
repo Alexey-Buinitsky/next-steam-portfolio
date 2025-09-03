@@ -1,4 +1,4 @@
-//app/components/shared/password-recovery/reset-password.tsx
+//app/components/shared/auth/auth-reset-password.tsx
 'use client'
 
 import React from 'react';
@@ -10,14 +10,14 @@ import { useResetPasswordForm } from '@/hooks';
 
 import { getFetchError, type ResetPasswordFormValues } from '@/lib'
 
-interface ResetPasswordProps {
-  userId?: number;
+interface AuthResetPasswordProps {
+  userId?: number | null;
   email?: string;
   onSuccess?: () => void;
   onBackToForgot?: () => void;
 }
 
-export const ResetPassword: React.FC<ResetPasswordProps> = ({ userId, email, onBackToForgot, onSuccess }) => {
+export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, email, onBackToForgot, onSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   
@@ -37,7 +37,7 @@ export const ResetPassword: React.FC<ResetPasswordProps> = ({ userId, email, onB
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          userId: userId, 
+          userId: userId ?? 0, 
           code: values.code, 
           password: values.password,
           confirmPassword: values.confirmPassword,
