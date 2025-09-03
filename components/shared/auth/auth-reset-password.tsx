@@ -1,12 +1,11 @@
 //app/components/shared/auth/auth-reset-password.tsx
 'use client'
 
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { PasswordStrengthIndicator } from '@/components/shared';
 import { useRouter } from 'next/navigation';
-import { useResetPasswordForm } from '@/hooks';
+import { useResetPasswordForm, useAuthNotifications } from '@/hooks';
 
 import { getFetchError, type ResetPasswordFormValues } from '@/lib'
 
@@ -18,20 +17,16 @@ interface AuthResetPasswordProps {
 }
 
 export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, email, onBackToForgot, onSuccess }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const { showError, showSuccess } = useAuthNotifications();
   
   const [passwordValue, setPasswordValue] = useState('');
 
   const { form } = useResetPasswordForm()
-  const { handleSubmit, setError, control } = form
+  const { handleSubmit, setError, control, formState } = form
   
   const router = useRouter();
 
   const onSubmit = async (values: ResetPasswordFormValues) => {
-    setIsLoading(true);
-    setMessage('');
-
     try {
       const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
@@ -56,17 +51,14 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
         return;
       }
 
-        setMessage('Password has been reset successfully');
+      showSuccess('Password has been reset successfully');
 
-        onSuccess?.() ?? router.push('/auth?mode=login'); // Если onSuccess не передан, делаем мягкий редирект
+      onSuccess?.() ?? router.push('/auth?mode=login'); // Если onSuccess не передан, делаем мягкий редирект
 
-        } catch (error) {
-          console.error('Full error details:', error);
-          setMessage('An error occurred. Please try again.');
-        } finally {
-          setIsLoading(false);
-        }
-      };
+      } catch (err) {
+        showError(err, 'Failed to reset password');
+      } 
+    };
 
   return (
     <div className="space-y-4">
@@ -91,10 +83,6 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
                     {...field}
                     maxLength={6}
                     className="text-center font-mono tracking-widest text-lg"
-                    onChange={(e) => {
-                      field.onChange(e);
-                      setMessage('');
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -116,7 +104,6 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
                     onChange={(e) => {
                       field.onChange(e);
                       setPasswordValue(e.target.value);
-                      setMessage(''); 
                     }}
                     autoComplete="new-password"
                   />
@@ -138,10 +125,6 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
                     type="password"
                     placeholder="Confirm new password"
                     {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      setMessage(''); 
-                    }}
                     autoComplete="new-password"
                   />
                 </FormControl>
@@ -150,18 +133,12 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
             )}
           />
 
-          {message && (
-            <p className={`text-sm text-center ${message.includes('error') ? 'text-destructive' : 'text-foreground'}`}>
-              {message}
-            </p>
-          )}
-
           <Button
             type="submit"
-            disabled={isLoading}
+            disabled={formState.isLoading}
             className="w-full"
           >
-            {isLoading ? 'Resetting...' : 'Reset Password'}
+            {formState.isLoading ? 'Resetting...' : 'Reset Password'}
           </Button>
 
           {onBackToForgot && (

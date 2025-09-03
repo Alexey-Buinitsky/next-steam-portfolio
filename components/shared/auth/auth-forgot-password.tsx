@@ -5,7 +5,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
-import { useForgotPasswordForm } from '@/hooks';
+import { useForgotPasswordForm, useAuthNotifications } from '@/hooks';
 import { getFetchError, type ForgotPasswordFormValues } from '@/lib' 
 
 interface AuthForgotPasswordProps {
@@ -14,15 +14,12 @@ interface AuthForgotPasswordProps {
 }
 
 export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSuccess, onBackToLogin }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const { showError, showSuccess } = useAuthNotifications();
 
   const { form } = useForgotPasswordForm()
-  const { handleSubmit, control } = form
+  const { handleSubmit, control, formState } = form
 
   const onSubmit = async (values: ForgotPasswordFormValues) => {
-    setIsLoading(true);
-    setMessage('');
 
     try {
       const response = await fetch('/api/auth/forgot-password', {
@@ -38,17 +35,16 @@ export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSucces
 
       const data = await response.json();
 
-      setMessage('If the email exists, a password reset code has been sent');
+      showSuccess('If the email exists, a password reset code has been sent');
+
       if (data.userId && data.userId > 0) {
         onSuccess?.(values.email, data.userId);
       } else {
         onSuccess?.(values.email, 0);
       }  
 
-    } catch (error) {
-       setMessage(error instanceof Error ? error.message : 'An error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
+    } catch (err) {
+       showError(err, 'Failed to send reset code');
     }
   };
 
@@ -80,18 +76,12 @@ export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSucces
             )}
           />
 
-          {message && (
-            <p className={`text-sm ${message.includes('error') ? 'text-destructive' : 'text-foreground'}`}>
-              {message}
-            </p>
-          )}
-
           <Button
             type="submit"
-            disabled={isLoading}
+            disabled={formState.isLoading}
             className="w-full"
           >
-            {isLoading ? 'Sending...' : 'Send Reset Code'}
+            {formState.isLoading ? 'Sending...' : 'Send Reset Code'}
           </Button>
         </form>
       </Form>

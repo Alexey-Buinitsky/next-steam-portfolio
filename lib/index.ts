@@ -33,6 +33,7 @@ export {
 } from './validation'
 
 export { 
+    notify, handleApiError, handleApiSuccess, type NotificationOptions,
     sendVerificationEmail, generateEmailVerificationCode, verifyEmailVerificationCode, 
     sendPasswordResetEmail, generatePasswordResetCode, verifyPasswordResetCode, invalidatePasswordResetCode,
     EMAIL_VERIFICATION_ERRORS, 
@@ -44,7 +45,7 @@ export { withAuth } from './withAuth'
 export { hashPassword, verifyPassword } from './password-hash'
 export { authLimiter, strictAuthLimiter } from './rate-limit'
 export { withApiHandler, withAuthRateLimit, withDefaultRateLimit, withStrictAuthRateLimit} from './with-api-handler'
-export { getFetchError, handleFetchError, isEmailVerificationRequiredError } from './api-error'
+export { getFetchError, isEmailVerificationRequiredError } from './api-error'
 
 export type { IMetric } from './metrics';
 export type { IChartData } from './chart';

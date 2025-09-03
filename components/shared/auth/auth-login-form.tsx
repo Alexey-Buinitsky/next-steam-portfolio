@@ -1,6 +1,6 @@
 //app/components/shared/auth/auth-login-form.ts
 import React from 'react';
-import { useAuthForm } from '@/hooks';
+import { useAuthForm, useAuthNotifications } from '@/hooks';
 import { getFetchError, type AuthFormValues } from '@/lib';
 import { Input, Button, Form, FormField, FormItem, FormLabel, FormControl, FormMessage} from '@/components/ui';
 
@@ -13,14 +13,12 @@ interface Props {
 }
 
 export const AuthLoginForm: React.FC<Props> = ({ onSwitchToRegister, onSwitchToForgotPassword, onSuccess, onClose}) => {
-    const [serverError, setServerError] = React.useState('');
+    const { showError, showSuccess } = useAuthNotifications();
 
     const { form } = useAuthForm('login');
     const { handleSubmit, formState, control } = form;
 
     const onSubmit = async (data: AuthFormValues) => {
-        setServerError('');
-
         try {
             const response = await fetch(`/api/auth/login`, {
                 method: 'POST',
@@ -34,20 +32,17 @@ export const AuthLoginForm: React.FC<Props> = ({ onSwitchToRegister, onSwitchToF
                 throw new Error(apiError.error);
             }
 
+            showSuccess('Successfully signed in!');
             onSuccess();
             
         } catch (err) {
-            setServerError(err instanceof Error ? err.message : 'Authentication failed');
+            showError(err, 'Authentication failed');
         }
     };
 
     return (
         <div>
             <h2 className="text-xl font-bold mb-4">Sign In</h2>
-            
-            {serverError && (
-                <p className="text-destructive mb-4 text-center text-sm">{serverError}</p>
-            )}
             
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -94,12 +89,12 @@ export const AuthLoginForm: React.FC<Props> = ({ onSwitchToRegister, onSwitchToF
                 />
 
                 <div className="flex items-center justify-between">
-                    <button type="button" onClick={onSwitchToRegister} className="text-primary text-sm hover:underline">
+                    <Button variant="ghost" type="button" onClick={onSwitchToRegister} className="text-primary text-sm hover:underline hover:bg-color-none">
                         Don't have an account? Register
-                    </button>
-                    <button type="button" onClick={onSwitchToForgotPassword} className="text-primary text-sm hover:underline">
+                    </Button>
+                    <Button variant="ghost" type="button" onClick={onSwitchToForgotPassword} className="text-primary text-sm hover:underline hover:bg-color-none">
                         Forgot your password?
-                    </button>
+                    </Button>
                 </div>
                 
                 <div className="flex gap-2 pt-4">

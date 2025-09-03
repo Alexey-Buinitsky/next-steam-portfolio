@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Button, Input, Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui';
-import { useAuthForm } from '@/hooks';
+import { useAuthForm, useAuthNotifications } from '@/hooks';
 import { getFetchError, isEmailVerificationRequiredError, RegisterFormValues } from '@/lib';
 import { PasswordStrengthIndicator } from '../password-strength-indicator';
 
@@ -13,15 +13,14 @@ interface Props {
 }
 
 export const AuthRegisterForm: React.FC<Props> = ({ onVerificationRequired, onClose, onSwitchToLogin }) => {
-    const [serverError, setServerError] = React.useState('');
     const [passwordValue, setPasswordValue] = React.useState('');
+    
+    const { showError } = useAuthNotifications();
 
     const { form } = useAuthForm('register');
     const { handleSubmit, formState, control } = form;
 
     const onSubmit = async (data: RegisterFormValues) => {
-        setServerError('');
-
         try {
             const response = await fetch(`/api/auth/register`, {
                 method: 'POST',
@@ -49,19 +48,13 @@ export const AuthRegisterForm: React.FC<Props> = ({ onVerificationRequired, onCl
             }
             
         } catch (err) {
-            setServerError(err instanceof Error ? err.message : 'Registration failed');
+            showError(err,'Registration failed');
         } 
     };
 
     return (
         <div>
             <h2 className="text-x font-bold mb-4">Create Account</h2>
-        
-            {serverError && (
-                <p className="text-destructive mb-4 text-center text-sm">
-                    {serverError}
-                </p>
-            )}
         
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
