@@ -34,6 +34,18 @@ async function forgotPasswordHandler({ json }: {request: NextRequest, json?:unkn
     });
   }
 
+  if (!user.emailVerified) {
+    return NextResponse.json(
+      { 
+        error: 'Please verify your email first before resetting password',
+        code: 'EMAIL_VERIFICATION_REQUIRED',
+        email: user.email,
+        userId: user.id,
+      },
+      { status: 403 }
+    );
+  }
+
   // Отправляем email с кодом сброса
   await sendPasswordResetEmail({ 
     userId: user.id, 

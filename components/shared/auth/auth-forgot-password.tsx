@@ -3,17 +3,17 @@
 'use client'
 
 import React from 'react';
-import { useState } from 'react';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { useForgotPasswordForm, useAuthNotifications } from '@/hooks';
-import { getFetchError, type ForgotPasswordFormValues } from '@/lib' 
+import { isEmailVerificationRequiredError, getFetchError, type ForgotPasswordFormValues } from '@/lib' 
 
 interface AuthForgotPasswordProps {
   onSuccess?: (email: string, userId: number) => void;
   onBackToLogin?: () => void;
+  onVerificationRequired?: (email: string, userId: number) => void;
 }
 
-export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSuccess, onBackToLogin }) => {
+export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSuccess, onBackToLogin, onVerificationRequired }) => {
   const { showError, showSuccess } = useAuthNotifications();
 
   const { form } = useForgotPasswordForm()
@@ -30,6 +30,13 @@ export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSucces
 
       if (!response.ok) {
         const apiError = await getFetchError(response);
+
+        // СПЕЦИФИЧНАЯ ОБРАБОТКА СЛУЧАЯ С НЕПОДТВЕРЖДЕННЫМ EMAIL
+        if (isEmailVerificationRequiredError(apiError)) {
+          onVerificationRequired?.(apiError.email, apiError.userId);
+          return;
+        }
+
         throw new Error(apiError.error);
       }
 

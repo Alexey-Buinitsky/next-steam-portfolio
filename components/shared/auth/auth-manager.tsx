@@ -40,6 +40,7 @@ export const AuthManager: React.FC<AuthManagerProps> = ({
             <AuthLoginForm
                 onSwitchToRegister={() => onModeChange('register')}
                 onSwitchToForgotPassword={() => onModeChange('forgot-password')}
+                onVerificationRequired={onVerificationRequired}
                 onSuccess={onSuccess}
                 onClose={onClose}
             />
@@ -60,6 +61,7 @@ export const AuthManager: React.FC<AuthManagerProps> = ({
         return (
             <AuthForgotPassword
                 onBackToLogin={() => onModeChange('login')}
+                onVerificationRequired={onVerificationRequired}
                 onSuccess={onForgotPasswordSuccess}
             />
         );
@@ -68,10 +70,10 @@ export const AuthManager: React.FC<AuthManagerProps> = ({
     if (mode === 'reset-password') {
         return (
             <AuthResetPassword
+                onBackToForgot={() => onModeChange('forgot-password')}
                 userId={resetUserId ?? 0}
                 email={resetEmail}
                 onSuccess={onSuccess}
-                onBackToForgot={() => onModeChange('forgot-password')}
             />
         );
     }

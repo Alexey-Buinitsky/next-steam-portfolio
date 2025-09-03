@@ -1,18 +1,18 @@
 //app/components/shared/auth/auth-login-form.ts
 import React from 'react';
 import { useAuthForm, useAuthNotifications } from '@/hooks';
-import { getFetchError, type AuthFormValues } from '@/lib';
+import { getFetchError, type AuthFormValues, isEmailVerificationRequiredError } from '@/lib';
 import { Input, Button, Form, FormField, FormItem, FormLabel, FormControl, FormMessage} from '@/components/ui';
-
 
 interface Props {
     onSwitchToRegister: () => void;
     onSwitchToForgotPassword: () => void;
+    onVerificationRequired?: (email: string, userId: number) => void;
     onSuccess: () => void;
     onClose: () => void;
 }
 
-export const AuthLoginForm: React.FC<Props> = ({ onSwitchToRegister, onSwitchToForgotPassword, onSuccess, onClose}) => {
+export const AuthLoginForm: React.FC<Props> = ({ onSwitchToRegister, onSwitchToForgotPassword, onVerificationRequired, onSuccess, onClose}) => {
     const { showError, showSuccess } = useAuthNotifications();
 
     const { form } = useAuthForm('login');
@@ -29,6 +29,13 @@ export const AuthLoginForm: React.FC<Props> = ({ onSwitchToRegister, onSwitchToF
             
             if (!response.ok) {
                 const apiError = await getFetchError(response);
+
+                // СПЕЦИФИЧНАЯ ОБРАБОТКА СЛУЧАЯ С НЕПОДТВЕРЖДЕННЫМ EMAIL
+                if (isEmailVerificationRequiredError(apiError)) {
+                    onVerificationRequired?.(apiError.email, apiError.userId);
+                    return;
+                }
+
                 throw new Error(apiError.error);
             }
 

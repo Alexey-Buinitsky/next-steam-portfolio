@@ -1,5 +1,5 @@
+import Link from 'next/link';
 import { Button } from '@/components/ui';
-import { useAuthCheck } from '@/hooks/use-auth/use-auth-check';
 
 interface Props {
   user?: {
@@ -9,7 +9,6 @@ interface Props {
 }
 
 export const HeroMessage: React.FC<Props> = ({ user }) => {
-  const { logout } = useAuthCheck();
   const displayName = user?.nickname || user?.email || 'Guest';
 
   return (
@@ -21,8 +20,14 @@ export const HeroMessage: React.FC<Props> = ({ user }) => {
             You can now create your first portfolio
         </p>
         <div className="flex gap-4">
-            <Button variant="outline" onClick={logout}>Logout</Button>
+          <Button 
+            size="lg"
+            variant='outline'
+            className='py-6 sm:text-lg'
+          >
+            <Link href="/portfolio">Go to Portfolio</Link>
+          </Button>
         </div>
-    </div>
+    </div>  
   );
 };

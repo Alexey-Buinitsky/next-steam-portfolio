@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react';
+import Link from 'next/link';
 import { HeroMessage, AuthModal} from '@/components/shared';
 import { Button } from '@/components/ui';
 import { useAuthCheck } from '@/hooks';
@@ -11,8 +12,14 @@ interface Props {
 }
 
 export const Hero: React.FC<Props> = ({ className }) => {
-    const { user } = useAuthCheck();
+    const { user, isAuthenticated } = useAuthCheck();
     const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false);
+    
+    const handleGetStarted = () => {
+        if (!isAuthenticated) {
+            setIsAuthModalOpen(true);
+        }
+    }
 
     return (
         <div className={`relative flex h-[500px] overflow-hidden rounded-4xl mt-4 p-6 sm:p-20 xl:p-40 ${className}`}>
@@ -36,17 +43,31 @@ export const Hero: React.FC<Props> = ({ className }) => {
                         <HeroMessage user={user} />
                     ) : (
                         <div className="mt-8">
-                        <Button 
-                            size="lg" 
-                            className="flex items-center gap-3 border-2 border-white bg-white py-6 text-base text-black hover:bg-transparent dark:hover:text-white sm:text-lg"
-                            onClick={() => setIsAuthModalOpen(true)}
-                        >
-                            <Warehouse className="h-6 w-6" />Login to account
-                        </Button>
-                        <AuthModal 
-                            isOpen={isAuthModalOpen} 
-                            onClose={() => setIsAuthModalOpen(false)} 
-                        />
+                            {isAuthenticated ? (
+                                <Button 
+                                    size="lg"
+                                    variant='destructive'
+                                    className="flex items-center gap-3 border-2 border-white bg-white py-6 text-base text-black hover:bg-transparent dark:hover:text-white sm:text-lg"
+                                    asChild
+                                >
+                                    <Link href="/portfolio">
+                                        Get Started
+                                    </Link>
+                                </Button>
+                            ) : (
+                                <Button 
+                                    size="lg"
+                                    variant='destructive'
+                                    className="flex items-center gap-3 border-2 border-white bg-white py-6 text-base text-black hover:bg-transparent dark:hover:text-white sm:text-lg"
+                                    onClick={handleGetStarted}
+                                >
+                                    Get Started
+                                </Button>
+                            )}
+                            <AuthModal 
+                                isOpen={isAuthModalOpen} 
+                                onClose={() => setIsAuthModalOpen(false)} 
+                            />
                         </div>
                     )}
                 </div>
