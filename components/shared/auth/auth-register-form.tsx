@@ -45,9 +45,6 @@ export const AuthRegisterForm: React.FC<Props> = ({ onVerificationRequired, onCl
 
 
             if (responseData.success && responseData.userId) {
-                // setNeedsVerification(true);
-                // setVerificationEmail(responseData.email);
-                // setVerificationUserId(responseData.userId);
                 onVerificationRequired?.(responseData.email, responseData.userId);
             }
             

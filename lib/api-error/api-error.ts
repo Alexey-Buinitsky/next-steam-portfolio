@@ -25,20 +25,3 @@ export async function getFetchError(response: Response): Promise<ApiError> {
     };
   }
 }
-
-export async function handleFetchError(response:  Response): Promise<void> {
-  if (response.ok) return;
-  
-  let errorData: unknown;
-  try {
-    errorData = await response.json();
-  } catch {
-    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-  }
-  
-  if (isApiError(errorData)) {
-    throw new Error(errorData.error);
-  }
-  
-  throw new Error('An unexpected error occurred');
-}

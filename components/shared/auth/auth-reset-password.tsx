@@ -56,7 +56,6 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
         return;
       }
 
-        // const data = await response.json();
         setMessage('Password has been reset successfully');
 
         onSuccess?.() ?? router.push('/auth?mode=login'); // Если onSuccess не передан, делаем мягкий редирект
@@ -94,7 +93,7 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
                     className="text-center font-mono tracking-widest text-lg"
                     onChange={(e) => {
                       field.onChange(e);
-                      setMessage(''); // Clear error when typing
+                      setMessage('');
                     }}
                   />
                 </FormControl>
@@ -117,7 +116,7 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
                     onChange={(e) => {
                       field.onChange(e);
                       setPasswordValue(e.target.value);
-                      setMessage(''); // Clear error when typing
+                      setMessage(''); 
                     }}
                     autoComplete="new-password"
                   />
@@ -141,7 +140,7 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
-                      setMessage(''); // Clear error when typing
+                      setMessage(''); 
                     }}
                     autoComplete="new-password"
                   />

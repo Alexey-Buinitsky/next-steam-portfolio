@@ -11,7 +11,7 @@ const MAX_ATTEMPTS = 5
 interface AuthEmailVerificationProps {
   userId: number;
   email: string;
-  onSuccess?: () => void; // Принимаем колбэк вместо поиска параметров
+  onSuccess?: () => void; 
 }
 
 export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ userId, email, onSuccess }) => {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from '@/prisma/prisma-client';
-import { sendVerificationEmail, authLimiter, validateDataWithSchema, resendCodeSchema, withAuthRateLimit } from "@/lib";
+import { sendVerificationEmail, validateDataWithSchema, resendCodeSchema, withAuthRateLimit } from "@/lib";
 
 export const POST = withAuthRateLimit(resendCodeHandler)
 
