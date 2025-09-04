@@ -24,7 +24,6 @@ import { Logo } from '../logo';
 interface Props {
   className?: string;
   sidebar: SidebarContextProps;
-  onSuccess?: () => void; // Добавляем опциональный колбэк
 }
 
 export const AppSidebarUser: React.FC<Props> = ({ className, sidebar }) => {
@@ -43,7 +42,7 @@ export const AppSidebarUser: React.FC<Props> = ({ className, sidebar }) => {
   };
 
   if (!isAuthenticated) {
-    return (
+      return (
       <SidebarFooter className={cn('', className)}>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -91,7 +90,9 @@ export const AppSidebarUser: React.FC<Props> = ({ className, sidebar }) => {
                 <Logo 
                   title={user?.nickname ? user.nickname : ''} 
                   subtitle={user?.email}
-                  // image={avatar} // Можно добавить аватар пользователя
+                  showAvatar={true}
+                  avatarName={user?.nickname}
+                  avatarEmail={user?.email}
                 />
                 <span className="flex shrink-0 ml-auto">
                   <ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
@@ -103,7 +104,9 @@ export const AppSidebarUser: React.FC<Props> = ({ className, sidebar }) => {
                 <Logo 
                   title={user?.nickname ? user.nickname : ''}  
                   subtitle={user?.email}
-                  // image={avatar}
+                  showAvatar={true}
+                  avatarName={user?.nickname}
+                  avatarEmail={user?.email}
                 />
               </DropdownMenuLabel>
               <DropdownMenuSeparator />

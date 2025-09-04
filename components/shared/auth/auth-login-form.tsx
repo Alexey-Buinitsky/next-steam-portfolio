@@ -95,11 +95,11 @@ export const AuthLoginForm: React.FC<Props> = ({ onSwitchToRegister, onSwitchToF
                     )}
                 />
 
-                <div className="flex items-center justify-between">
-                    <Button variant="ghost" type="button" onClick={onSwitchToRegister} className="text-primary text-sm hover:underline hover:bg-color-none">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between">
+                    <Button variant="link" type="button" onClick={onSwitchToRegister} className="p-0">
                         Don't have an account? Register
                     </Button>
-                    <Button variant="ghost" type="button" onClick={onSwitchToForgotPassword} className="text-primary text-sm hover:underline hover:bg-color-none">
+                    <Button variant="link" type="button" onClick={onSwitchToForgotPassword} className="p-0">
                         Forgot your password?
                     </Button>
                 </div>

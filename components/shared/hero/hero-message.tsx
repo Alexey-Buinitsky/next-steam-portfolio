@@ -17,7 +17,7 @@ export const HeroMessage: React.FC<Props> = ({ user }) => {
             Welcome, <span className="text-green-600 dark:text-green-400">{displayName}</span>!
         </div>
         <p className="text-gray-600 dark:text-gray-400">
-            You can now create your first portfolio
+            You can now create your portfolio
         </p>
         <div className="flex gap-4">
           <Button 
