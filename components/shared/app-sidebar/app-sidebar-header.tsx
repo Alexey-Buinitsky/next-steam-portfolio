@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/shared';
 import { SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui';
-import { BriefcaseBusinessIcon } from 'lucide-react';
+import portfolio from '@/public/icons/portfolio.svg';
 
 interface Props {
 	className?: string;
@@ -16,7 +16,7 @@ export const AppSidebarHeader: React.FC<Props> = ({ className }) => {
 				<SidebarMenuItem>
 					<SidebarMenuButton asChild size={'lg'}>
 						<Link href='/'>
-							<Logo title={'A&D'} subtitle={'Steam Portfolio'} icon={BriefcaseBusinessIcon} />
+							<Logo title={'A&D'} subtitle={'Steam Portfolio'} image={portfolio} />
 						</Link>
 					</SidebarMenuButton>
 				</SidebarMenuItem>
