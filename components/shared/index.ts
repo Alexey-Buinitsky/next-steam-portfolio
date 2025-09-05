@@ -11,7 +11,7 @@ export { Slider } from './slider'
 export { ChartSkeleton, MetricSkeleton } from './skeletons'
 
 export { Header } from './header'
-export { Hero, HeroMessage } from './hero'
+export { Hero, HeroBackground, HeroMain, HeroPortfolioSection, HeroPortfolioConfirmModal, HeroPortfolioSlide } from './hero'
 export { PopularMarket } from './popular-market'
 export { MarketItems, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, MarketItemsDisplayLineHeader} from './market-items'
 export { AddToPortfolio, AddToPortfolioForm, AddToPortfolioModal, AddToPortfolioPanel } from './add-to-portfolio'
