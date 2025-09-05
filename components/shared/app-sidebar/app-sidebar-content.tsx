@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { useDebounce } from '@/hooks';
 import { SidebarContent, SidebarContextProps, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui';
 import { ProtectedLink } from '@/components/shared'
-import { BriefcaseBusinessIcon, ChartCandlestickIcon, CurrencyIcon, HomeIcon, TrendingUpDownIcon } from 'lucide-react';
+import { BriefcaseBusinessIcon, ChartCandlestickIcon, CurrencyIcon, HomeIcon } from 'lucide-react';
 
 interface Props {
 	className?: string;
@@ -31,11 +31,11 @@ const items = [
 		url: "/currencies",
 		icon: CurrencyIcon,
 	},
-	{
-		title: "Trends",
-		url: "/",
-		icon: TrendingUpDownIcon,
-	},
+	// {
+	// 	title: "Trends",
+	// 	url: "/",
+	// 	icon: TrendingUpDownIcon,
+	// },
 ]
 
 export const AppSidebarContent: React.FC<Props> = ({ className, sidebar }) => {

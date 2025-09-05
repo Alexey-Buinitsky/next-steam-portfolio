@@ -2,6 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { Button, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Popover, PopoverContent, PopoverTrigger, } from '@/components/ui';
 import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
+import { getCurrencySymbol } from '@/lib';
 import { popularCurrencies } from '@/data/currencies';
 import { Portfolio } from '@prisma/client';
 
@@ -31,7 +32,7 @@ export const AppTableCurrency: React.FC<Props> = ({ className, selectedPortfolio
 				<Button
 					variant="outline" role="combobox" disabled={isLoading || !selectedPortfolio}
 					className="w-[9rem] justify-between 2k:w-[12rem] 4k:w-[19rem] 8k:w-[38rem] 2k:text-lg 4k:text-3xl 8k:text-6xl">
-					{displayedCurrency}
+					{displayedCurrency} - {getCurrencySymbol(displayedCurrency)}
 					<ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 				</Button>
 			</PopoverTrigger>
@@ -42,7 +43,7 @@ export const AppTableCurrency: React.FC<Props> = ({ className, selectedPortfolio
 						<CommandGroup>
 							{popularCurrencies.map((currency) => (
 								<CommandItem className="justify-between" key={currency} value={currency} onSelect={() => onSelect(currency)}>
-									{currency}
+									{currency} - {getCurrencySymbol(currency)}
 									{currency === displayedCurrency && <CheckIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />}
 								</CommandItem>
 							))}

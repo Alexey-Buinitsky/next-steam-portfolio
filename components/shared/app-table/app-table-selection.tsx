@@ -64,7 +64,7 @@ export const AppTableSelection: React.FC<Props> = ({ className, portfolios, crea
 			</Dialog>
 
 			<p className="font-medium text-lg 2k:text-2xl 4k:text-4xl 8k:text-7xl">
-				{selectedPortfolio?.name || "Select portfolio"}
+				{!portfolios || portfolios.length === 0 ? "Create Portfolio" : !selectedPortfolio ? "Select Portfolio" : selectedPortfolio.name}
 				{isLoading && <span className="ml-1 2k:ml-1.5 4k:ml-2 8k:ml-4 animate-pulse">...</span>}
 			</p>
 
