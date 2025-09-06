@@ -23,7 +23,8 @@ export const syncSteamMarket = async () => {
 			const validItems: SteamMarketItem[] = data.results.filter((item: SteamMarketItem) => item.name)
 			validItems.forEach((item) => { syncedItemNames.add(item.name || '') })
 
-			await fetch(`${process.env.NEXT_PUBLIC_API_URL}/assets`, { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify(validItems) })
+			const url = new URL(`${process.env.NEXT_PUBLIC_APP_URL}${process.env.NEXT_PUBLIC_API_URL}/assets`)
+			await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify(validItems) })
 
 			start += STEAM_ITEMS_COUNT
 			currentDelay = STEAM_DELAY_MS

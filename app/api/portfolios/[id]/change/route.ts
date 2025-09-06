@@ -4,7 +4,6 @@ import { prisma } from '@/prisma/prisma-client';
 
 export const PATCH = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
-
 		const { id } = await params
 		const portfolioId = Number(id)
 		const { currency: toCurrency }: { currency: string } = await req.json()

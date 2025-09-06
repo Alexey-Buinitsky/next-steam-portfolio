@@ -1,7 +1,7 @@
 //app/components/shared/auth/auth-reset-password.tsx
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { PasswordStrengthIndicator } from '@/components/shared';
 import { useRouter } from 'next/navigation';
@@ -19,7 +19,7 @@ interface AuthResetPasswordProps {
 export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, email, onBackToForgot, onSuccess }) => {
   const { showError, showSuccess } = useAuthNotifications();
   
-  const [passwordValue, setPasswordValue] = useState('')
+  const [passwordValue, setPasswordValue] = React.useState('')
 
   const { form } = useResetPasswordForm()
   const { handleSubmit, setError, control, formState } = form

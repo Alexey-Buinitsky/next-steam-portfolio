@@ -13,7 +13,8 @@ export const backgroundSync = async () => {
 
 		await syncSteamMarket()
 
-		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/assets/prices/sync`, { method: 'POST' })
+		const url = new URL(`${process.env.NEXT_PUBLIC_APP_URL}${process.env.NEXT_PUBLIC_API_URL}/assets/prices`)
+		await fetch(url, { method: 'POST' })
 
 	} catch (error) {
 		console.error('[BACKGROUND_SYNC] Sync failed:', error)

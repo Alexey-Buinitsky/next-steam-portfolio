@@ -1,12 +1,12 @@
 'use client'
-import { useState } from 'react';
+import React from 'react';
 import { useCurrencyConverter } from '@/hooks/use-currency-converter';
 import { CurrencyConverter, CurrencyRates } from '@/components/shared/currency'
 import { allCurrencies, popularCurrencies } from '@/data/currencies';
 
 export const Currency: React.FC = () => {
 
-	const [showAllCurrencies, setShowAllCurrencies] = useState(true)
+	const [showAllCurrencies, setShowAllCurrencies] = React.useState(true)
 	const currentCurrencies = showAllCurrencies ? allCurrencies : popularCurrencies
 
 	const toggleCurrenciesView = () => {

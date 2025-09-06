@@ -1,9 +1,3 @@
-// import { redirect } from "next/navigation";
-
-// export default function NotFound() {
-// 	redirect("/")
-// }
-
 import Link from "next/link";
 import { Button } from "@/components/ui";
 

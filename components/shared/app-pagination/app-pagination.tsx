@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react';
-import { useEffect, useState } from 'react';
 import { PaginationItem, Pagination, PaginationContent, PaginationPrevious, PaginationLink, PaginationEllipsis, PaginationNext } from '@/components/ui';
 
 interface Props {
@@ -12,9 +11,9 @@ interface Props {
 }
 
 export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPages, onPageChange }) => {
-	const [maxVisiblePages, setMaxVisiblePages] = useState(5)
+	const [maxVisiblePages, setMaxVisiblePages] = React.useState(5)
 
-	useEffect(() => {
+	React.useEffect(() => {
 		const handleResize = () => {
 			setMaxVisiblePages(window.innerWidth < 768 ? 3 : 5)
 		}

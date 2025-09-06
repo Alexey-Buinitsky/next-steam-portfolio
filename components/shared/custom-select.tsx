@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React from 'react'
 import { ChevronDown, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -21,11 +21,11 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
   className,
   disabled = false
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const selectRef = useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = React.useState(false)
+  const selectRef = React.useRef<HTMLDivElement>(null)
 
   // Закрытие при клике вне компонента
-  useEffect(() => {
+  React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
         setIsOpen(false)
@@ -37,7 +37,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
   }, [])
 
   // Закрытие при нажатии Escape
-  useEffect(() => {
+  React.useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
         setIsOpen(false)

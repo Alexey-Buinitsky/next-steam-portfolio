@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 				const existingAsset = await tx.asset.findUnique({ where: { name: asset.name } })
 
 				const newPrice = asset.sell_price || 0
-				const priceChanged = existingAsset && existingAsset.price !== newPrice
+				const isPriceChanged = existingAsset && existingAsset.price !== newPrice
 
 				await tx.asset.upsert({
 					where: { name: asset.name },
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 						volume: asset.sell_listings || 0,
 						updatedAt: new Date(),
 						isActive: true,
-						isSync: !priceChanged,
+						isSync: !isPriceChanged,
 					},
 					create: {
 						name: asset.name || '',

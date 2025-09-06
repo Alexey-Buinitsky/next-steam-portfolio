@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from "react";
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { addToPortfolioSchema, type AddToPortfolioFormValues} from "@/lib"
@@ -16,7 +16,7 @@ export function useAddToPortfolioForm (initialPrice: number = 0, resetOnPriceCha
     },
   })
 
-   useEffect(() => { // необходимо для реализации разделения статичного и модального окна
+   React.useEffect(() => { // необходимо для реализации разделения статичного и модального окна
     if (resetOnPriceChange) {
       form.reset({
         buyPrice: initialPrice,

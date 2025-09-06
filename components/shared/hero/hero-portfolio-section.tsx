@@ -1,7 +1,7 @@
 // components/shared/hero/hero-portfolio-section.tsx
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import { HeroPortfolioSlide, HeroPortfolioConfirmModal, Slider } from '@/components/shared';
 import { usePortfolios } from '@/hooks';
 import { FileText } from 'lucide-react';
@@ -13,8 +13,8 @@ interface Props {
 }
 
 export const HeroPortfolioSection: React.FC<Props> = ({ className }) => {
-  const [selectedPortfolio, setSelectedPortfolio] = useState<Portfolio | null>(null);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [selectedPortfolio, setSelectedPortfolio] = React.useState<Portfolio | null>(null);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
 
   const { portfolios, selectedPortfolio: activePortfolio, selectPortfolio, isLoading } = usePortfolios();
 

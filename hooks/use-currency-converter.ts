@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import type { CurrencyData, ConversionRate } from "@/types/currencies";
 
 export function useCurrencyConverter () {
-    const [amount, setAmount] = useState<string>('1')
-    const [fromCurrency, setFromCurrency] = useState<string>('USD')
-    const [toCurrency, setToCurrency] = useState<string>('EUR')
-    const [convertedAmount, setConvertedAmount] = useState<string>('0')
-    const [exchangeRate, setExchangeRate] = useState<number>(0)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [error, setError] = useState<string | null>(null)
-    const [conversionRates, setConversionRates] = useState<ConversionRate>({})
+    const [amount, setAmount] = React.useState<string>('1')
+    const [fromCurrency, setFromCurrency] = React.useState<string>('USD')
+    const [toCurrency, setToCurrency] = React.useState<string>('EUR')
+    const [convertedAmount, setConvertedAmount] = React.useState<string>('0')
+    const [exchangeRate, setExchangeRate] = React.useState<number>(0)
+    const [isLoading, setIsLoading] = React.useState<boolean>(false)
+    const [error, setError] = React.useState<string | null>(null)
+    const [conversionRates, setConversionRates] = React.useState<ConversionRate>({})
 
     const convertAmount = (value: string, rate: number = exchangeRate) => {
         const numericValue = parseFloat(value)
@@ -21,7 +21,7 @@ export function useCurrencyConverter () {
         setConvertedAmount(result)
     }
 
-    useEffect(() => {
+    React.useEffect(() => {
         const fetchExchangeRate = async () => {
             // Если не выбраны обе валюты, ничего не делаем
             if (!fromCurrency || !toCurrency) return

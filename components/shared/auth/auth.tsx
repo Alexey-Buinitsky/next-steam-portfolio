@@ -1,7 +1,7 @@
 //app/components/shared/auth/auth.tsx
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import { AuthManager } from './auth-manager';
 import type { AuthMode } from '@/hooks';
 
@@ -13,11 +13,11 @@ interface Props {
 export type ExtendedAuthMode = AuthMode | 'forgot-password' | 'reset-password' | 'email-verification';
 
 export const Auth: React.FC<Props> = ({ onClose, onSuccess }) => {
-    const [mode, setMode] = useState<ExtendedAuthMode>('login');
-    const [verificationEmail, setVerificationEmail] = useState<string>('');
-    const [verificationUserId, setVerificationUserId] = useState<number | null>(null);
-    const [resetEmail, setResetEmail] = useState<string>('');
-    const [resetUserId, setResetUserId] = useState<number | null>(null);
+    const [mode, setMode] = React.useState<ExtendedAuthMode>('login');
+    const [verificationEmail, setVerificationEmail] = React.useState<string>('');
+    const [verificationUserId, setVerificationUserId] = React.useState<number | null>(null);
+    const [resetEmail, setResetEmail] = React.useState<string>('');
+    const [resetUserId, setResetUserId] = React.useState<number | null>(null);
 
     const handleModeChange = (newMode: ExtendedAuthMode) => {
         setMode(newMode);

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { useDebounce, useTotalItems } from '@/hooks';
 import { MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, AppPagination } from '@/components/shared';
 
@@ -9,12 +9,12 @@ const ITEMS_PER_PAGE = 10
 type DisplayMode = 'grid' | 'list'
 
 export function MarketItems() {
-	const [page, setPage] = useState(1)
-	const [displayMode, setDisplayMode] = useState<DisplayMode>('grid')
-	const [searchQuery, setSearchQuery] = useState('')
+	const [page, setPage] = React.useState(1)
+	const [displayMode, setDisplayMode] = React.useState<DisplayMode>('grid')
+	const [searchQuery, setSearchQuery] = React.useState('')
 
 	const debouncedSearchQuery = useDebounce(searchQuery.trim().toLowerCase(), 500)
-	useEffect(() => { setPage(1) }, [debouncedSearchQuery])
+	React.useEffect(() => { setPage(1) }, [debouncedSearchQuery])
 
 	const {data, isLoading, isError} = useTotalItems({ page, perPage: ITEMS_PER_PAGE, search: debouncedSearchQuery })
 

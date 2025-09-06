@@ -4,7 +4,7 @@ export const getExchangeRate = async (fromCurrency: string, toCurrency: string):
   if (fromCurrency === toCurrency) return 1
 
   try {
-		const url = new URL(`${process.env.NEXT_PUBLIC_APP_URL}/${process.env.NEXT_PUBLIC_API_URL}/exchange?from=`)
+		const url = new URL(`${process.env.NEXT_PUBLIC_APP_URL}${process.env.NEXT_PUBLIC_API_URL}/exchange?from=`)
 		
     const response = await fetch(`${url}${fromCurrency}`)
 
