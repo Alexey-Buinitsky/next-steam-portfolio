@@ -3,23 +3,10 @@
 
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger, 
-  SidebarContextProps, 
-  SidebarFooter, 
-  SidebarMenu, 
-  SidebarMenuButton, 
-  SidebarMenuItem 
-} from '@/components/ui';
-import { ChevronsUpDownIcon, LogOutIcon, LogInIcon, UserPlusIcon } from 'lucide-react';
 import { useAuthCheck, useAuthNotifications } from '@/hooks';
-import { AuthModal } from '@/components/shared';
-import { Logo } from '../logo';
+import { ChevronsUpDownIcon, LogOutIcon, LogInIcon, UserPlusIcon } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, SidebarContextProps, SidebarFooter, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui';
+import { AuthModal, Logo } from '@/components/shared';
 
 interface Props {
   className?: string;
@@ -86,7 +73,7 @@ export const AppSidebarUser: React.FC<Props> = ({ className, sidebar }) => {
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SidebarMenuButton size={'lg'} variant={'outline'}>
+              <SidebarMenuButton size={'default'} variant={'outline'}>
                 <Logo 
                   title={user?.nickname ? user.nickname : ''} 
                   subtitle={user?.email}

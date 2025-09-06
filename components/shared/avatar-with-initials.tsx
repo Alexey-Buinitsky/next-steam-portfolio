@@ -33,8 +33,8 @@ export const AvatarWithInitials: React.FC<AvatarWithInitialsProps> = ({ name, em
   const sizeClasses = {
     sm: 'w-5 h-5 text-xs',       
     md: 'w-7 h-7 text-sm',       
-    lg: 'w-10 h-10 text-base',   
-    xl: 'w-14 h-14 text-lg'
+    lg: 'w-8 h-8 text-base',   
+    xl: 'w-12 h-12 text-lg'
   };
 
   const initials = getInitials();
@@ -42,7 +42,7 @@ export const AvatarWithInitials: React.FC<AvatarWithInitialsProps> = ({ name, em
   return (
     <div
       className={cn(
-        'flex items-center justify-center rounded-full bg-primary/80 text-primary-foreground/80 font-medium',
+        'flex items-center justify-center rounded-xs bg-primary/80 text-primary-foreground/80 font-medium',
         sizeClasses[size],
         className
       )}
