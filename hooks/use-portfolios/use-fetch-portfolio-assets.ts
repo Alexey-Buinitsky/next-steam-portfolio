@@ -18,9 +18,9 @@ export const useFetchPortfolioAssets = (portfolioId: number | undefined): Return
 			if (!portfolioId) { return Promise.resolve([]) }
 			return portfolioAssetsApi.fetch(portfolioId)
 		},
-		enabled: !!user && !!portfolioId,
+		// enabled: !!user && !!portfolioId,
 		refetchInterval: (query) => {
-			if (!portfolioId) return false
+			if (!portfolioId || !user) return false
 
 			const data = query.state.data
 			if (!data || data.length === 0) return 3 * 60 * 1000

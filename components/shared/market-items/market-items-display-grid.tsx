@@ -24,7 +24,7 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
                 {data?.assets.map((item) => (
                     <div 
                         key={item.id}
-                        className="h-full border rounded p-4 hover:shadow-lg transition-shadow cursor-pointer" 
+                        className="h-full bg-card border rounded p-4 hover:shadow-lg transition-shadow cursor-pointer" 
                         onClick={() => setSelectedItem(item)}
                     >
                         <Image

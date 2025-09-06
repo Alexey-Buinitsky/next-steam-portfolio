@@ -27,7 +27,7 @@ export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => 
                     {data?.assets.map((item) => (
                         <div 
                             key={item.id}
-                            className="flex items-center w-full border rounded py-0.5 px-2 sm:pr-4 2xl:px-10 hover:shadow-md transition-shadow dark:hover:shadow-gray-500 dark:hover:shadow-sm cursor-pointer"
+                            className="flex items-center w-full border bg-card rounded py-0.5 px-2 sm:pr-4 2xl:px-10 hover:shadow-md transition-shadow dark:hover:shadow-gray-500 dark:hover:shadow-sm cursor-pointer"
                             onClick={() => setSelectedItem(item)}    
                         >
                             <Image

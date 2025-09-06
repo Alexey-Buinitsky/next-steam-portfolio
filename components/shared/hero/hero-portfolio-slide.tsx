@@ -37,7 +37,7 @@ export const HeroPortfolioSlide: React.FC<PortfolioSlideProps> = ({ portfolio, i
         </div>
         
         {/* Название портфолио */}
-        <h3 className="font-semibold mb-2 text-lg line-clamp-2">
+        <h3 className="font-semibold mb-2 text-lg line-clamp-1">
           {portfolio.name}
         </h3>
         
