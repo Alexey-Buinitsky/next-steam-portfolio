@@ -58,10 +58,10 @@ export const HeroPortfolioSection: React.FC<Props> = ({ className }) => {
           <Slider
               breakpoints={{
                   320: { slidesPerView: 1, spaceBetween: 10 },
-                  568: { slidesPerView: 2, spaceBetween: 15 },
-                  1024: { slidesPerView: 3, spaceBetween: 20 },
-                  1400: { slidesPerView: 3, spaceBetween: 25 },
-                  1920: { slidesPerView: 3, spaceBetween: 30 },
+                  568: { slidesPerView: 2, spaceBetween: 30 },
+                  1024: { slidesPerView: 3, spaceBetween: 30 },
+                  1536: { slidesPerView: 2, spaceBetween: 30 },
+                  1745: { slidesPerView: 3, spaceBetween: 30 },
                   // 2560: { slidesPerView: 5, spaceBetween: 40 }, 
                   // 3100: { slidesPerView: 6, spaceBetween: 50 }, 
                   // 3840: { slidesPerView: 7, spaceBetween: 60 }, 
