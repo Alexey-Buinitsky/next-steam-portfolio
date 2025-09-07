@@ -68,7 +68,7 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<SidebarMenuButton size={'lg'} variant={'outline'}>
-								<Logo title={user?.nickname ? user.nickname : ''} subtitle={user?.email} showAvatar={true} avatarName={user?.nickname} avatarEmail={user?.email} />
+								<Logo title={user?.nickname} subtitle={user?.email} isAvatar={true} avatarName={user?.nickname} avatarEmail={user?.email} />
 								<span className="flex shrink-0 ml-auto">
 									<ChevronsUpDownIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
 								</span>
@@ -76,7 +76,7 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 						</DropdownMenuTrigger>
 						<DropdownMenuContent side={sidebar.isMobile ? 'top' : 'right'} align='end'>
 							<DropdownMenuLabel>
-								<Logo title={user?.nickname ? user.nickname : ''} subtitle={user?.email} showAvatar={true} avatarName={user?.nickname} avatarEmail={user?.email} />
+								<Logo title={user?.nickname} subtitle={user?.email} isAvatar={true} avatarName={user?.nickname} avatarEmail={user?.email} />
 							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem onClick={handleLogout}>

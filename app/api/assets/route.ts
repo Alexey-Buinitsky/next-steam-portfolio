@@ -5,7 +5,7 @@ import { SteamMarketItem } from '@/types/steam';
 export async function GET() {
 	try {
 		const assets = await prisma.asset.findMany({ orderBy: { createdAt: 'desc' }, })
-		return NextResponse.json(assets)
+		return NextResponse.json(assets, { status: 200 })
 	} catch (error) {
 		console.error('[ASSETS_GET] Error:', error)
 		return NextResponse.json({ message: 'Failed to fetch assets' }, { status: 500 })

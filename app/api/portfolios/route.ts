@@ -27,10 +27,7 @@ export const POST = withAuth(async (req: NextRequest, userId: number): Promise<N
 		}
 
 		await prisma.portfolio.create({
-			data: {
-				name,
-				user: { connect: { id: userId } }
-			}
+			data: { name, user: { connect: { id: userId } } }
 		})
 		return NextResponse.json({ message: 'Portfolio created successfully' }, { status: 200 })
 	} catch (error) {

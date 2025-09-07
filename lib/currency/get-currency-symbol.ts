@@ -1,11 +1,11 @@
-import { currencySymbols } from "@/data/currecy-symbols";
 import { getCurrencyLocale } from "@/lib"
+import { currencySymbols } from "@/data/currency-symbols";
 
 export const getCurrencySymbol = (currency: string = "USD"): string => {
 
 	if (currencySymbols[currency]) {
-    return currencySymbols[currency]
-  }
+		return currencySymbols[currency]
+	}
 
 	try {
 		const locale = getCurrencyLocale(currency)

@@ -96,7 +96,7 @@ export const POST = withAuth(async (req: NextRequest, userId: number, { params }
 			}
 		})
 
-		return NextResponse.json({ message: 'Portfolio Asset added successfuly' }, { status: 200 })
+		return NextResponse.json({ message: 'Portfolio asset added successfuly' }, { status: 200 })
 	} catch (error) {
 		console.error('[PORTFOLIO_ASSETS_POST] Server error:', error)
 		return NextResponse.json({ message: 'Failed to add asset' }, { status: 500 })
@@ -168,10 +168,9 @@ export const DELETE = withAuth(async (req: NextRequest, userId: number, { params
 		}
 
 		if (!selectedPortfolioAssets || !selectedPortfolioAssets.length) {
-			return NextResponse.json({ message: 'Portfolio asset(s) is(are) required' }, { status: 400 })
+			const message = selectedPortfolioAssets.length === 0 ? 'Portfolio assets are required' : 'Portfolio asset is required'
+			return NextResponse.json({ message: message }, { status: 400 })
 		}
-
-		if (!selectedPortfolioAssets?.length) return NextResponse.json({ message: 'Portfolio asset IDs are required' }, { status: 400 })
 
 		await prisma.portfolioAsset.deleteMany({
 			where: {
@@ -180,10 +179,13 @@ export const DELETE = withAuth(async (req: NextRequest, userId: number, { params
 			}
 		})
 
-		return NextResponse.json({ message: 'Portfolio asset(s) deleted successfully' }, { status: 200 })
+		const message = selectedPortfolioAssets.length === 1 ? 'Portfolio asset deleted successfully' : 'Portfolio assets deleted successfully'
+		return NextResponse.json({ message: message }, { status: 200 })
 	} catch (error) {
 		console.error('[PORTFOLIO_ASSET_DELETE] Server error:', error)
-		return NextResponse.json({ message: 'Failed to delete portfolio asset(s)' }, { status: 500 })
+		const { selectedPortfolioAssets }: { selectedPortfolioAssets: PortfolioAssetWithRelations[] } = await req.json()
+		const message = selectedPortfolioAssets.length === 1 ? 'Failed to delete portfolio asset' : 'Failed to delete portfolio assets'
+		return NextResponse.json({ message: message }, { status: 500 })
 	} finally {
 		await prisma.$disconnect()
 	}

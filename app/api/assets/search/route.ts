@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
 
 		const assets = await prisma.asset.findMany({
 			where: { name: { contains: query, mode: 'insensitive' }, },
-			orderBy: { id: 'asc' },
+			orderBy: { volume: 'desc' },
 			skip,
 			take: take + 1,
 		})
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
 		const hasMore = assets.length > take
 		const result = hasMore ? assets.slice(0, take) : assets
 
-		return NextResponse.json({ assets: result, hasMore })
+		return NextResponse.json({ assets: result, hasMore }, { status: 200 })
 	} catch (error) {
 		console.error('[ASSETS_SEARCH_GET] Error:', error)
 		return NextResponse.json({ message: 'Failed to search assets' }, { status: 500 })

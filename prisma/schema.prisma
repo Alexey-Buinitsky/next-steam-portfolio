@@ -51,6 +51,8 @@ model Asset {
 
   portfolioAssets PortfolioAsset[]
 
+	@@index([volume])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
