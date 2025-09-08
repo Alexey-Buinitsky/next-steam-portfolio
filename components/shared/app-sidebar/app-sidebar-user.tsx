@@ -16,11 +16,13 @@ interface Props {
 export const AppSidebarUser: React.FC<Props> = ({ className, sidebar }) => {
   const { user, logout, isAuthenticated } = useAuthCheck();
   const { showSuccess } = useAuthNotifications();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleLogout = async () => {
     await logout();
     showSuccess('Successfully logged out');
+    setIsDropdownOpen(false);
   };
 
   const handleAuthSuccess = () => {
@@ -28,12 +30,18 @@ export const AppSidebarUser: React.FC<Props> = ({ className, sidebar }) => {
     showSuccess('Successfully authenticated');
   };
 
+  
+  const handleAuthClick = () => {
+    setIsDropdownOpen(false); // Закрываем dropdown перед открытием модалки
+    setIsAuthModalOpen(true);
+  };
+
   if (!isAuthenticated) {
       return (
       <SidebarFooter className={cn('', className)}>
         <SidebarMenu>
           <SidebarMenuItem>
-            <DropdownMenu>
+            <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton size={'lg'} variant={'outline'}>
                   <Logo title="Guest" subtitle="Sign in to continue" />
@@ -45,11 +53,11 @@ export const AppSidebarUser: React.FC<Props> = ({ className, sidebar }) => {
               <DropdownMenuContent side={sidebar.isMobile ? 'top' : 'right'} align='end'>
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setIsAuthModalOpen(true)}>
+                <DropdownMenuItem onClick={handleAuthClick}>
                   <LogInIcon size={16} className="mr-2 2k:size-5.5 4k:size-8 8k:size-16" />
                   <span>Sign In</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setIsAuthModalOpen(true)}>
+                <DropdownMenuItem onClick={handleAuthClick}>
                   <UserPlusIcon size={16} className="mr-2 2k:size-5.5 4k:size-8 8k:size-16" />
                   <span>Register</span>
                 </DropdownMenuItem>
@@ -71,7 +79,7 @@ export const AppSidebarUser: React.FC<Props> = ({ className, sidebar }) => {
     <SidebarFooter className={cn('', className)}>
       <SidebarMenu>
         <SidebarMenuItem>
-          <DropdownMenu>
+          <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton size={'lg'} variant={'outline'}>
                 <Logo 
