@@ -18,7 +18,7 @@ export const useFetchExchangeRates = ({ fromCurrency, toCurrency }: Props): Retu
 	const { data, isLoading, error } = useQuery<ConversionRate, Error>({
 		queryKey: ['exchangeRates', fromCurrency],
 		queryFn: () => exchangeRateApi.fetch(fromCurrency, toCurrency),
-		enabled: !!fromCurrency && !!toCurrency && fromCurrency !== toCurrency,
+		enabled: !!fromCurrency && !!toCurrency,
 		staleTime: 24 * 60 * 60 * 1000,
 		gcTime: 7 * 24 * 60 * 60 * 1000,
 		retry: 2,
