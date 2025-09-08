@@ -1,23 +1,71 @@
 'use client'
+
 import React from 'react';
-import { useCurrencyConverter } from '@/hooks/use-currency-converter';
 import { CurrencyConverter, CurrencyRates } from '@/components/shared/currency'
+import { useFetchExchangeRates } from '@/hooks';
 import { allCurrencies, popularCurrencies } from '@/data/currencies';
 
 export const Currency: React.FC = () => {
 
+	const [amount, setAmount] = React.useState<string>('1')
+	const [fromCurrency, setFromCurrency] = React.useState<string>('USD')
+	const [toCurrency, setToCurrency] = React.useState<string>('EUR')
+	const [convertedAmount, setConvertedAmount] = React.useState<string>('0')
+	const [exchangeRate, setExchangeRate] = React.useState<number>(0)
+
 	const [showAllCurrencies, setShowAllCurrencies] = React.useState(true)
 	const currentCurrencies = showAllCurrencies ? allCurrencies : popularCurrencies
 
-	const toggleCurrenciesView = () => {
-		setShowAllCurrencies(!showAllCurrencies)
-	}
+	const { rates, isLoading, error } = useFetchExchangeRates({ fromCurrency, toCurrency })
 
-	const {
-		amount, fromCurrency, toCurrency, convertedAmount, exchangeRate, conversionRates,
-		handleAmountChange, handleFromCurrencyChange, handleToCurrencyChange, swapCurrencies,
-		isLoading, error
-	} = useCurrencyConverter()
+	React.useEffect(() => {
+		if (rates && toCurrency && rates[toCurrency] !== undefined) {
+			const rate = rates[toCurrency]
+			setExchangeRate(rate)
+			convertAmount(amount, rate)
+		}
+	}, [rates, toCurrency, amount])
+
+	const convertAmount = (value: string, rate: number = exchangeRate) => {
+    const numericValue = parseFloat(value)
+    if (isNaN(numericValue)) {
+      setConvertedAmount('0')
+      return
+    }
+    
+    if (fromCurrency === toCurrency) {
+      setConvertedAmount(value)
+      setExchangeRate(1)
+      return
+    }
+
+    const result = (numericValue * rate).toFixed(4);
+    setConvertedAmount(result)
+  }
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setAmount(value)
+    convertAmount(value)
+  }
+
+  const handleFromCurrencyChange = (currency: string) => {
+    setFromCurrency(currency)
+  }
+
+  const handleToCurrencyChange = (currency: string) => {
+    setToCurrency(currency)
+  }
+
+  const swapCurrencies = () => {
+    setFromCurrency(toCurrency)
+    setToCurrency(fromCurrency)
+  }
+
+  const toggleCurrenciesView = () => {
+    setShowAllCurrencies(!showAllCurrencies)
+  }
+
 	return (
 		<div className='2xl:grid grid-cols-2 items-center gap-x-4'>
 			<CurrencyConverter
@@ -38,7 +86,7 @@ export const Currency: React.FC = () => {
 			/>
 			<CurrencyRates
 				fromCurrency={fromCurrency}
-				conversionRates={conversionRates}
+				conversionRates={rates}
 				popularCurrencies={popularCurrencies}
 				error={error}
 			/>

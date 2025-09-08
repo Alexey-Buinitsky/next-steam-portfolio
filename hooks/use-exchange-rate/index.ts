@@ -1,0 +1,1 @@
+export { useFetchExchangeRates } from './use-fetch-exchage-rates';

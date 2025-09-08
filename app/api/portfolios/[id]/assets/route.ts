@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { calculateAssetMetrics, getExchangeRate, withAuth } from '@/lib';
-import { PortfolioAssetWithRelations } from '@/types/portfolio';
+import { calculateAssetMetrics, withAuth } from '@/lib';
+import { exchangeRateApi } from '@/services/exchange-rate';
 import { prisma } from '@/prisma/prisma-client';
 import { Asset, PortfolioAsset } from '@prisma/client';
+import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
 interface Props {
 	selectedAsset?: Asset;
@@ -69,8 +70,8 @@ export const POST = withAuth(async (req: NextRequest, userId: number, { params }
 		let currentPrice = selectedAsset.price !== null ? selectedAsset.price / 100 : Number(data.buyPrice)
 
 		if (portfolio.currency !== 'USD') {
-			const exchangeRate = await getExchangeRate('USD', portfolio.currency)
-			currentPrice = currentPrice * exchangeRate
+			const exchangeRates = await exchangeRateApi.fetch('USD', portfolio.currency)
+			currentPrice = currentPrice * exchangeRates[portfolio.currency]
 		}
 
 		const metrics = calculateAssetMetrics(Number(data.quantity), Number(data.buyPrice), currentPrice)

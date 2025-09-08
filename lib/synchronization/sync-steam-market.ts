@@ -1,4 +1,5 @@
-import axios from 'axios';
+import { assetsApi } from '@/services/assets';
+import { steamApi } from '@/services/steam';
 import { prisma } from '@/prisma/prisma-client';
 import type { SteamMarketItem } from '@/types/steam';
 
@@ -13,25 +14,21 @@ export const syncSteamMarket = async () => {
 
 	while (true) {
 		try {
-			const { data } = await axios.get('https://steamcommunity.com/market/search/render/', {
-				params: { appid: 730, start, count: STEAM_ITEMS_COUNT, sort_column: 'popular', sort_dir: 'desc', norender: 1 },
-				timeout: 10000
-			})
+			const data = await steamApi.fetch(start, STEAM_ITEMS_COUNT)
 
 			if (!data?.results?.length) break
 
 			const validItems: SteamMarketItem[] = data.results.filter((item: SteamMarketItem) => item.name)
 			validItems.forEach((item) => { syncedItemNames.add(item.name || '') })
 
-			const url = new URL(`${process.env.NEXT_PUBLIC_APP_URL}${process.env.NEXT_PUBLIC_API_URL}/assets`)
-			await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify(validItems) })
+			await assetsApi.sync(validItems)
 
 			start += STEAM_ITEMS_COUNT
 			currentDelay = STEAM_DELAY_MS
 
 			await new Promise(resolve => setTimeout(resolve, currentDelay))
 		} catch (error) {
-			console.error('[STEAM_API] Request failed:', error)
+			console.error('[STEAM_SYNC] Request failed, retrying:', error)
 			currentDelay = Math.min(currentDelay * 2, 100000)
 			await new Promise(resolve => setTimeout(resolve, currentDelay))
 		}

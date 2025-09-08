@@ -10,7 +10,7 @@ interface ReturnProps {
 }
 
 export const useFetchPortfolios = (): ReturnProps => {
-	const { user } = useAuthCheck();
+	const { user } = useAuthCheck()
 
 	const { data, isLoading, error } = useQuery<Portfolio[], Error>({
 		queryKey: ['portfolios'],
