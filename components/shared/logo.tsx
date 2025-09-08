@@ -24,7 +24,7 @@ export const Logo: React.FC<Props> = ({ className, title, subtitle, icon: Icon, 
 					<AvatarWithInitials 
 						name={avatarName} 
 						email={avatarEmail} 
-						size="lg"
+						size="xl"
 					/>
 				) : image ? (
 					<Image alt="" src={image} priority={true} width={48} height={48} className='2k:size-16 4k:size-24 8k:size-48' />

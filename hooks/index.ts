@@ -3,7 +3,7 @@ export { useDebounce } from '@/hooks/use-debounce';
 export { useSearchAssets } from '@/hooks/use-assets';
 export { usePortfolios } from '@/hooks/use-portfolios';
 
-export { usePopularCases } from '@/hooks/use-popular-cases';
+export { usePopularItems } from '@/hooks/use-popular-items';
 export { useTotalItems } from '@/hooks/use-total-items';
 export { useImageError } from '@/hooks/use-image-error';
 

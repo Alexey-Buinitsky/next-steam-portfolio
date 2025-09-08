@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
-import { CustomSelect } from '../custom-select';
+import { CustomSelect } from '../custom/custom-select';
 import { useAddToPortfolioForm } from '@/hooks';
 
 import type { AddToPortfolioFormValues} from '@/lib';

@@ -73,7 +73,7 @@ export const AppSidebarUser: React.FC<Props> = ({ className, sidebar }) => {
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SidebarMenuButton size={'default'} variant={'outline'}>
+              <SidebarMenuButton size={'lg'} variant={'outline'}>
                 <Logo 
                   title={user?.nickname ? user.nickname : ''} 
                   subtitle={user?.email}
