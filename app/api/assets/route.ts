@@ -6,25 +6,48 @@ import { SteamMarketItem } from '@/types/steam';
 
 export async function GET(req: NextRequest) {
 	try {
-		const searchParams = req.nextUrl.searchParams
-		const query = searchParams.get('query') || ''
-		const skip = parseInt(searchParams.get('skip') || '0')
-		const take = parseInt(searchParams.get('take') || '10')
+		const { searchParams } = new URL(req.url)
 
-		const assets = await prisma.asset.findMany({
-			where: { name: { contains: query, mode: 'insensitive' }, },
-			orderBy: { volume: 'desc' },
-			skip,
-			take: take + 1,
-		})
+		const page = parseInt(searchParams.get('page') || '1')
+		const perPage = parseInt(searchParams.get('perPage') || '10')
+		const query = searchParams.get('query') || undefined
+		const isInfinite = searchParams.get('infinite') === 'true'
 
-		const hasMore = assets.length > take
-		const result = hasMore ? assets.slice(0, take) : assets
+		const where = { isActive: true, ...(query && { name: { contains: query, mode: 'insensitive' as const, }, }), }
 
-		return NextResponse.json({ assets: result, hasMore }, { status: 200 })
+		const skip = (page - 1) * perPage
+
+		let take = perPage
+		if (isInfinite) take = perPage + 1
+
+		const [assets, totalCount] = await Promise.all([
+			prisma.asset.findMany({ where, skip, take, orderBy: { volume: 'desc' }, }),
+			isInfinite ? Promise.resolve(0) : prisma.asset.count({ where }),
+		])
+
+		let resultAssets = assets
+		let hasMore = false
+
+		if (isInfinite) {
+			hasMore = assets.length > perPage
+			resultAssets = hasMore ? assets.slice(0, perPage) : assets
+		} else {
+			hasMore = page < Math.ceil(totalCount / perPage)
+		}
+
+		return NextResponse.json({
+			assets: resultAssets,
+			pagination: {
+				currentPage: page,
+				totalPages: isInfinite ? 0 : Math.ceil(totalCount / perPage),
+				totalCount: isInfinite ? 0 : totalCount,
+				perPage,
+				hasMore,
+			},
+		}, { status: 200 })
 	} catch (error) {
-		console.error('[ASSETS_GET] Error:', error)
-		return NextResponse.json({ message: 'Failed to search assets' }, { status: 500 })
+		console.error('[ASSETS_GET] Server error:', error)
+		return NextResponse.json({ message: 'Failed to fetch assets' }, { status: 500 })
 	} finally {
 		await prisma.$disconnect()
 	}

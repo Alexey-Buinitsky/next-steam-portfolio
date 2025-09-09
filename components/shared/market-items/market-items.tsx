@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { useDebounce, useTotalItems } from '@/hooks';
+import { useDebounce, usePaginatedAssets } from '@/hooks';
 import { MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, AppPagination } from '@/components/shared';
 
 const ITEMS_PER_PAGE = 10
@@ -16,23 +16,23 @@ export function MarketItems() {
 	const debouncedSearchQuery = useDebounce(searchQuery.trim().toLowerCase(), 500)
 	React.useEffect(() => { setPage(1) }, [debouncedSearchQuery])
 
-	const {data, isLoading, isError} = useTotalItems({ page, perPage: ITEMS_PER_PAGE, search: debouncedSearchQuery })
+	const { data, isLoading, error } = usePaginatedAssets(page, ITEMS_PER_PAGE, debouncedSearchQuery)
 
 	if (isLoading) return <div>Loading...</div>
-	if (isError) return <div>Error loading items</div>
+	if (error) return <div>Error loading items</div>
 
 	return (
 		<div className="container mx-auto p-4 flex flex-col gap-4">
-			<MarketItemsHeader searchQuery={searchQuery} setDisplayMode={setDisplayMode} setSearchQuery={setSearchQuery}/>
+			<MarketItemsHeader searchQuery={searchQuery} setDisplayMode={setDisplayMode} setSearchQuery={setSearchQuery} />
 
-			{displayMode === 'grid' 
-				? 	(<MarketItemsDisplayGrid data={data}/>) 
-				: 	(<MarketItemsDisplayLine data={data}/>)
+			{displayMode === 'grid'
+				? (<MarketItemsDisplayGrid data={data} />)
+				: (<MarketItemsDisplayLine data={data} />)
 			}
 
 			{data && data.pagination.totalPages > 1 && (
-				<AppPagination 
-					currentPage={page} onPageChange={setPage} 
+				<AppPagination
+					currentPage={page} onPageChange={setPage}
 					totalPages={data.pagination.totalPages}
 				/>
 			)}
