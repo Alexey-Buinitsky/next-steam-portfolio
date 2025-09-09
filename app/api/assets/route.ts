@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
 
 		return NextResponse.json({ assets: result, hasMore }, { status: 200 })
 	} catch (error) {
-		console.error('[ASSETS_SEARCH_GET] Error:', error)
+		console.error('[ASSETS_GET] Error:', error)
 		return NextResponse.json({ message: 'Failed to search assets' }, { status: 500 })
 	} finally {
 		await prisma.$disconnect()
