@@ -1,5 +1,5 @@
 import { getCurrencyLocale } from "@/lib"
-import { currencySymbols } from "@/data/currecy-symbols";
+import { currencySymbols } from "@/data/currency-symbols";
 
 export const formatCurrency = (value: number, currency: string = "USD"): string => {
 	try {

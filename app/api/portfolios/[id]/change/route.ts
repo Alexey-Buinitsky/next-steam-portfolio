@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { calculateAssetMetrics, getExchangeRate, withAuth } from '@/lib';
+import { calculateAssetMetrics, withAuth } from '@/lib';
+import { exchangeRateApi } from '@/services/exchange-rate';
 import { prisma } from '@/prisma/prisma-client';
 
 export const PATCH = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
-
 		const { id } = await params
 		const portfolioId = Number(id)
 		const { currency: toCurrency }: { currency: string } = await req.json()
@@ -25,15 +25,10 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number, { params 
 		const fromCurrency = portfolio.currency
 
 		if (fromCurrency === toCurrency) {
-			await prisma.portfolio.update({
-				where: { id: portfolioId, userId },
-				data: { currency: toCurrency }
-			})
-
-			return NextResponse.json({ message: `Portfolio currency changed from ${fromCurrency} to ${toCurrency} successfully` }, { status: 200 })
+			return NextResponse.json({ message: `Portfolio currency is already ${toCurrency}`, unchanged: true }, { status: 200 })
 		}
 
-		const exchangeRate = await getExchangeRate(fromCurrency, toCurrency)
+		const exchangeRates = await exchangeRateApi.fetch(fromCurrency, toCurrency)
 
 		await prisma.$transaction(async (tx) => {
 			await tx.portfolio.update({
@@ -53,8 +48,8 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number, { params 
 					currentPrice = portfolioAsset.buyPrice
 				}
 
-				const convertedBuyPrice = portfolioAsset.buyPrice * exchangeRate
-				const convertedCurrentPrice = currentPrice * exchangeRate
+				const convertedBuyPrice = portfolioAsset.buyPrice * exchangeRates[toCurrency]
+				const convertedCurrentPrice = currentPrice * exchangeRates[toCurrency]
 
 				const metrics = calculateAssetMetrics(portfolioAsset.quantity, convertedBuyPrice, convertedCurrentPrice)
 

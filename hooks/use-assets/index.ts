@@ -1,1 +1,2 @@
-export { useSearchAssets } from './use-search-assets'
+export { useInfiniteAssets } from './use-infinite-assets'
+export { usePaginatedAssets } from './use-paginated-assets'

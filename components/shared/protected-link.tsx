@@ -1,37 +1,37 @@
 'use client'
 
+import React from 'react'
 import Link from 'next/link'
-import { useAuthCheck } from '@/hooks/use-auth/use-auth-check'
-import { useState } from 'react'
 import { AuthModal } from '@/components/shared'
+import { useAuthCheck } from '@/hooks/use-auth/use-auth-check'
 
 interface ProtectedLinkProps {
-  href: string
-  children: React.ReactNode
-  className?: string
-  onClick?: () => void
+	href: string
+	children: React.ReactNode
+	className?: string
+	onClick?: () => void
 }
 
-export const ProtectedLink = ({ href, children, className, onClick }: ProtectedLinkProps) => {
-    const { user } = useAuthCheck()
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+export const ProtectedLink: React.FC<ProtectedLinkProps> = ({ href, children, className, onClick }) => {
+	const { user } = useAuthCheck()
+	const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false)
 
-    const handleClick = (e: React.MouseEvent) => {
-        if (!user && href === '/portfolio') {
-            e.preventDefault()
-            setIsAuthModalOpen(true)
-        }
+	const handleClick = (e: React.MouseEvent) => {
+		if (!user && href === '/portfolio') {
+			e.preventDefault()
+			setIsAuthModalOpen(true)
+		}
 
-        onClick?.()
-    }
+		onClick?.()
+	}
 
-    return (
-        <>
-            <Link href={href} className={className} onClick={handleClick}>
-                {children}
-            </Link>
+	return (
+		<>
+			<Link href={href} className={className} onClick={handleClick}>
+				{children}
+			</Link>
 
-            <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
-        </>
-    )
+			<AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+		</>
+	)
 }

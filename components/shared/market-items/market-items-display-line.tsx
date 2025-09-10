@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { useImageError } from '@/hooks';
 import { formatRating, formatPrice } from '@/lib';
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => {
-    const [selectedItem, setSelectedItem] = useState<AssetsResponse['assets'][0] | null>(data?.assets?.[0] || null)
+    const [selectedItem, setSelectedItem] = React.useState<AssetsResponse['assets'][0] | null>(data?.assets?.[0] || null)
     const {imageErrors, handleImageError} = useImageError()
 
     return (

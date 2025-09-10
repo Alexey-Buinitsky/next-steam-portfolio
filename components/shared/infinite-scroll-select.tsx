@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui'
 import { Loader2Icon } from 'lucide-react'
@@ -25,7 +25,7 @@ export const InfiniteScrollSelect: React.FC<Props> = React.memo(({
     label,
     className
 }) => {
-    const [visibleCount, setVisibleCount] = useState(30)
+    const [visibleCount, setVisibleCount] = React.useState(30)
     const { ref, inView } = useInView({
         threshold: 0.1, // Срабатывает когда 10% элемента видно
         rootMargin: '50px', // Запас вокруг viewport

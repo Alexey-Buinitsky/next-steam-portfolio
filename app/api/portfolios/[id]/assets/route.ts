@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { calculateAssetMetrics, getExchangeRate, withAuth } from '@/lib';
-import { PortfolioAssetWithRelations } from '@/types/portfolio';
+import { calculateAssetMetrics, withAuth } from '@/lib';
+import { exchangeRateApi } from '@/services/exchange-rate';
 import { prisma } from '@/prisma/prisma-client';
 import { Asset, PortfolioAsset } from '@prisma/client';
+import { PortfolioAssetWithRelations } from '@/types/portfolio';
 
 interface Props {
 	selectedAsset?: Asset;
@@ -13,7 +14,6 @@ interface Props {
 
 export const GET = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<PortfolioAsset[] | { message: string }>> => {
 	try {
-
 		const { id } = await params
 		const portfolioId = Number(id)
 
@@ -42,7 +42,6 @@ export const GET = withAuth(async (req: NextRequest, userId: number, { params }:
 
 export const POST = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
-
 		const { id } = await params
 		const portfolioId = Number(id)
 		const data: Props = await req.json()
@@ -71,8 +70,8 @@ export const POST = withAuth(async (req: NextRequest, userId: number, { params }
 		let currentPrice = selectedAsset.price !== null ? selectedAsset.price / 100 : Number(data.buyPrice)
 
 		if (portfolio.currency !== 'USD') {
-			const exchangeRate = await getExchangeRate('USD', portfolio.currency)
-			currentPrice = currentPrice * exchangeRate
+			const exchangeRates = await exchangeRateApi.fetch('USD', portfolio.currency)
+			currentPrice = currentPrice * exchangeRates[portfolio.currency]
 		}
 
 		const metrics = calculateAssetMetrics(Number(data.quantity), Number(data.buyPrice), currentPrice)
@@ -98,7 +97,7 @@ export const POST = withAuth(async (req: NextRequest, userId: number, { params }
 			}
 		})
 
-		return NextResponse.json({ message: 'Portfolio Asset added successfuly' }, { status: 200 })
+		return NextResponse.json({ message: 'Portfolio asset added successfuly' }, { status: 200 })
 	} catch (error) {
 		console.error('[PORTFOLIO_ASSETS_POST] Server error:', error)
 		return NextResponse.json({ message: 'Failed to add asset' }, { status: 500 })
@@ -109,7 +108,6 @@ export const POST = withAuth(async (req: NextRequest, userId: number, { params }
 
 export const PATCH = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
-
 		const { id } = await params
 		const portfolioId = Number(id)
 		const data: Props = await req.json()
@@ -158,7 +156,6 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number, { params 
 
 export const DELETE = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
-
 		const { id } = await params
 		const portfolioId = Number(id)
 		const { selectedPortfolioAssets }: { selectedPortfolioAssets: PortfolioAssetWithRelations[] } = await req.json()
@@ -172,10 +169,9 @@ export const DELETE = withAuth(async (req: NextRequest, userId: number, { params
 		}
 
 		if (!selectedPortfolioAssets || !selectedPortfolioAssets.length) {
-			return NextResponse.json({ message: 'Portfolio asset(s) is(are) required' }, { status: 400 })
+			const message = selectedPortfolioAssets.length === 0 ? 'Portfolio assets are required' : 'Portfolio asset is required'
+			return NextResponse.json({ message: message }, { status: 400 })
 		}
-
-		if (!selectedPortfolioAssets?.length) return NextResponse.json({ message: 'Portfolio asset IDs are required' }, { status: 400 })
 
 		await prisma.portfolioAsset.deleteMany({
 			where: {
@@ -184,10 +180,13 @@ export const DELETE = withAuth(async (req: NextRequest, userId: number, { params
 			}
 		})
 
-		return NextResponse.json({ message: 'Portfolio asset(s) deleted successfully' }, { status: 200 })
+		const message = selectedPortfolioAssets.length === 1 ? 'Portfolio asset deleted successfully' : 'Portfolio assets deleted successfully'
+		return NextResponse.json({ message: message }, { status: 200 })
 	} catch (error) {
 		console.error('[PORTFOLIO_ASSET_DELETE] Server error:', error)
-		return NextResponse.json({ message: 'Failed to delete portfolio asset(s)' }, { status: 500 })
+		const { selectedPortfolioAssets }: { selectedPortfolioAssets: PortfolioAssetWithRelations[] } = await req.json()
+		const message = selectedPortfolioAssets.length === 1 ? 'Failed to delete portfolio asset' : 'Failed to delete portfolio assets'
+		return NextResponse.json({ message: message }, { status: 500 })
 	} finally {
 		await prisma.$disconnect()
 	}

@@ -1,10 +1,11 @@
 export { useIsMobile } from '@/hooks/use-mobile';
 export { useDebounce } from '@/hooks/use-debounce';
-export { useSearchAssets } from '@/hooks/use-assets';
-export { usePortfolios } from '@/hooks/use-portfolios';
+
+export * from '@/hooks/use-assets';
+export * from '@/hooks/use-portfolios';
+export * from '@/hooks/use-exchange-rate';
 
 export { usePopularItems } from '@/hooks/use-popular-items';
-export { useTotalItems } from '@/hooks/use-total-items';
 export { useImageError } from '@/hooks/use-image-error';
 
 export { useAuthCheck, useAuthNotifications } from '@/hooks/use-auth';

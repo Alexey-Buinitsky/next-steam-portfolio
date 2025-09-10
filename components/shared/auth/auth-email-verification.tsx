@@ -1,7 +1,6 @@
 //app/components/shared/auth/auth-email-verification.tsx
 'use client'
 import React from 'react';
-import { useState, useEffect } from 'react';
 import { Button, Input } from '@/components/ui/'
 import { getFetchError } from '@/lib';
 import { useAuthNotifications } from '@/hooks';
@@ -16,16 +15,16 @@ interface AuthEmailVerificationProps {
 }
 
 export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ userId, email, onSuccess }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const [code, setCode] = useState('');
+  const [code, setCode] = React.useState('');
 
-  const [resendCooldown, setResendCooldown] = useState(0)
-  const [attempts, setAttempts] = useState(0)
+  const [resendCooldown, setResendCooldown] = React.useState(0)
+  const [attempts, setAttempts] = React.useState(0)
 
   const { showError, showSuccess } = useAuthNotifications();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (resendCooldown <= 0) return
     
     const timer = setInterval(() => {

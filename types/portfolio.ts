@@ -12,17 +12,6 @@ export interface AssetsResponse {
     totalPages: number; 
     totalCount: number;
     perPage: number;
+		hasMore: boolean;
   };
-}
-
-export interface UseAssetsOptions {
-  page?: number;
-  perPage?: number;
-  type?: string;
-  search?: string;
-}
-
-export interface AssetsApiSearchResponse {
-  assets: Asset[];
-  hasMore: boolean;
 }

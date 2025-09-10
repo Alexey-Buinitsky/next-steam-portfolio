@@ -1,4 +1,5 @@
 import { syncSteamMarket } from '@/lib/synchronization';
+import { assetsApi } from '@/services/assets';
 
 const SYNC_INTERVAL = 5 * 60 * 1000
 
@@ -10,11 +11,8 @@ export const backgroundSync = async () => {
 
 	try {
 		isSyncing = true
-
 		await syncSteamMarket()
-
-		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/assets/prices/sync`, { method: 'POST' })
-
+		await assetsApi.update()
 	} catch (error) {
 		console.error('[BACKGROUND_SYNC] Sync failed:', error)
 	} finally {

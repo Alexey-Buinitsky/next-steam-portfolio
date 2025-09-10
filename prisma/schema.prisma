@@ -47,9 +47,11 @@ model Asset {
   price    Float?
   volume   Int?
   isActive Boolean @default(true)
-	isSync   Boolean @default(true)
+	isSync   Boolean @default(false)
 
   portfolioAssets PortfolioAsset[]
+
+	@@index([volume])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

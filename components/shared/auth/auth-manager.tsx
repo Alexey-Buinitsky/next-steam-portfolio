@@ -78,13 +78,11 @@ export const AuthManager: React.FC<AuthManagerProps> = ({
         );
     }
 
-
     if (mode === 'email-verification') {
         if (!verificationUserId) {
             return <div>Error: User ID is required for verification</div>;
         }
 
-        
         return (
             <AuthEmailVerification
                 email={verificationEmail ?? ''}

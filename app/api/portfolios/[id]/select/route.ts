@@ -4,7 +4,6 @@ import { prisma } from '@/prisma/prisma-client';
 
 export const PATCH = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
-
 		const { id } = await params
 		const portfolioId = Number(id)
 		const { isActive }: { isActive: boolean } = await req.json()
@@ -22,12 +21,10 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number, { params 
 				return NextResponse.json({ message: 'Valid isActive flag is required' }, { status: 400 })
 			}
 
-			// Если пытаемся установить то же состояние - просто возвращаем
 			if (portfolio.isActive === isActive) {
 				return portfolio
 			}
 
-			// Если активируем портфель - деактивируем другие
 			if (isActive) {
 				await prisma.portfolio.updateMany({
 					where: { isActive: true, userId },
@@ -35,7 +32,6 @@ export const PATCH = withAuth(async (req: NextRequest, userId: number, { params 
 				})
 			}
 
-			// Обновляем текущий портфель
 			await prisma.portfolio.update({
 				where: { id: portfolioId, userId },
 				data: { isActive }

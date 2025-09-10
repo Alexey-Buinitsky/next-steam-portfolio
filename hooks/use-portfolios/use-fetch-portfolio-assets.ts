@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
+import { useAuthCheck } from '@/hooks';
 import { portfolioAssetsApi } from '@/services/portfolio-assets';
 import { PortfolioAssetWithRelations } from '@/types/portfolio';
-import { useAuthCheck } from '@/hooks';
 
 interface ReturnProps {
 	portfolioAssets: PortfolioAssetWithRelations[] | undefined;
@@ -10,7 +10,7 @@ interface ReturnProps {
 }
 
 export const useFetchPortfolioAssets = (portfolioId: number | undefined): ReturnProps => {
-	const { user } = useAuthCheck(); 
+	const { user } = useAuthCheck()
 
 	const { data, isLoading, error } = useQuery<PortfolioAssetWithRelations[], Error>({
 		queryKey: ['portfolioAssets', portfolioId],
@@ -18,9 +18,8 @@ export const useFetchPortfolioAssets = (portfolioId: number | undefined): Return
 			if (!portfolioId) { return Promise.resolve([]) }
 			return portfolioAssetsApi.fetch(portfolioId)
 		},
-		// enabled: !!user && !!portfolioId,
 		refetchInterval: (query) => {
-			if (!portfolioId || !user) return false
+			if (!user || !portfolioId) return false
 
 			const data = query.state.data
 			if (!data || data.length === 0) return 3 * 60 * 1000
