@@ -30,7 +30,7 @@ export const MarketItems: React.FC = () => {
 	}
 
 	if (isLoading) {
-		return <MarketItemsSkeleton displayMode={displayMode} />;
+		return <MarketItemsSkeleton/>;
 	}
 
 	return (
