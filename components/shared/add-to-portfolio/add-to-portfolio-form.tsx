@@ -56,7 +56,7 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                 className="w-full h-32 object-contain mb-4"
                 loading='lazy'
             />
-            <h2 className="text-xl text-center font-bold mb-4">Add <span className='text-green-600 dark:text-green-400'>{item.name}</span> to Portfolio</h2>
+            <h3 className="text-xl text-center font-bold mb-4 max-w-124 min-h-14 mx-auto">Add <span className='text-green-600 dark:text-green-400'>{item.name}</span> to Portfolio</h3>
 
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

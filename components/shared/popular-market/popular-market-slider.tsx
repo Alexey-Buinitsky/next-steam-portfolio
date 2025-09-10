@@ -32,8 +32,8 @@ export const PopularMarketSlider: React.FC<PopularMarketSliderProps> = ({ items,
       <div className="flex overflow-x-auto pb-4 gap-8 scrollbar-hide">
         {Array.from({ length: 8 }).map((_, index) => (
           <div key={index} className="min-w-[280px] border rounded-lg p-3 flex-shrink-0">
-            <Skeleton className="w-full h-24 mb-2 rounded-lg"/>
-            <Skeleton className=" w-full h-4 mb-2 rounded" />
+            <Skeleton className="w-full h-24 mb-3 rounded-lg"/>
+            <Skeleton className=" w-full h-4 mb-3 rounded" />
             <div className="flex justify-between">
               <Skeleton className="w-1/3 h-4 rounded" />
               <Skeleton className="w-1/4 h-4 rounded" />

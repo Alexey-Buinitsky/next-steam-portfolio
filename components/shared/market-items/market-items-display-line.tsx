@@ -20,14 +20,14 @@ export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => 
 
     return (
         <div className={`${className} flex flex-col items-center justify-between xl:gap-10 xl:flex-row xl:items-start`}>
-            <div className='w-full'>
+             <div className='w-full'> 
                 <MarketItemsDisplayLineHeader />
                 
                 <div className="flex flex-col gap-2 mb-6">
                     {data?.assets.map((item) => (
                         <div 
                             key={item.id}
-                            className="flex items-center w-full border bg-card rounded py-0.5 px-2 sm:pr-4 2xl:px-10 hover:shadow-md transition-shadow dark:hover:shadow-gray-500 dark:hover:shadow-sm cursor-pointer"
+                            className="flex items-center w-full border bg-card rounded-lg py-0.5 px-2 sm:pr-4 2xl:px-10 hover:shadow-md transition-shadow dark:hover:shadow-gray-500 dark:hover:shadow-sm cursor-pointer"
                             onClick={() => setSelectedItem(item)}    
                         >
                             <Image
@@ -60,10 +60,11 @@ export const MarketItemsDisplayLine: React.FC<Props> = ({ className, data }) => 
             </div>
 
             {selectedItem && (
-                <div className='xl:pt-10'>
+                // <div className='xl:pt-10 w-full lg:w-144 xl:w-auto lg:min-w-auto xl:min-w-96 2xl:min-w-124 '>
+                <div className='xl:pt-10 w-full md:w-auto md:min-w-120 lg:min-w-144 xl:min-w-96 2xl:min-w-124'>
                     <AddToPortfolioPanel item={selectedItem}/>
                 </div>
-            )}
+            )}  
         </div>
     )
 }

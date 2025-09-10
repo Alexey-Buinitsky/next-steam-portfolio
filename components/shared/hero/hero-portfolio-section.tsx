@@ -7,6 +7,7 @@ import { usePortfolios } from '@/hooks';
 import { FileText } from 'lucide-react';
 
 import type { Portfolio }  from '@prisma/client';
+import { toast } from 'sonner';
 
 interface Props {
     className?: string;
@@ -19,6 +20,8 @@ export const HeroPortfolioSection: React.FC<Props> = ({ className }) => {
   const { portfolios, selectedPortfolio: activePortfolio, selectPortfolio, isLoading } = usePortfolios();
 
   const handlePortfolioSelect = (portfolio: Portfolio) => {
+    if (portfolio.id === activePortfolio?.id) return
+    
     setSelectedPortfolio(portfolio);
     setIsConfirmModalOpen(true);
   };
@@ -56,18 +59,18 @@ export const HeroPortfolioSection: React.FC<Props> = ({ className }) => {
 
         <div>
           <Slider
-              breakpoints={{
-                  320: { slidesPerView: 1, spaceBetween: 10 },
-                  568: { slidesPerView: 2, spaceBetween: 30 },
-                  1024: { slidesPerView: 3, spaceBetween: 30 },
-                  1536: { slidesPerView: 2, spaceBetween: 30 },
-                  1745: { slidesPerView: 3, spaceBetween: 30 },
-                  // 2560: { slidesPerView: 5, spaceBetween: 40 }, 
-                  // 3100: { slidesPerView: 6, spaceBetween: 50 }, 
-                  // 3840: { slidesPerView: 7, spaceBetween: 60 }, 
-                  // 7680: { slidesPerView: 8, spaceBetween: 70 }, 
-              }}
-              autoplayEnabled={false}
+            breakpoints={{
+              320: { slidesPerView: 1, spaceBetween: 10 },
+              568: { slidesPerView: 2, spaceBetween: 30 },
+              1024: { slidesPerView: 3, spaceBetween: 30 },
+              1536: { slidesPerView: 2, spaceBetween: 30 },
+              1745: { slidesPerView: 3, spaceBetween: 30 },
+              // 2560: { slidesPerView: 5, spaceBetween: 40 }, 
+              // 3100: { slidesPerView: 6, spaceBetween: 50 }, 
+              // 3840: { slidesPerView: 7, spaceBetween: 60 }, 
+              // 7680: { slidesPerView: 8, spaceBetween: 70 }, 
+            }}
+            autoplayEnabled={false}
           >
               {portfolios.map((portfolio) => (
                   <HeroPortfolioSlide
