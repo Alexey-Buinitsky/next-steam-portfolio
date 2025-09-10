@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { assetsApi } from '@/services/assets';
 import { AssetsResponse } from '@/types/portfolio';
 
-export const useInfiniteAssets = (perPage: number, query: string) => {
+export const useFetchInfiniteAssets = (perPage: number, query: string) => {
 	
 	const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage, error } = useInfiniteQuery<AssetsResponse>({
 		queryKey: ['infiniteAssets', perPage, query],

@@ -35,16 +35,9 @@ export async function GET(req: NextRequest) {
 			hasMore = page < Math.ceil(totalCount / perPage)
 		}
 
-		return NextResponse.json({
-			assets: resultAssets,
-			pagination: {
-				currentPage: page,
-				totalPages: isInfinite ? 0 : Math.ceil(totalCount / perPage),
-				totalCount: isInfinite ? 0 : totalCount,
-				perPage,
-				hasMore,
-			},
-		}, { status: 200 })
+		return NextResponse.json(
+			{ assets: resultAssets, pagination: { currentPage: page, totalPages: isInfinite ? 0 : Math.ceil(totalCount / perPage), totalCount: isInfinite ? 0 : totalCount, perPage, hasMore, }, },
+			{ status: 200 })
 	} catch (error) {
 		console.error('[ASSETS_GET] Server error:', error)
 		return NextResponse.json({ message: 'Failed to fetch assets' }, { status: 500 })

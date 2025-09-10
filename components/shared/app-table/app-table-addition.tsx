@@ -5,7 +5,7 @@ import { AppDialog } from '@/components/shared';
 import { Button, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Dialog, DialogTrigger, Popover, PopoverContent, PopoverTrigger, } from '@/components/ui';
 import { ChevronsUpDownIcon, Loader2Icon } from 'lucide-react';
 import { useInView } from "react-intersection-observer";
-import { useDebounce, useInfiniteAssets } from '@/hooks';
+import { useDebounce, useFetchInfiniteAssets } from '@/hooks';
 import { CreatePortfolioAssetProps } from '@/hooks/use-portfolios';
 import { Asset, Portfolio } from '@prisma/client';
 
@@ -24,7 +24,7 @@ export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio
 	const [localQuery, setLocalQuery] = React.useState<string>("")
 	const debouncedQuery = useDebounce(localQuery.trim(), 300)
 
-	const { assets, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage } = useInfiniteAssets(10, debouncedQuery)
+	const { assets, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage } = useFetchInfiniteAssets(10, debouncedQuery)
 
 	const [selectedAsset, setSelectedAsset] = React.useState<Asset | null>(null)
 

@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { useDebounce, usePaginatedAssets } from '@/hooks';
+import { useDebounce, useFetchPaginatedAssets } from '@/hooks';
 import { MarketItemsSkeleton, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItemsHeader, AppPagination } from '@/components/shared';
 
 const ITEMS_PER_PAGE = 10
@@ -16,7 +16,7 @@ export const MarketItems: React.FC = () => {
 	const debouncedSearchQuery = useDebounce(searchQuery.trim().toLowerCase(), 500)
 	React.useEffect(() => { setPage(1) }, [debouncedSearchQuery])
 
-	const { data, isLoading, error } = usePaginatedAssets(page, ITEMS_PER_PAGE, debouncedSearchQuery)
+	const { data, isLoading, error } = useFetchPaginatedAssets(page, ITEMS_PER_PAGE, debouncedSearchQuery)
 
 	if (error) {
 		return (

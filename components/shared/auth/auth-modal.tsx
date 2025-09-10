@@ -1,10 +1,8 @@
-//app/components/shared/auth/auth-modal.tsx
 'use client'
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui';
-import { Auth } from '@/components/shared';
-import { useAuthContext } from '../providers/layout-provider/auth-provider'; 
-import { checkAuth } from '@/services/api-auth'; 
+import { Auth, useAuthContext } from '@/components/shared';
+import { checkAuth } from '@/services/auth'; 
 
 interface Props {
     isOpen: boolean;

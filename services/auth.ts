@@ -1,5 +1,3 @@
-//app/services/auth.ts
-
 export type User = {
   id: number;
   email: string;

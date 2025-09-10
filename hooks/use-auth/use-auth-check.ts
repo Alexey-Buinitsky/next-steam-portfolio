@@ -1,7 +1,7 @@
 'use client'
 
-import { useAuthContext } from '@/components/shared/providers/layout-provider/auth-provider'
-import { performLogout } from '@/services/api-auth'
+import { useAuthContext } from '@/components/shared'
+import { performLogout } from '@/services/auth'
 
 export const useAuthCheck = () => {
   const context = useAuthContext() // Из контекста

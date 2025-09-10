@@ -9,7 +9,7 @@ interface Props {
 	className?: string
 }
 
-export const AppTableHeader = ({ table, className }: Props) => {
+export const AppTableHeader: React.FC<Props> = ({ table, className }) => {
 	return (
 		<TableHeader className={cn("relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-border", className)}>
 			{table.getHeaderGroups().map((headerGroup) => (
