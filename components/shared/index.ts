@@ -7,7 +7,7 @@ export { Logo } from './logo'
 export { ModeToggle } from './mode-toggle'
 export { Slider } from './slider'
 
-export { ChartSkeleton, MetricSkeleton, MarketItemsSkeleton, AddToPortfolioFormSkeleton } from './skeletons'
+export { ChartSkeleton, MetricSkeleton, MarketItemsSkeleton, AddToPortfolioFormSkeleton, CurrencyConverterSkeleton, CurrencyRatesSkeleton } from './skeletons'
 
 export { Header } from './header'
 export { Hero, HeroBackground, HeroMain, HeroPortfolioSection, HeroPortfolioConfirmModal, HeroPortfolioSlide } from './hero'
@@ -17,7 +17,7 @@ export { MarketItems, MarketItemsDisplayGrid, MarketItemsDisplayLine, MarketItem
 export { AddToPortfolio, AddToPortfolioForm, AddToPortfolioModal, AddToPortfolioPanel } from './add-to-portfolio'
 export { CreatePortfolioForm, CreatePortfolioModal } from './create-portfolio' 
 export { InfiniteScrollSelect } from './infinite-scroll-select'
-export { Currency } from './currency'
+export { Currency, CurrencyConverter, CurrencyRates } from './currency'
 export { AuthModal, Auth, AuthManager, AuthLoginForm, AuthRegisterForm, AuthForgotPassword, AuthResetPassword, AuthEmailVerification } from './auth'
 export { ProtectedLink } from './protected-link'
 export { PasswordStrengthIndicator } from './password-strength-indicator'

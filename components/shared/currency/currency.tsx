@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { CurrencyConverter, CurrencyRates } from '@/components/shared/currency'
+import { CurrencyConverter, CurrencyRates, CurrencyConverterSkeleton, CurrencyRatesSkeleton } from '@/components/shared'
 import { useFetchExchangeRates } from '@/hooks';
 import { allCurrencies, popularCurrencies } from '@/data/currencies';
 
@@ -68,28 +68,37 @@ export const Currency: React.FC = () => {
 
 	return (
 		<div className='2xl:grid grid-cols-2 items-center gap-x-4'>
-			<CurrencyConverter
-				amount={amount}
-				fromCurrency={fromCurrency}
-				toCurrency={toCurrency}
-				convertedAmount={convertedAmount}
-				exchangeRate={exchangeRate}
-				currentCurrencies={currentCurrencies}
-				showAllCurrencies={showAllCurrencies}
-				handleAmountChange={handleAmountChange}
-				handleFromCurrencyChange={handleFromCurrencyChange}
-				handleToCurrencyChange={handleToCurrencyChange}
-				toggleCurrenciesView={toggleCurrenciesView}
-				swapCurrencies={swapCurrencies}
-				isLoading={isLoading}
-				error={error}
-			/>
-			<CurrencyRates
-				fromCurrency={fromCurrency}
-				conversionRates={rates}
-				popularCurrencies={popularCurrencies}
-				error={error}
-			/>
+			{isLoading ? (
+				<CurrencyConverterSkeleton />
+			) : (
+				<CurrencyConverter
+					amount={amount}
+					fromCurrency={fromCurrency}
+					toCurrency={toCurrency}
+					convertedAmount={convertedAmount}
+					exchangeRate={exchangeRate}
+					currentCurrencies={currentCurrencies}
+					showAllCurrencies={showAllCurrencies}
+					handleAmountChange={handleAmountChange}
+					handleFromCurrencyChange={handleFromCurrencyChange}
+					handleToCurrencyChange={handleToCurrencyChange}
+					toggleCurrenciesView={toggleCurrenciesView}
+					swapCurrencies={swapCurrencies}
+					isLoading={isLoading}
+					error={error}
+				/>
+			)}
+
+			{isLoading ? (
+				<CurrencyRatesSkeleton />
+			) : (
+				<CurrencyRates
+					fromCurrency={fromCurrency}
+					conversionRates={rates}
+					popularCurrencies={popularCurrencies}
+					error={error}
+				/>
+			)}
 		</div>
 	)
 }

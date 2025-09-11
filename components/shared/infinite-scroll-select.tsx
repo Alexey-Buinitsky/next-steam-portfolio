@@ -15,21 +15,33 @@ interface Props {
   className?: string
 }
 
-export const InfiniteScrollSelect: React.FC<Props> = React.memo(({
-    value,
-    onValueChange,
-    options,
-    disabled,
-    placeholder,
-    id,
-    label,
-    className
-}) => {
+export const InfiniteScrollSelect: React.FC<Props> = React.memo(({ value, onValueChange, options, disabled, placeholder, id, label, className}) => {
     const [visibleCount, setVisibleCount] = React.useState(30)
+
     const { ref, inView } = useInView({
         threshold: 0.1, // Срабатывает когда 10% элемента видно
         rootMargin: '50px', // Запас вокруг viewport
     })
+
+    // Создаем массив с приоритетным отображением выбранной валюты
+    const getDisplayedOptions = React.useCallback(() => {
+        const baseOptions = options.slice(0, visibleCount)
+        
+        // Если выбранная валюта уже в списке или не выбрана, возвращаем обычный список
+        if (!value || baseOptions.includes(value)) {
+            return baseOptions
+        }
+        
+        // Иначе добавляем выбранную валюту в начало списка
+        return [value, ...baseOptions.filter(opt => opt !== value)]
+    }, [options, visibleCount, value])
+
+    const displayedOptions = getDisplayedOptions()
+
+    // Сбрасываем счетчик при изменении options
+    React.useEffect(() => {
+        setVisibleCount(30)
+    }, [options])
 
     React.useEffect(() => {
         if (inView && visibleCount < options.length) {
@@ -50,10 +62,10 @@ export const InfiniteScrollSelect: React.FC<Props> = React.memo(({
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup className="max-h-64 overflow-auto">
-                        {options.slice(0, visibleCount).map((option) => (
-                        <SelectItem key={option} value={option} className='text-xl cursor-pointer'>
-                            {option}
-                        </SelectItem>
+                        {displayedOptions.map((option) => (
+                            <SelectItem key={option} value={option} className='text-xl cursor-pointer'>
+                                {option}
+                            </SelectItem>
                         ))}
                         
                         {visibleCount < options.length && (
