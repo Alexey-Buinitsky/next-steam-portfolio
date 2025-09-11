@@ -3,6 +3,8 @@ export { AppBreadcrumb } from './app-breadcrumb'
 export * from './app-table'
 export { AppPagination } from './app-pagination'
 export { AppDialog } from './app-dialog'
+
+export { Avatar } from './avatar'
 export { Logo } from './logo'
 export { ModeToggle } from './mode-toggle'
 export { Slider } from './slider'
@@ -22,4 +24,4 @@ export { AuthModal, Auth, AuthManager, AuthLoginForm, AuthRegisterForm, AuthForg
 export { ProtectedLink } from './protected-link'
 export { PasswordStrengthIndicator } from './password-strength-indicator'
 
-export { LayoutProvider, PortfoliosProvider, usePortfoliosContext } from './providers'
+export * from './providers'

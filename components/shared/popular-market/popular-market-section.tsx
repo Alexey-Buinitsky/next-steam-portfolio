@@ -1,9 +1,8 @@
-// components/shared/popular-market/popular-market-section.tsx
 'use client';
 
 import React from 'react';
 import { PopularMarketSlider } from './popular-market-slider';
-import { usePopularItems } from '@/hooks';
+import { useFetchPopularAssets } from '@/hooks';
 
 interface PopularMarketSectionProps {
   category: 'cases' | 'weapons' | 'stickers';
@@ -12,7 +11,7 @@ interface PopularMarketSectionProps {
 }
 
 export const PopularMarketSection: React.FC<PopularMarketSectionProps> = ({ category, title, limit = 20 }) => {
-  const { data, isLoading, error } = usePopularItems(category, limit);
+  const { data, isLoading, error } = useFetchPopularAssets(category, limit)
 
   return (
     <div className="mb-8">
@@ -24,5 +23,5 @@ export const PopularMarketSection: React.FC<PopularMarketSectionProps> = ({ cate
         category={category}
       />
     </div>
-  );
-};
+  )
+}

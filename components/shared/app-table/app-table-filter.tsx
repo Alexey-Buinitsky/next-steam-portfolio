@@ -16,7 +16,7 @@ interface Props {
 	className?: string
 }
 
-export const AppTableFilter = ({ table, selectedPortfolio, deletePortfolioAssets, className }: Props) => {
+export const AppTableFilter: React.FC<Props> = ({ table, selectedPortfolio, deletePortfolioAssets, className }) => {
 
 	const [localQuery, setLocalQuery] = React.useState<string>((table.getColumn("name")?.getFilterValue() as string) ?? "")
 

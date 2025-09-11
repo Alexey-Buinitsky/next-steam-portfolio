@@ -1,8 +1,7 @@
-//app/components/shared/providers/layout-provider/auth-provider.ts
 'use client'
 
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import { checkAuth, type User } from '@/services/api-auth'
+import React, { createContext } from 'react'
+import { checkAuth, type User } from '@/services/auth'
 import { useQueryClient } from '@tanstack/react-query'
 
 interface AuthContextType {
@@ -14,20 +13,18 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const queryClient = useQueryClient() // ← Получаем QueryClient
+  const [user, setUser] = React.useState<User | null>(null)
+  const [isLoading, setIsLoading] = React.useState(true)
+  const queryClient = useQueryClient()
 
-  // Загружаем состояние при монтировании
-  useEffect(() => {
+  React.useEffect(() => {
     checkAuth().then(({ user }) => {
       setUser(user)
       setIsLoading(false)  
     })
   }, [])
 
-  // Очистка кэша при ЛЮБОМ изменении user на null
-  useEffect(() => {
+  React.useEffect(() => {
     if (!user) {
       queryClient.removeQueries({ queryKey: ['portfolios'] })
       queryClient.removeQueries({ queryKey: ['portfolioAssets'] })
@@ -46,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useAuthContext() {
-  const context = useContext(AuthContext)
+  const context = React.useContext(AuthContext)
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider')
   }

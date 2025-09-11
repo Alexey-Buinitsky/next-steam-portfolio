@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, SidebarContextProps, SidebarFooter, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui';
@@ -13,13 +11,14 @@ interface Props {
 }
 
 export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
+
 	const { user, logout, isAuthenticated } = useAuthCheck()
 	const { showSuccess } = useAuthNotifications()
-	const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+	const [isDropdownOpen, setIsDropdownOpen] = React.useState(false)
 	const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false)
 
 	const handleLogout = async () => {
-		await logout();
+		await logout()
 		showSuccess('Successfully logged out')
 	}
 
@@ -29,9 +28,9 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 	}
 
 	const handleAuthClick = () => {
-		setIsDropdownOpen(false); // Закрываем dropdown перед открытием модалки
-		setIsAuthModalOpen(true);
-	};
+		setIsDropdownOpen(false)
+		setIsAuthModalOpen(true)
+	}
 
 	if (!isAuthenticated) {
 		return (

@@ -8,7 +8,7 @@ interface Props {
 	table: ReturnType<typeof useReactTable<PortfolioAssetWithRelations>>
 }
 
-export const AppTableToggle = ({ table }: Props) => {
+export const AppTableToggle: React.FC<Props> = ({ table }) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>

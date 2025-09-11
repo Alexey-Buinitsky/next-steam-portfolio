@@ -24,14 +24,6 @@ export interface SteamMarketItem {
   sale_price_text?: string
 }
 
-export interface FormattedItem {
-    id: string;
-    name: string;
-    price: number;
-    image: string;
-    volume?: number;
-}
-
 export interface SteamMarketResponse {
   success: boolean;
   start: number;
@@ -39,16 +31,3 @@ export interface SteamMarketResponse {
   total_count: number;
   results: SteamMarketItem[];
 }
-
-export interface ItemHistoryResponse {
-  time: string[];
-  price: string[];
-  volume: string[];
-}
-
-//api
-export interface ItemsResponse {
-  items: FormattedItem[];
-  total: number;
-}
-

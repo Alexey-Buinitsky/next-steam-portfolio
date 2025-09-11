@@ -1,8 +1,11 @@
 import { apiInstance } from './api-instance';
 import { apiRoutes } from './api-routes';
 import { handleApiError } from './api-error';
+import { Asset } from '@prisma/client';
 import { AssetsResponse } from '@/types/portfolio';
 import { SteamMarketItem } from '@/types/steam';
+
+export type PopularCategory = 'cases' | 'weapons' | 'stickers'
 
 export const assetsApi = {
 
@@ -11,6 +14,14 @@ export const assetsApi = {
 			return (await apiInstance.get<AssetsResponse>(`${apiRoutes.ASSETS}`, { params: { page, perPage, query, isInfinite } })).data
 		} catch (error) {
 			throw handleApiError(error, 'fetchAssets')
+		}
+	},
+
+	fetchPopular: async (category: PopularCategory, limit: number): Promise<Asset[]> => {
+		try {
+			return (await apiInstance.get<Asset[]>(`${apiRoutes.ASSETS}/popular`, { params: { category, limit } })).data
+		} catch (error) {
+			throw handleApiError(error, 'fetchPopularAssets')
 		}
 	},
 

@@ -1,9 +1,8 @@
 'use client'
 
 import { useSearchParams, useRouter } from 'next/navigation'
-import { Auth } from '@/components/shared'
-import { useAuthContext } from '@/components/shared/providers/layout-provider/auth-provider'
-import { checkAuth } from '@/services/api-auth'
+import { Auth, useAuthContext } from '@/components/shared'
+import { checkAuth } from '@/services/auth'
 
 // import { Metadata } from 'next'
 
