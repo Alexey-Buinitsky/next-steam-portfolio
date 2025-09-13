@@ -51,7 +51,7 @@ export const AppTableFilter: React.FC<Props> = ({ table, selectedPortfolio, dele
 				<DialogTrigger asChild>
 					<Button variant="outline" size="icon" onClick={() => setIsDialogOpen(true)}
 						className={`${table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate") ? 'visible opacity-100' : 'invisible opacity-0'}`}>
-						<TrashIcon size={16} className="2k:size-5.5 4k:size-8 8k:size-16" />
+						<TrashIcon size={20} className="2k:size-6.5 4k:size-10 8k:size-20" />
 						<span className="sr-only">Delete</span>
 					</Button>
 				</DialogTrigger>

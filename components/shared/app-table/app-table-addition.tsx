@@ -60,7 +60,7 @@ export const AppTableAddition: React.FC<Props> = ({ className, selectedPortfolio
 						<CommandInput placeholder="Type to search..." value={localQuery} onValueChange={setLocalQuery} />
 						<CommandList>
 							{isFetching && !isFetchingNextPage
-								? <div className="flex justify-center py-6"><Loader2Icon size={24} className="2k:size-8 4k:size-11 8k:size-21 animate-spin" /></div>
+								? <div className="flex justify-center py-6 2k:py-8 4k:py-12 8k:py-24"><Loader2Icon size={24} className="2k:size-8 4k:size-11 8k:size-21 animate-spin" /></div>
 								: assets.length > 0
 									? <CommandGroup>
 										{assets.map((asset) => (
