@@ -20,7 +20,7 @@ export const AppTableBody = <TValue,>({ table, columns, isLoading, className }: 
 		<TableBody className={cn('', className)}>
 			{isLoading
 				? <TableRow>
-					<TableCell colSpan={columns.length} className="h-24 text-center">
+					<TableCell colSpan={columns.length} className="h-24 2k:h-32 4k:h-48 8k:h-96 text-center">
 						<div className="flex items-center justify-center">
 							<Loader2Icon size={24} className="2k:size-8 4k:size-11 8k:size-21 animate-spin" />
 						</div>
@@ -34,7 +34,7 @@ export const AppTableBody = <TValue,>({ table, columns, isLoading, className }: 
 							))}
 						</TableRow>
 					))
-					: <TableRow><TableCell colSpan={columns.length} className="h-24 text-center">No results.</TableCell></TableRow>
+					: <TableRow><TableCell colSpan={columns.length} className="h-24 2k:h-32 4k:h-48 8k:h-96 text-center">No results.</TableCell></TableRow>
 			}
 		</TableBody>
 	)

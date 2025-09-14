@@ -40,6 +40,7 @@
 	--color-card-foreground: var(--card-foreground);
 	--color-card: var(--card);
 
+	--radius-xs: calc(var(--radius) - 6px);
 	--radius-sm: calc(var(--radius) - 4px);
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
@@ -84,6 +85,36 @@
 	--sidebar-accent-foreground: oklch(0.205 0 0);
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
+}
+
+@media (min-width: 160rem) {
+	:root {
+		--radius-xs: calc((var(--radius) - 6px) * 1.33);
+		--radius-sm: calc((var(--radius) - 4px) * 1.33);
+		--radius-md: calc((var(--radius) - 2px) * 1.33);
+		--radius-lg: calc(var(--radius) * 1.33);
+		--radius-xl: calc((var(--radius) + 4px) * 1.33);
+	}
+}
+
+@media (min-width: 240rem) {
+	:root {
+		--radius-xs: calc((var(--radius) - 6px) * 2);
+		--radius-sm: calc((var(--radius) - 4px) * 2);
+		--radius-md: calc((var(--radius) - 2px) * 2);
+		--radius-lg: calc(var(--radius) * 2);
+		--radius-xl: calc((var(--radius) + 4px) * 2);
+	}
+}
+
+@media (min-width: 480rem) {
+	:root {
+		--radius-xs: calc((var(--radius) - 6px) * 4);
+		--radius-sm: calc((var(--radius) - 4px) * 4);
+		--radius-md: calc((var(--radius) - 2px) * 4);
+		--radius-lg: calc(var(--radius) * 4);
+		--radius-xl: calc((var(--radius) + 4px) * 4);
+	}
 }
 
 .dark {
@@ -141,15 +172,18 @@ html {
 }
 
 #nprogress {
-  position: fixed !important;
-  z-index: 1600 !important;
+	position: fixed !important;
+	z-index: 1600 !important;
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
+	-ms-overflow-style: none;
+	/* IE and Edge */
+	scrollbar-width: none;
+	/* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
+	display: none;
+	/* Chrome, Safari and Opera */
 }
