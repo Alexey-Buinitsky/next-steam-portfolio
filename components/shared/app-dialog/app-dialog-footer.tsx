@@ -15,7 +15,7 @@ export const AppDialogFooter: React.FC<Props> = ({ className, mode, onDelete, on
 	return (
 		<DialogFooter className={cn(mode === "editPortfolio" ? "sm:justify-between" : "", className)}>
 
-			{mode === "editPortfolio" && <Button variant="destructive" size="icon" onClick={onDelete}><TrashIcon /><span className="sr-only">Delete Portfolio</span></Button>}
+			{mode === "editPortfolio" && <Button variant="destructive" size="icon" onClick={onDelete}><TrashIcon size={20} className="2k:size-6.5 4k:size-10 8k:size-20" /><span className="sr-only">Delete Portfolio</span></Button>}
 
 			{mode === "deletePortfolioAssets"
 				? <div className="flex gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">

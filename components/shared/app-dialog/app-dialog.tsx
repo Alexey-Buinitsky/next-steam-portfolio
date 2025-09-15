@@ -101,9 +101,9 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 
 			{mode === "createPortfolioAsset" && selectedAsset
 				? <div className="flex flex-col gap-3 2k:gap-4 4k:gap-6 8k:gap-12">
-					<div className="flex items-center justify-center gap-2">
+					<div className="flex items-center justify-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 						<Image alt={selectedAsset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${selectedAsset.imageUrl || ""}`} priority={true} width={48} height={48} className="2k:size-13 4k:size-20 8k:size-40" />
-						<h3 className="text-lg font-medium">{selectedAsset.name}</h3>
+						<h3 className="text-lg font-medium 2k:text-2xl 4k:text-4xl 8k:text-7xl">{selectedAsset.name}</h3>
 					</div>
 					<FormProvider {...portfolioAssetMethods}>
 						<AppDialogForm id="createPortfolioAsset" fields={portfolioAssetFields} onSubmit={handlePortfolioAssetSubmit} />
@@ -111,9 +111,9 @@ export const AppDialog: React.FC<Props> = ({ className, mode, selectedPortfolio,
 				</div>
 				: mode === "editPortfolioAsset" && selectedPortfolioAsset
 					? <div className="flex flex-col gap-3 2k:gap-4 4k:gap-6 8k:gap-12">
-						<div className="flex items-center justify-center gap-2">
+						<div className="flex items-center justify-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
 							<Image alt={selectedPortfolioAsset.asset.name} src={`https://steamcommunity-a.akamaihd.net/economy/image/${selectedPortfolioAsset.asset.imageUrl || ""}`} priority={true} width={48} height={48} className="2k:size-13 4k:size-20 8k:size-40" />
-							<h3 className="text-lg font-medium">{selectedPortfolioAsset.asset.name}</h3>
+							<h3 className="text-lg font-medium 2k:text-2xl 4k:text-4xl 8k:text-7xl">{selectedPortfolioAsset.asset.name}</h3>
 						</div>
 						<FormProvider {...portfolioAssetMethods}>
 							<AppDialogForm id="editPortfolioAsset" fields={portfolioAssetFields} onSubmit={handlePortfolioAssetSubmit} />

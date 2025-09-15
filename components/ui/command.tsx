@@ -95,6 +95,7 @@ function CommandList({
 			data-slot="command-list"
 			className={cn(
 				"max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto",
+				"2k:max-h-[400px] 4k:max-h-[600px] 8k:max-h-[1200px] 2k:scroll-py-1.5 4k:scroll-py-2 8k:scroll-py-4",
 				className
 			)}
 			{...props}
