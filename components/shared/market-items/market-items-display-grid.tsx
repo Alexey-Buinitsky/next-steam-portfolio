@@ -20,11 +20,11 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
 
     return (
         <div className={className}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 2k:gap-8 4k:gap-12 8k:gap-24 mb-12 2k:mb-16 4k:mb-24 8k:mb-48">
                 {data?.assets.map((item) => (
                     <div 
                         key={item.id}
-                        className="h-full bg-card border rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer" 
+                        className="h-full bg-card border rounded-lg p-4 2k:p-5 4k:p-8 8k:p-16 hover:shadow-lg transition-shadow cursor-pointer" 
                         onClick={() => setSelectedItem(item)}
                     >
                         <Image
@@ -32,14 +32,14 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
                             alt={item.name || ''} 
                             width={136}
                             height={136}
-                            className="w-full h-32 object-contain mb-4"
+                            className="w-full h-32 2k:h-43 4k:h-64 8k:h-128 object-contain mb-4 2k:mb-5 4k:mb-8 8k:mb-16"
                             loading='lazy'
                             onError={() => handleImageError(item.id)}
                         />
-                        <h3 className="font-bold truncate mb-2">{item.name}</h3>
+                        <h3 className="font-bold text-base 2k:text-xl 4k:text-3xl 8k:text-6xl truncate mb-2 2k:mb-3 4k:mb-4 8k:mb-8">{item.name}</h3>
                         <div className='flex justify-between'>
-                            <p className="flex-2 2xl:flex-auto text-lg xl:text-sm 2xl:text-lg text-green-600  dark:text-green-400 font-bold">Price: {formatPrice(item.price || undefined)}</p>
-                            <p className="flex-1 2xl:flex-auto text-sm text-gray-600 dark:text-gray-400 text-right">Rating: {formatRating(item.volume || undefined)}</p>
+                            <p className="flex-2 2xl:flex-auto text-lg xl:text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl text-green-600 dark:text-green-400 font-bold">Price: {formatPrice(item.price || undefined)}</p>
+                            <p className="flex-1 2xl:flex-auto text-sm 2k:text-lg 4k:text-2xl 8k:text-5xl text-gray-600 dark:text-gray-400 text-right">Rating: {formatRating(item.volume || undefined)}</p>
                         </div>
                     </div>
                 ))}

@@ -16,8 +16,8 @@ export const Hero: React.FC = () => {
     return (
         <HeroBackground>
             {isAuthenticated && hasPortfolios ? (
-                <div className="w-full 2xl:flex items-center gap-20 ">
-                    <HeroMain className="flex items-center justify-center mb-10 2xl:mb-0" />
+                <div className="w-full 2xl:flex items-center gap-20 2k:gap-27 4k:gap-40 8k:gap-80">
+                    <HeroMain className="flex items-center justify-center mb-10 2xl:mb-0 2k:mb-0 4k:mb-0 8k:mb-0" />
                     <HeroPortfolioSection className="flex-1 min-w-0 text-center 2xl:text-start"/>
                 </div>
             ) : (

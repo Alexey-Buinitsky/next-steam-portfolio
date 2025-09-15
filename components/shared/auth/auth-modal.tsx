@@ -7,17 +7,17 @@ import { checkAuth } from '@/services/auth';
 interface Props {
     isOpen: boolean;
     onClose: () => void;
-    onSuccess?: () => void; // Добавляем опциональный колбэк
+    onSuccess?: () => void;
 }
 
 export const AuthModal: React.FC<Props> = ({ onClose, isOpen, onSuccess }) => {
-    const { updateUser } = useAuthContext() // Получаем функцию обновления
+    const { updateUser } = useAuthContext() 
 
     const handleSuccess = async () => {
         const { user } = await checkAuth();
         updateUser(user);
 
-        onSuccess?.(); // Вызываем переданный колбэк
+        onSuccess?.();
         onClose()
     }
     

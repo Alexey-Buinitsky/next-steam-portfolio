@@ -49,62 +49,64 @@ export const AuthLoginForm: React.FC<Props> = ({ onSwitchToRegister, onSwitchToF
 
     return (
         <div>
-            <h2 className="text-xl font-bold mb-4">Sign In</h2>
+            <h2 className="text-xl 2k:text-2xl 4k:text-4xl 8k:text-7xl font-bold mb-4 2k:mb-5 4k:mb-10 8k:mb-20">Sign In</h2>
             
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 
-                <FormField
-                    control={control}
-                    name="email"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                                <Input 
-                                    type='email'
-                                    placeholder="your@example.com" 
-                                    {...field} 
-                                    autoComplete='email'
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                <div className='flex flex-col gap-y-4 2k:gap-y-6 4k:gap-y-8 8k:gap-y-16'>
+                    <FormField
+                        control={control}
+                        name="email"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel className='2k:mb-1 4k:mb-2 8k:mb-6'>Email</FormLabel>
+                                <FormControl>
+                                    <Input 
+                                        type='email'
+                                        placeholder="your@example.com" 
+                                        {...field} 
+                                        autoComplete='email'
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+    
+                    <FormField 
+                        control={control}
+                        name="password"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel className='2k:mb-1 4k:mb-2 8k:mb-6'>Password</FormLabel>
+                                <FormControl>
+                                    <Input 
+                                        type="password" 
+                                        placeholder="Enter your password" 
+                                        {...field} 
+                                        onChange={(e) => {
+                                            field.onChange(e);
+                                        }}
+                                        autoComplete={'password'}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
 
-                <FormField 
-                    control={control}
-                    name="password"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Password</FormLabel>
-                            <FormControl>
-                                <Input 
-                                    type="password" 
-                                    placeholder="Enter your password" 
-                                    {...field} 
-                                    onChange={(e) => {
-                                        field.onChange(e);
-                                    }}
-                                    autoComplete={'password'}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between">
-                    <Button variant="link" type="button" onClick={onSwitchToRegister} className="p-0">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between 2k:mt-4 2k:mb-6 4k:mt-6 4k:mb-8 8k:mt-12 8k:mb-16">
+                    <Button variant="link" type="button" onClick={onSwitchToRegister} className="p-0!">
                         Don't have an account? Register
                     </Button>
-                    <Button variant="link" type="button" onClick={onSwitchToForgotPassword} className="p-0">
+                    <Button variant="link" type="button" onClick={onSwitchToForgotPassword} className="p-0!">
                         Forgot your password?
                     </Button>
                 </div>
                 
-                <div className="flex gap-2 pt-4">
+                <div className="flex gap-2 2k:gap-3 4k:gap-4 8k:gap-8 pt-4 2k:pt-5 4k:pt-8 8k:pt-16">
                     <Button variant="outline" onClick={onClose} type="button" className="flex-1">
                         Cancel
                     </Button>
