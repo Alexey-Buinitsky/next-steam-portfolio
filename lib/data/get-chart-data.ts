@@ -1,5 +1,6 @@
 import { ChartConfig } from "@/components/ui";
-import { formatAssetType, getNestedValue, NestedObject } from "@/lib";
+import { formatAssetType } from "@/lib";
+import { PortfolioAssetWithRelations } from "@/types/portfolio";
 
 export interface IChartData {
 	category: string;
@@ -7,10 +8,9 @@ export interface IChartData {
 	fill: string;
 }
 
-interface Props<T extends Record<string, unknown>> {
-	data: T[] | undefined;
-	categoryPath: string;
-	valueKey: keyof T;
+interface Props {
+	data: PortfolioAssetWithRelations[] | undefined;
+	valueKey: keyof PortfolioAssetWithRelations;
 	options?: { valueLabel?: string; };
 }
 
@@ -19,7 +19,7 @@ interface ReturnProps {
 	chartConfig: ChartConfig;
 }
 
-export const getChartData = <T extends Record<string, unknown>>({ data, categoryPath, valueKey, options = {} }: Props<T>): ReturnProps => {
+export const getChartData = ({ data, valueKey, options = {} }: Props): ReturnProps => {
 
 	const valueLabel = options.valueLabel || "Value"
 
@@ -33,7 +33,7 @@ export const getChartData = <T extends Record<string, unknown>>({ data, category
 
 	// Группировка
 	const groupedData = data.reduce<Record<string, number>>((acc, item) => {
-		const category = formatAssetType(getNestedValue(item as NestedObject, categoryPath))
+		const category = formatAssetType(item.asset)
 		const value = Number(item[valueKey]) || 0
 		acc[category] = (acc[category] || 0) + value
 		return acc
