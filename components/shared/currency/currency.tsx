@@ -67,7 +67,7 @@ export const Currency: React.FC = () => {
   }
 
 	return (
-		<div className='2xl:grid grid-cols-2 items-center gap-x-4'>
+		<div className='2xl:grid grid-cols-2 items-center gap-x-4 2k:gap-x-6 4k:gap-x-8 8k:gap-x-16'>
 			{isLoading ? (
 				<CurrencyConverterSkeleton />
 			) : (

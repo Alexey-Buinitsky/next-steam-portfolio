@@ -44,7 +44,7 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 						<PaginationPrevious 
                             href="#" 
                             onClick={(e) => { e.preventDefault(); onPageChange(Math.max(1, currentPage - 1)) }} 
-                            className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12"
+                             className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12 [&>svg]:w-4 [&>svg]:h-4 [&>svg]:2k:w-5 [&>svg]:2k:h-5 [&>svg]:4k:w-8 [&>svg]:4k:h-8 [&>svg]:8k:w-16 [&>svg]:8k:h-16"
                         />
 					</PaginationItem>
 
@@ -55,7 +55,7 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 							</PaginationItem>
 							{startPage > 2 &&
 								<PaginationItem>
-									<PaginationEllipsis className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12" />
+									<p className='text-lg 2k:text-xl 4k:text-3xl 8k:text-6xl px-3 2k:px-5 4k:px-8 8k:px-16'>...</p>
 								</PaginationItem>
 							}
 						</>
@@ -76,7 +76,7 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 						<>
 							{endPage < totalPages - 1 &&
 								<PaginationItem>
-									<PaginationEllipsis className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12" />
+									<p className='text-lg 2k:text-xl 4k:text-3xl 8k:text-6xl px-3 2k:px-5 4k:px-8 8k:px-16'>...</p>
 								</PaginationItem>
 							}
 							<PaginationItem onClick={() => onPageChange(totalPages)}>
@@ -89,7 +89,7 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 						<PaginationNext 
                             href="#" 
                             onClick={(e) => { e.preventDefault(); onPageChange(Math.min(totalPages, currentPage + 1)) }} 
-                            className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12"
+                             className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12 [&>svg]:w-4 [&>svg]:h-4 [&>svg]:2k:w-5 [&>svg]:2k:h-5 [&>svg]:4k:w-8 [&>svg]:4k:h-8 [&>svg]:8k:w-16 [&>svg]:8k:h-16"
                         />
 					</PaginationItem>
 				</PaginationContent>

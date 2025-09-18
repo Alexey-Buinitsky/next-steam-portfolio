@@ -17,7 +17,7 @@ export const MarketItemsHeader: React.FC<Props> = ({ className, searchQuery, set
     return (
         <div className={className}>
             <div className="flex flex-col gap-4 2k:gap-5 4k:gap-8 8k:gap-16 justify-between items-center mb-4 2k:mb-5 4k:mb-8 8k:mb-16">
-                <h1 className="self-start text-2xl 2k:text-3xl 4k:text-4xl 8k:text-8xl font-bold">Trading platform</h1>
+                <h1 className="self-start text-2xl 2k:text-3xl 4k:text-5xl 8k:text-8xl font-bold">Trading platform</h1>
 
                 <div className="flex justify-between md:flex-row gap-4 2k:gap-5 4k:gap-8 8k:gap-16 w-full">
                     <div className="relative w-full md:w-92 2k:md:w-122 4k:md:w-184 8k:md:w-368">

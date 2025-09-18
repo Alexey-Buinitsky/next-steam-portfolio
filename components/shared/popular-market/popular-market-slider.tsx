@@ -4,7 +4,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui';
-import { Slider, AddToPortfolioModal } from '@/components/shared';
+import { Slider, AddToPortfolioModal, PopularMarketSliderSkeleton } from '@/components/shared';
 import { formatPrice, formatVolume } from '@/lib';
 
 import type { Asset } from '@prisma/client';
@@ -28,20 +28,7 @@ export const PopularMarketSlider: React.FC<PopularMarketSliderProps> = ({ items,
   }
 
   if (isLoading) {
-    return (
-      <div className="flex overflow-x-auto pb-4 2k:pb-5 4k:pb-8 8k:pb-16 gap-8 2k:gap-10 4k:gap-16 8k:gap-32 scrollbar-hide">
-        {Array.from({ length: 8 }).map((_, index) => (
-          <div key={index} className="min-w-[280px] 2k:min-w-[372px] 4k:min-w-[560px] 8k:min-w-[1120px] border rounded-lg p-3 2k:p-4 4k:p-6 8k:p-12 flex-shrink-0">
-            <Skeleton className="w-full h-24 2k:h-32 4k:h-48 8k:h-96 mb-3 2k:mb-4 4k:mb-6 8k:mb-12 rounded-lg"/>
-            <Skeleton className="w-full h-4 2k:h-5 4k:h-8 8k:h-16 mb-3 2k:mb-4 4k:mb-6 8k:mb-12 rounded" />
-            <div className="flex justify-between">
-              <Skeleton className="w-1/3 h-4 2k:h-5 4k:h-8 8k:h-16 rounded" />
-              <Skeleton className="w-1/4 h-4 2k:h-5 4k:h-8 8k:h-16 rounded" />
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+    return <PopularMarketSliderSkeleton />
   }
 
   if (!items || items.length === 0) {

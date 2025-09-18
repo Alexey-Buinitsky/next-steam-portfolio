@@ -36,7 +36,7 @@ export const MarketItemsDisplayGrid: React.FC<Props> = ({ className, data }) => 
                             loading='lazy'
                             onError={() => handleImageError(item.id)}
                         />
-                        <h3 className="font-bold text-base 2k:text-xl 4k:text-3xl 8k:text-6xl truncate mb-2 2k:mb-3 4k:mb-4 8k:mb-8">{item.name}</h3>
+                        <h3 className="font-bold text-base 2k:text-xl 4k:text-3xl 8k:text-6xl truncate mb-2 2k:mb-3 4k:mb-6 8k:mb-16">{item.name}</h3>
                         <div className='flex justify-between'>
                             <p className="flex-2 2xl:flex-auto text-lg xl:text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl text-green-600 dark:text-green-400 font-bold">Price: {formatPrice(item.price || undefined)}</p>
                             <p className="flex-1 2xl:flex-auto text-sm 2k:text-lg 4k:text-2xl 8k:text-5xl text-gray-600 dark:text-gray-400 text-right">Rating: {formatRating(item.volume || undefined)}</p>

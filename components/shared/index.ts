@@ -9,7 +9,7 @@ export { Logo } from './logo'
 export { ModeToggle } from './mode-toggle'
 export { Slider } from './slider'
 
-export { ChartSkeleton, MetricSkeleton, MarketItemsSkeleton, AddToPortfolioFormSkeleton, CurrencyConverterSkeleton, CurrencyRatesSkeleton } from './skeletons'
+export { ChartSkeleton, MetricSkeleton, MarketItemsSkeleton, AddToPortfolioFormSkeleton, CurrencyConverterSkeleton, CurrencyRatesSkeleton, PopularMarketSliderSkeleton } from './skeletons'
 
 export { Header } from './header'
 export { Hero, HeroBackground, HeroMain, HeroPortfolioSection, HeroPortfolioConfirmModal, HeroPortfolioSlide } from './hero'

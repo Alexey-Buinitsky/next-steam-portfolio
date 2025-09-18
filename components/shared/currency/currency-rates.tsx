@@ -11,7 +11,7 @@ interface Props {
 export const CurrencyRates:React.FC<Props> = React.memo(function CurrencyRates({fromCurrency, conversionRates, popularCurrencies, error}) {
   return (
     <div className='mx-auto bg-gray-50 dark:bg-[var(--card)] rounded-lg p-6 2k:p-8 4k:p-12 8k:p-24 mt-4 2k:mt-5 4k:mt-8 8k:mt-16 md:mt-10'>
-      <h2 className='text-2xl 2k:text-3xl 4k:text-4xl 8k:text-8xl font-bold mb-6 2k:mb-8 4k:mb-12 8k:mb-24'>
+      <h2 className='text-2xl 2k:text-3xl 4k:text-5xl 8k:text-8xl font-bold mb-6 2k:mb-8 4k:mb-12 8k:mb-24'>
         Currency Exchange Rates to <span className='text-green-600 dark:text-green-400'>{fromCurrency}</span>
       </h2>
       {error ? (  
