@@ -106,10 +106,9 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                                     <FormLabel className="text-base 2k:text-xl 4k:text-3xl 8k:text-6xl 2k:mb-1 4k:mb-2 8k:mb-6">Price</FormLabel>
                                     <FormControl>
                                         <div className="relative">
-                                            <span className="absolute left-3 2k:left-4 4k:left-6 8k:left-12 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl">$</span>
                                             <Input
                                                 type="number"
-                                                className="pl-8 2k:pl-10 4k:pl-16 8k:pl-32 text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-10 2k:h-13 4k:h-20 8k:h-40"
+                                                className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-10 2k:h-13 4k:h-20 8k:h-40"
                                                 {...field}
                                                 onChange={(e) => field.onChange(Number(e.target.value))}
                                                 min={0.01}
