@@ -1,14 +1,17 @@
-export const formatAssetType = (assetType: string): string => {
-	const lowerType = assetType.toLowerCase()
+import { Asset } from "@prisma/client"
+
+export const formatAssetType = (asset: Asset): string => {
+	const lowerType = asset.type.toLowerCase()
+	const lowerName = asset.name.toLowerCase()
 
 	// CASES
-	if (lowerType.includes('case') || lowerType.includes('capsule') || lowerType.includes('container') || lowerType.includes('package')) {
+	if (lowerType.includes('base grade container')) {
 
-		if (lowerType.includes('sticker')) {
+		if (lowerName.includes('sticker') || lowerName.includes('capsule')) {
 			return 'Capsules'
 		}
 
-		if (lowerType.includes('souvenir')) {
+		if (lowerName.includes('souvenir') || lowerType.includes('package')) {
 			return 'Souvenirs'
 		}
 
@@ -22,7 +25,7 @@ export const formatAssetType = (assetType: string): string => {
 
 	// WEAPONS
 	if (lowerType.includes('rifle') || lowerType.includes('pistol') || lowerType.includes('smg') || lowerType.includes('heavy') || lowerType.includes('knife')
-		|| lowerType.includes('sniper') || lowerType.includes('shotgun') || lowerType.includes('equipment') || lowerType.includes('gun') || lowerType.includes('gloves'))  {
+		|| lowerType.includes('sniper') || lowerType.includes('shotgun') || lowerType.includes('equipment') || lowerType.includes('gun') || lowerType.includes('gloves')) {
 		return 'Weapons'
 	}
 
@@ -57,5 +60,5 @@ export const formatAssetType = (assetType: string): string => {
 	}
 
 	// По умолчанию возвращаем оригинальный тип, если не удалось классифицировать
-	return assetType
+	return asset.type
 }

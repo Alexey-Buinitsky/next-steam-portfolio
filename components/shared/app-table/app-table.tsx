@@ -19,8 +19,8 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 
 	const portfolioData = React.useMemo(() => ({
 		metrics: getMetricsData(portfolioAssets, selectedPortfolio?.currency),
-		volumeChart: getChartData({ data: portfolioAssets, categoryPath: "asset.type", valueKey: "quantity", options: { valueLabel: "Volume" } }),
-		priceChart: getChartData({ data: portfolioAssets, categoryPath: "asset.type", valueKey: "totalWorth", options: { valueLabel: "Price" } }),
+		volumeChart: getChartData({ data: portfolioAssets, valueKey: "quantity", options: { valueLabel: "Volume" } }),
+		priceChart: getChartData({ data: portfolioAssets, valueKey: "totalWorth", options: { valueLabel: "Price" } }),
 	}), [portfolioAssets, selectedPortfolio])
 
 	const [sorting, setSorting] = React.useState<SortingState>([])
