@@ -18,7 +18,7 @@ export const HeroPortfolioSlide: React.FC<PortfolioSlideProps> = ({ portfolio, i
       className={cn(
         "relative bg-card text-card-foreground rounded-xl p-6 2k:p-8 4k:p-12 8k:p-24 cursor-pointer transition-all duration-300 border-2 hover:shadow-lg",
         isSelected 
-          ? "border-green-500 shadow-green-500/20 ring-2 ring-green-500/20" 
+          ? "border-green-500 shadow-green-500/20 ring-2 ring-green-500/20 cursor-default" 
           : "border-border hover:border-green-300"
       )}
       onClick={() => onSelect(portfolio)}

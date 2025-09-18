@@ -7,7 +7,6 @@ import { usePortfolios } from '@/hooks';
 import { FileText } from 'lucide-react';
 
 import type { Portfolio }  from '@prisma/client';
-import { toast } from 'sonner';
 
 interface Props {
     className?: string;
