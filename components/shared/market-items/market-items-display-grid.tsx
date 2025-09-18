@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { AddToPortfolioModal } from '@/components/shared';
 import { useImageError } from '@/hooks';
 import { formatRating, formatPrice } from '@/lib';
-import noImage from '@/public/images/no-image1.png'
+import noImage from '@/public/images/no-image.png'
 
 import type { AssetsResponse } from "@/types/portfolio";
 
