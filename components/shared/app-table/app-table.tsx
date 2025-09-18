@@ -72,7 +72,7 @@ export const AppTable = <TValue,>({ columns, className }: Props<TValue>) => {
 				<TabsContent value="holdings">
 					<div className="flex flex-col gap-2 p-2 rounded-md border 2k:p-2.5 4k:p-4 8k:p-8 2k:gap-2.5 4k:gap-4 8k:gap-8">
 						<div className="flex justify-between items-center gap-2 2k:gap-2.5 4k:gap-4 8k:gap-8">
-							<AppTableFilter table={table} selectedPortfolio={selectedPortfolio} deletePortfolioAssets={deletePortfolioAssets} />
+							<AppTableFilter table={table} selectedPortfolio={selectedPortfolio} deletePortfolioAssets={deletePortfolioAssets} isLoading={isLoading} />
 							<AppTableToggle table={table} />
 						</div>
 						<div className="flex max-h-[calc(100vh-265px)] overflow-y-auto rounded-md border sm:max-h-[calc(100vh-220px)] 2k:max-h-[calc(100vh-286px)] 4k:max-h-[calc(100vh-438px)] 8k:max-h-[calc(100vh-875px)]">
