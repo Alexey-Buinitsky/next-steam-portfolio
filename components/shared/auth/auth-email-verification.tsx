@@ -96,9 +96,9 @@ export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ us
 
   return (
      <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2">Verify your email</h2>
-        <p className="text-muted-foreground">
+      <div className="text-center 2k:mb-8 4k:mb-12 8k:mb-24">
+        <h2 className="text-xl 2k:text-2xl 4k:text-4xl 8k:text-7xl font-bold mb-4 2k:mb-5 4k:mb-10 8k:mb-20">Verify your email</h2>
+        <p className="text-sm text-muted-foreground 2k:text-lg 4k:text-3xl 8k:text-6xl 2k:mb-4 4k:mb-8 8k:mb-16">
           Enter the 6-digit code sent to <span className="font-semibold">{email}</span>
         </p>
       </div>
@@ -109,23 +109,23 @@ export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ us
         placeholder="Enter 6-digit code"
         maxLength={6}
         disabled={isLoading || attempts >= MAX_ATTEMPTS}
-        className="text-center font-mono tracking-widest text-lg"
+        className="text-center font-mono tracking-widest text-lg 2k:mb-8 4k:mb-12 8k:mb-24"
       />
 
       <div className="flex flex-col gap-3">
         <Button
           onClick={handleVerify}
           disabled={isLoading || code.length !== 6 || attempts >= MAX_ATTEMPTS}
-          size="lg"
+          type='button'
         >
           {isLoading ? 'Verifying...' : 'Verify Account'}
         </Button>
 
-        <div className="relative">
+        <div className="relative 4k:my-2 8k:my-10">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
+          <div className="relative flex justify-center text-xs 2k:text-lg 4k:text-2xl 8k:text-5xl uppercase">
             <span className="bg-background px-2 text-muted-foreground">
               Didn't receive code?
             </span>
@@ -136,7 +136,7 @@ export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ us
           variant="outline"
           onClick={handleResendCode}
           disabled={isLoading || resendCooldown > 0}
-          size="lg"
+          type='button'
         >
           {resendCooldown > 0 
             ? `Resend code in ${resendCooldown}s` 

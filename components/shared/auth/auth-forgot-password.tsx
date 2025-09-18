@@ -57,31 +57,33 @@ export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSucces
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-bold">Reset Password</h2>
-      <p className="text-sm text-muted-foreground">
+      <h2 className="text-xl 2k:text-2xl 4k:text-4xl 8k:text-7xl font-bold mb-4 2k:mb-5 4k:mb-10 8k:mb-20">Reset Password</h2>
+      <p className="text-sm text-muted-foreground 2k:text-lg 4k:text-3xl 8k:text-6xl 2k:mb-4 4k:mb-8 8k:mb-16">
         Enter your email address and we'll send you a code to reset your password.
       </p>
 
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="your@example.com"
-                    {...field}
-                    autoComplete="email"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className='2k:mb-6 4k:mb-8 8k:mb-16'>
+            <FormField
+              control={control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='2k:mb-1 4k:mb-2 8k:mb-6'>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="your@example.com"
+                      {...field}
+                      autoComplete="email"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <Button
             type="submit"
@@ -95,13 +97,14 @@ export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSucces
 
       {onBackToLogin && (
         <div className="pt-1 text-center">
-          <button
+          <Button
+            variant='link'
             type="button"
             onClick={onBackToLogin}
-            className="text-primary text-sm hover:underline focus-visible:underline outline-none cursor-pointer"
+            className="p-0! 2k:mt-1 4k:mt-4 8k:mt-16"
           >
             Back to Sign In
-          </button>
+          </Button>
         </div>
       )}
     </div>

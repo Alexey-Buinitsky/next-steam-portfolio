@@ -62,76 +62,80 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-bold">Set New Password</h2>
+      <h2 className="text-xl 2k:text-2xl 4k:text-4xl 8k:text-7xl font-bold mb-4 2k:mb-5 4k:mb-10 8k:mb-20">Set New Password</h2>
       {email && (
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground 2k:text-lg 4k:text-3xl 8k:text-6xl 2k:mb-4 4k:mb-8 8k:mb-16">
           Enter the 6-digit code sent to <span className="font-semibold">{email}</span> and your new password.
         </p>
       )}
 
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={control}
-            name="code"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Reset Code</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Enter 6-digit code"
-                    {...field}
-                    maxLength={6}
-                    className="text-center font-mono tracking-widest text-lg"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>New Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Enter new password"
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      setPasswordValue(e.target.value);
-                    }}
-                    autoComplete="new-password"
-                  />
-                </FormControl>
-                <PasswordStrengthIndicator password={passwordValue} />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Confirm new password"
-                    {...field}
-                    autoComplete="new-password"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className='flex flex-col gap-y-4 2k:gap-y-6 4k:gap-y-8 8k:gap-y-16 2k:mb-6 4k:mb-10 8k:mb-20'>
+            <FormField
+              control={control}
+              name="code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='2k:mb-1 4k:mb-2 8k:mb-6'>Reset Code</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter 6-digit code"
+                      {...field}
+                      maxLength={6}
+                      className="text-center font-mono tracking-widest text-lg"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+  
+            <FormField
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='2k:mb-1 4k:mb-2 8k:mb-6'>New Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Enter new password"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setPasswordValue(e.target.value);
+                      }}
+                      autoComplete="new-password"
+                    />
+                  </FormControl>
+                  <div className='mt-1 4k:mt-4 8k:mt-10 '>
+                    <PasswordStrengthIndicator password={passwordValue} />
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+  
+            <FormField
+              control={control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='2k:mb-1 4k:mb-2 8k:mb-6'>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Confirm new password"
+                      {...field}
+                      autoComplete="new-password"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <Button
             type="submit"
@@ -143,13 +147,14 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
 
           {onBackToForgot && (
             <div className="pt-1 text-center">
-              <button
+              <Button
+                variant='link'
                 type="button"
                 onClick={onBackToForgot}
-                className="text-primary text-sm hover:underline focus-visible:underline outline-none cursor-pointer"
+                className="p-0! 2k:mt-1 4k:mt-4 8k:mt-16"
               >
                 Back to Reset Request
-              </button>
+              </Button>
             </div>
           )}
         </form>

@@ -38,13 +38,13 @@ export const PasswordStrengthIndicator = ({ password }: { password: string }) =>
   }[strength]
 
   return (
-    <div className="  mt-1 space-y-1">
-      <div className="flex justify-between text-xs text-muted-foreground">
+    <div className="space-y-1 2k:space-y-2 4k:space-y-3 8k:space-y-6">
+      <div className="flex justify-between text-xs 2k:text-lg 4k:text-2xl 8k:text-5xl text-muted-foreground">
         <span>Password strength:</span>
         <span className="capitalize">{strength.replace('-', ' ')}</span>
       </div>
       
-      <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
+      <div className="h-1.5 2k:h-2 4k:h-3 8k:h-6 w-full bg-gray-200 rounded-full overflow-hidden">
         <div 
           className={cn(
             'h-full transition-all duration-300 ease-out',

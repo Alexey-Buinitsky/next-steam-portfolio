@@ -41,17 +41,21 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 			<Pagination>
 				<PaginationContent>
 					<PaginationItem>
-						<PaginationPrevious href="#" onClick={(e) => { e.preventDefault(); onPageChange(Math.max(1, currentPage - 1)) }} />
+						<PaginationPrevious 
+                            href="#" 
+                            onClick={(e) => { e.preventDefault(); onPageChange(Math.max(1, currentPage - 1)) }} 
+                             className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12 [&>svg]:w-4 [&>svg]:h-4 [&>svg]:2k:w-5 [&>svg]:2k:h-5 [&>svg]:4k:w-8 [&>svg]:4k:h-8 [&>svg]:8k:w-16 [&>svg]:8k:h-16"
+                        />
 					</PaginationItem>
 
 					{startPage > 1 && (
 						<>
 							<PaginationItem onClick={() => onPageChange(1)}>
-								<PaginationLink>1</PaginationLink>
+								<PaginationLink className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12">1</PaginationLink>
 							</PaginationItem>
 							{startPage > 2 &&
 								<PaginationItem>
-									<PaginationEllipsis />
+									<p className='text-lg 2k:text-xl 4k:text-3xl 8k:text-6xl px-3 2k:px-5 4k:px-8 8k:px-16'>...</p>
 								</PaginationItem>
 							}
 						</>
@@ -59,7 +63,12 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 
 					{pages.map((page) => (
 						<PaginationItem key={page} onClick={() => page !== currentPage && onPageChange(page)}>
-							<PaginationLink isActive={page === currentPage}>{page}</PaginationLink>
+							<PaginationLink 
+                                isActive={page === currentPage}
+                                className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12"
+                            >
+                                {page}
+                            </PaginationLink>
 						</PaginationItem>
 					))}
 
@@ -67,17 +76,21 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 						<>
 							{endPage < totalPages - 1 &&
 								<PaginationItem>
-									<PaginationEllipsis />
+									<p className='text-lg 2k:text-xl 4k:text-3xl 8k:text-6xl px-3 2k:px-5 4k:px-8 8k:px-16'>...</p>
 								</PaginationItem>
 							}
 							<PaginationItem onClick={() => onPageChange(totalPages)}>
-								<PaginationLink>{totalPages}</PaginationLink>
+								<PaginationLink className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12">{totalPages}</PaginationLink>
 							</PaginationItem>
 						</>
 					)}
 
 					<PaginationItem>
-						<PaginationNext href="#" onClick={(e) => { e.preventDefault(); onPageChange(Math.min(totalPages, currentPage + 1)) }} />
+						<PaginationNext 
+                            href="#" 
+                            onClick={(e) => { e.preventDefault(); onPageChange(Math.min(totalPages, currentPage + 1)) }} 
+                             className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-3 2k:px-4 4k:px-6 8k:px-12 [&>svg]:w-4 [&>svg]:h-4 [&>svg]:2k:w-5 [&>svg]:2k:h-5 [&>svg]:4k:w-8 [&>svg]:4k:h-8 [&>svg]:8k:w-16 [&>svg]:8k:h-16"
+                        />
 					</PaginationItem>
 				</PaginationContent>
 			</Pagination>

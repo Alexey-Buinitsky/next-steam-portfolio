@@ -14,8 +14,8 @@ export const PopularMarketSection: React.FC<PopularMarketSectionProps> = ({ cate
   const { data, isLoading, error } = useFetchPopularAssets(category, limit)
 
   return (
-    <div className="mb-8">
-      <h3 className="text-xl font-bold mb-4">{title}</h3>
+    <div className="mb-8 2k:mb-11 4k:mb-16 8k:mb-32">
+      <h3 className="text-xl 2k:text-2xl 4k:text-3xl 8k:text-6xl font-bold mb-4 2k:mb-5 4k:mb-8 8k:mb-16">{title}</h3>
       <PopularMarketSlider
         items={data || []}
         isLoading={isLoading}

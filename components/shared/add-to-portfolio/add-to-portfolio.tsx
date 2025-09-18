@@ -1,11 +1,8 @@
 import React from 'react';
-import { usePortfolios } from '@/hooks';
+import { usePortfolios, useAuthCheck } from '@/hooks';
+import { CreatePortfolioModal, AuthModal, AddToPortfolioForm, AddToPortfolioFormSkeleton } from '@/components/shared';
 
 import type { Asset } from '@prisma/client';
-
-import { useAuthCheck } from '@/hooks';
-import { CreatePortfolioModal, AuthModal } from '@/components/shared';
-import { AddToPortfolioForm } from '@/components/shared';
 
 interface Props {
     item: Asset
@@ -29,7 +26,9 @@ export const AddToPortfolio: React.FC<Props> = ({ item, onClose, disableClose })
         setIsCreateModalOpen(true)
     }
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) {
+        return <AddToPortfolioFormSkeleton />;
+    }
 
     return (
         <div>

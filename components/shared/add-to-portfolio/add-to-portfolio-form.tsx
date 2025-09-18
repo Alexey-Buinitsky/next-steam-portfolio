@@ -53,21 +53,21 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                 alt={item.name || ''} 
                 width={136}
                 height={136}
-                className="w-full h-32 object-contain mb-4"
+                className="w-full h-32 2k:h-43 4k:h-64 8k:h-128 object-contain mb-4 2k:mb-5 4k:mb-8 8k:mb-16"
                 loading='lazy'
             />
-            <h3 className="text-xl text-center font-bold mb-4 max-w-124 min-h-14 mx-auto">Add <span className='text-green-600 dark:text-green-400'>{item.name}</span> to Portfolio</h3>
+            <h3 className="text-xl 2k:text-2xl 4k:text-4xl 8k:text-7xl text-center font-bold mb-4 2k:mb-5 4k:mb-8 8k:mb-16 max-w-124 2k:max-w-165 4k:max-w-248 8k:max-w-496 min-h-14 2k:min-h-19 4k:min-h-28 8k:min-h-56 mx-auto">Add <span className='text-green-600 dark:text-green-400'>{item.name}</span> to Portfolio</h3>
 
             <Form {...form}>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 2k:space-y-5 4k:space-y-8 8k:space-y-16">
 
                     {portfolioList && portfolioList?.length > 0 ? (
                         <FormField 
-                            control={control} // ← Передаём управление формой RHF вместо useState
-                            name="portfolioId" // ← Ключ для доступа к значению (вместо имя переменной)
-                            render={({ field, fieldState }) => ( // ← Автоматически подставляет value/onChange
+                            control={control}
+                            name="portfolioId"
+                            render={({ field, fieldState }) => (
                                 <FormItem>
-                                    <FormLabel>Portfolio</FormLabel>
+                                    <FormLabel className="text-sm 2k:text-lg 4k:text-2xl 8k:text-6xl 2k:mb-1 4k:mb-2 8k:mb-6">Portfolio</FormLabel>
                                     <FormControl>
                                         <CustomSelect
                                             value={field.value || ''}
@@ -78,47 +78,47 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                                         />
                                     </FormControl>
                                     {fieldState.error && (
-                                        <FormMessage>{fieldState.error.message}</FormMessage>
+                                        <FormMessage className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl">{fieldState.error.message}</FormMessage>
                                     )}
                                 </FormItem>
                             )}
                         />
-                ) : (
-                    <div className="space-y-2">
-                        <p className="text-sm text-muted-foreground">
-                            No portfolios available
-                        </p>
-                        <Button 
-                            onClick={handleCreateClick}
-                            className='w-full'
-                        >
-                            Create Portfolio
-                        </Button>
-                    </div>
-                )}
+                    ) : (
+                        <div className="space-y-2 2k:space-y-3 4k:space-y-4 8k:space-y-8">
+                            <p className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl text-muted-foreground">
+                                No portfolios available
+                            </p>
+                            <Button 
+                                onClick={handleCreateClick}
+                                className='w-full text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36'
+                            >
+                                Create Portfolio
+                            </Button>
+                        </div>
+                    )}
 
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-4 2k:gap-5 4k:gap-8 8k:gap-16">
                         <FormField
                             control={control}
                             name="buyPrice"
                             render={({ field }) => (
-                            <FormItem className="flex-1">
-                                <FormLabel>Price</FormLabel>
-                                <FormControl>
-                                <div className="relative">
-                                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">$</span>
-                                    <Input
-                                        type="number"
-                                        className="pl-8"
-                                        {...field} // разворачивает value={field.value} и onChange={field.onChange} автоматически
-                                        onChange={(e) => field.onChange(Number(e.target.value))}
-                                        min={0.01}
-                                        step={0.01}
-                                    />
-                                </div>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                <FormItem className="flex-1">
+                                    <FormLabel className="text-base 2k:text-xl 4k:text-3xl 8k:text-6xl 2k:mb-1 4k:mb-2 8k:mb-6">Price</FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <span className="absolute left-3 2k:left-4 4k:left-6 8k:left-12 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl">$</span>
+                                            <Input
+                                                type="number"
+                                                className="pl-8 2k:pl-10 4k:pl-16 8k:pl-32 text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-10 2k:h-13 4k:h-20 8k:h-40"
+                                                {...field}
+                                                onChange={(e) => field.onChange(Number(e.target.value))}
+                                                min={0.01}
+                                                step={0.01}
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl" />
+                                </FormItem>
                             )}
                         />
 
@@ -126,35 +126,37 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                             control={control}
                             name="quantity"
                             render={({ field }) => (
-                            <FormItem className="flex-1">
-                                <FormLabel>Quantity</FormLabel>
-                                <FormControl>
-                                <Input
-                                    type="number"
-                                    {...field}
-                                    onChange={(e) => field.onChange(Number(e.target.value))}
-                                    min={1}
-                                />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                <FormItem className="flex-1">
+                                    <FormLabel className="text-base 2k:text-xl 4k:text-3xl 8k:text-6xl 2k:mb-1 4k:mb-2 8k:mb-6">Quantity</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-10 2k:h-13 4k:h-20 8k:h-40"
+                                            {...field}
+                                            onChange={(e) => field.onChange(Number(e.target.value))}
+                                            min={1}
+                                        />
+                                    </FormControl>
+                                    <FormMessage className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl" />
+                                </FormItem>
                             )}
                         />
                     </div>
 
-                    <div className="flex justify-end gap-2 pt-2">
+                    <div className="flex justify-end gap-2 2k:gap-3 4k:gap-4 8k:gap-8 pt-2 2k:pt-3 4k:pt-4 8k:pt-8">
                         {!disableClose && (
                             <Button
                                 type="button"
                                 variant="outline"
                                 onClick={onClose}
+                                className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-4 2k:px-5 4k:px-8 8k:px-16"
                             >
                                 Cancel
                             </Button>
                         )}
                         <Button
                             type="submit"
-                            className="bg-green-600 hover:bg-green-700 text-white"
+                            className="bg-green-600 hover:bg-green-700 text-white text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-9 2k:h-12 4k:h-18 8k:h-36 px-4 2k:px-5 4k:px-8 8k:px-16"
                             disabled={formState.isSubmitting || !portfolioList || portfolioList?.length <= 0}
                         >
                             {formState.isSubmitting ? 'Adding...' : 'Add to Portfolio'}
