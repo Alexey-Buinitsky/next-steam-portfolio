@@ -21,11 +21,12 @@ export const backgroundSync = async () => {
 }
 
 export const initializeBackgroundSync = () => {
-	if (typeof window !== 'undefined') { return () => { } }
+	if (typeof window !== 'undefined') {
+    return () => { }
+  }
 
 	if (syncInterval) {
 		clearInterval(syncInterval)
-		syncInterval = null
 	}
 
 	backgroundSync().catch(error => { console.error('[BACKGROUND_SYNC] Initial sync failed:', error) })
