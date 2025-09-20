@@ -4,7 +4,7 @@ import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormM
 import { CustomSelect } from '../custom/custom-select';
 import { useAddToPortfolioForm } from '@/hooks';
 
-import type { AddToPortfolioFormValues} from '@/lib';
+import type { AddToPortfolioFormValues} from '@/form';
 import type { CreatePortfolioAssetProps } from '@/hooks/use-portfolios';
 import type { Portfolio, Asset } from '@prisma/client';
 
@@ -37,8 +37,8 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
             createPortfolioAsset({ 
                 portfolioId: Number(values.portfolioId), 
                 selectedAsset: item, 
-                quantity: values.quantity, 
-                buyPrice: values.buyPrice 
+                quantity: Number(values.quantity), 
+                buyPrice: Number(values.buyPrice) 
             })
             onClose()
         } catch (error) {

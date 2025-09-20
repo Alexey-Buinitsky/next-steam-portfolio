@@ -6,8 +6,9 @@ import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormM
 import { PasswordStrengthIndicator } from '@/components/shared';
 import { useRouter } from 'next/navigation';
 import { useResetPasswordForm, useAuthNotifications } from '@/hooks';
+import { getFetchError } from '@/lib'
 
-import { getFetchError, type ResetPasswordFormValues } from '@/lib'
+import type { ResetPasswordFormValues } from '@/form';
 
 interface AuthResetPasswordProps {
   userId?: number | null;

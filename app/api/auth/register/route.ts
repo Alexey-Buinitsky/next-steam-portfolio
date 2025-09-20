@@ -1,7 +1,8 @@
 //app/api/auth/register
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
-import { sendVerificationEmail, hashPassword, validateDataWithSchema, registerSchema, withStrictAuthRateLimit } from '@/lib';
+import { sendVerificationEmail, hashPassword, validateDataWithSchema, withStrictAuthRateLimit } from '@/lib';
+import { registerSchema } from '@/form';
 
 export const POST = withStrictAuthRateLimit(registerHandler)
 

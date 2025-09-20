@@ -3,8 +3,9 @@
 import React from 'react';
 import { Button, Input, Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui';
 import { useAuthForm, useAuthNotifications } from '@/hooks';
-import { getFetchError, isEmailVerificationRequiredError, RegisterFormValues } from '@/lib';
+import { getFetchError, isEmailVerificationRequiredError } from '@/lib';
 import { PasswordStrengthIndicator } from '../password-strength-indicator';
+import type { RegisterFormValues } from '@/form';
 
 interface Props {
     onVerificationRequired?: (email: string, userId: number) => void;

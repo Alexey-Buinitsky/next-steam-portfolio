@@ -1,8 +1,10 @@
 //app/components/shared/auth/auth-login-form.ts
 import React from 'react';
 import { useAuthForm, useAuthNotifications } from '@/hooks';
-import { getFetchError, type AuthFormValues, isEmailVerificationRequiredError } from '@/lib';
+import { getFetchError, isEmailVerificationRequiredError } from '@/lib';
 import { Input, Button, Form, FormField, FormItem, FormLabel, FormControl, FormMessage} from '@/components/ui';
+
+import type { AuthFormValues } from '@/form';
 
 interface Props {
     onSwitchToRegister: () => void;

@@ -1,0 +1,22 @@
+import { z } from 'zod';
+
+// Базовые схемы для переиспользования
+export const emailCommonSchema = z.string().email('Please enter a valid email address')
+export const passwordCommonSchema = z.string().min(8, 'Password must contain at least 8 characters')
+export const codeCommonSchema = z.string().length(6, 'Code must be 6 characters')
+export const userIdCommonSchema = z.number().int().positive('Invalid user ID')
+export const portfolioIdCommonSchema = z.string().min(1, "Select the portfolio you want to add to")
+export const portfolioNameCommonSchema = z.string()
+                                        .min(1, { message: "Portfolio name is required", })
+                                        .max(16, { message: "Portfolio name cannot exceed 16 characters" })
+                                        .transform(value => value.trim())
+                                        .pipe(z.string().min(1, { message: "Portfolio name cannot be empty after trimming" }).max(16, { message: "Portfolio name cannot exceed 16 characters" }))
+export const buyPriceCommonSchema = z.string()
+                                        .min(1, { message: "Buy price is required" })
+                                        .refine(value => { return /^\d+(\.\d{1,2})?$/.test(value) && Number(value) >= 0 }, { message: "Buy price must be ≥ 0 with up to 2 decimal places (e.g., 0, 0.01, 1.23)" })
+                                        .refine(value => Number(value) <= 9999999.99, { message: "Buy price cannot exceed 9,999,999.99" })
+export const quantityCommonSchema = z.string()
+                                        .min(1, { message: "Quantity is required" })
+                                        .refine(value => !isNaN(Number(value)) && Number(value) > 0 && Number.isInteger(Number(value)), { message: "Quantity must be a whole number greater than 0" })
+                                        .refine(value => Number(value) <= 9999999, { message: "Quantity cannot exceed 9,999,999" })
+export const nicknameCommonSchema = z.string().max(32, 'Nickname must be less than 32 characters').optional()

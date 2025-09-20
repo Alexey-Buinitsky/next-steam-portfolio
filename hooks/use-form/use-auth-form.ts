@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, type DefaultValues } from "react-hook-form"
-import { authSchema, registerSchema, type AuthOrRegisterFormValues} from "@/lib"
+import { authSchema, registerSchema, type AuthOrRegisterFormValues} from "@/form"
 
 export const useAuthForm = (mode: AuthMode = 'login') => {
   const schema = mode === 'login' ? authSchema : registerSchema;

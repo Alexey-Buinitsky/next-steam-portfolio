@@ -3,7 +3,8 @@ import { NextResponse, NextRequest } from 'next/server'
 import { prisma } from '@/prisma/prisma-client'
 import { sessionOptions, IronSessionWithUser } from '@/lib/session'
 import { getIronSession } from 'iron-session'
-import { verifyPassword, validateDataWithSchema, authSchema, withStrictAuthRateLimit } from '@/lib'
+import { verifyPassword, validateDataWithSchema,  withStrictAuthRateLimit } from '@/lib'
+import { authSchema } from '@/form'
 
 // Экспортируем обернутый обработчик
 export const POST = withStrictAuthRateLimit(loginHandler)

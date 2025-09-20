@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
-import { sendPasswordResetEmail, validateDataWithSchema, forgotPasswordSchema, withStrictAuthRateLimit} from '@/lib';
+import { sendPasswordResetEmail, validateDataWithSchema, withStrictAuthRateLimit} from '@/lib';
+import { forgotPasswordSchema } from '@/form';
 
 export const POST = withStrictAuthRateLimit(forgotPasswordHandler)
 

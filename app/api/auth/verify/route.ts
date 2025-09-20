@@ -2,7 +2,8 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
 import { getIronSession } from 'iron-session';
-import { sessionOptions, verifyEmailVerificationCode, validateDataWithSchema, verifyEmailSchema, withAuthRateLimit } from '@/lib';
+import { sessionOptions, verifyEmailVerificationCode, validateDataWithSchema, withAuthRateLimit } from '@/lib';
+import { verifyEmailSchema } from '@/form';
 
 import type { IronSessionWithUser } from '@/lib/session';
 

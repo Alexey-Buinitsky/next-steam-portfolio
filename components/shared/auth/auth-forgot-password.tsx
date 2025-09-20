@@ -5,7 +5,9 @@
 import React from 'react';
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui';
 import { useForgotPasswordForm, useAuthNotifications } from '@/hooks';
-import { isEmailVerificationRequiredError, getFetchError, type ForgotPasswordFormValues } from '@/lib' 
+import { isEmailVerificationRequiredError, getFetchError } from '@/lib' 
+
+import type { ForgotPasswordFormValues } from '@/form';
 
 interface AuthForgotPasswordProps {
   onSuccess?: (email: string, userId: number) => void;

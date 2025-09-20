@@ -1,20 +1,60 @@
-import { z } from "zod";
+import { z } from 'zod';
+import { emailCommonSchema, passwordCommonSchema, codeCommonSchema, userIdCommonSchema, portfolioIdCommonSchema, buyPriceCommonSchema, quantityCommonSchema, nicknameCommonSchema, portfolioNameCommonSchema } from './form-common-schemas';
 
+// Схемы для конкретных эндпоинтов и форм
 export const portfolioSchema = z.object({
-	portfolioName: z.string()
-		.min(1, { message: "Portfolio name is required", })
-		.max(16, { message: "Portfolio name cannot exceed 16 characters" })
-		.transform(value => value.trim())
-		.pipe(z.string().min(1, { message: "Portfolio name cannot be empty after trimming" }).max(16, { message: "Portfolio name cannot exceed 16 characters" })),
+	portfolioName: portfolioNameCommonSchema,
 })
 
 export const portfolioAssetSchema = z.object({
-	quantity: z.string()
-		.min(1, { message: "Quantity is required" })
-		.refine(value => !isNaN(Number(value)) && Number(value) > 0 && Number.isInteger(Number(value)), { message: "Quantity must be a whole number greater than 0" })
-		.refine(value => Number(value) <= 9999999, { message: "Quantity cannot exceed 9,999,999" }),
-	buyPrice: z.string()
-		.min(1, { message: "Buy price is required" })
-		.refine(value => { return /^\d+(\.\d{1,2})?$/.test(value) && Number(value) >= 0 }, { message: "Buy price must be ≥ 0 with up to 2 decimal places (e.g., 0, 0.01, 1.23)" })
-		.refine(value => Number(value) <= 9999999.99, { message: "Buy price cannot exceed 9,999,999.99" }),
+	quantity: quantityCommonSchema,
+	buyPrice: buyPriceCommonSchema,
+})
+
+export const addToPortfolioSchema = z.object({
+	portfolioId: portfolioIdCommonSchema,
+	buyPrice: buyPriceCommonSchema,
+	quantity: quantityCommonSchema,
+})
+
+export const authSchema = z.object({
+	email: emailCommonSchema,
+	password: passwordCommonSchema,
+})
+
+export const registerSchema = authSchema.extend({
+	nickname: nicknameCommonSchema,
+	// password: z.string()                                                            
+	// .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
+	// .regex(/[a-z]/, 'Must contain at least one lowercase letter')
+	// .regex(/[0-9]/, 'Must contain at least one number')
+	// .regex(/[^A-Za-z0-9]/, 'Must contain at least one special character'),
+	// если нужна строгая система сложности пароля 
+})
+
+export const createPortfolioSchema = z.object({
+  	name: portfolioNameCommonSchema,
+})
+
+export const forgotPasswordSchema = z.object({
+  	email: emailCommonSchema,
+})
+
+export const resetPasswordSchema = z.object({
+	code: codeCommonSchema,
+	password: passwordCommonSchema,
+	confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+	message: "Passwords don't match",
+	path: ["confirmPassword"],
+})
+
+export const verifyEmailSchema = z.object({
+	userId: userIdCommonSchema,
+	code: codeCommonSchema,
+})
+
+export const resendCodeSchema = z.object({
+	userId: userIdCommonSchema,
+	email: emailCommonSchema,
 })
