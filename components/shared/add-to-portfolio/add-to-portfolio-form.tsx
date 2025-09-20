@@ -110,7 +110,6 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                                                 type="number"
                                                 className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-10 2k:h-13 4k:h-20 8k:h-40"
                                                 {...field}
-                                                onChange={(e) => field.onChange(Number(e.target.value))}
                                                 min={0.01}
                                                 step={0.01}
                                             />
@@ -132,7 +131,6 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                                             type="number"
                                             className="text-sm 2k:text-lg 4k:text-3xl 8k:text-6xl h-10 2k:h-13 4k:h-20 8k:h-40"
                                             {...field}
-                                            onChange={(e) => field.onChange(Number(e.target.value))}
                                             min={1}
                                         />
                                     </FormControl>
