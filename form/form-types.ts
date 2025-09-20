@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { FieldValues, Path } from 'react-hook-form';
-import { portfolioAssetSchema, portfolioSchema, addToPortfolioSchema, authSchema, registerSchema, createPortfolioSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendCodeSchema } from '@/form/form-schemas';
+import { portfolioAssetSchema, portfolioSchema, addToPortfolioSchema, authSchema, registerSchema, createPortfolioSchema, forgotPasswordSchema, resetPasswordSchema, verifyEmailSchema, resendCodeSchema } from '@/form';
 
 // Типы для схем валидации
 export type AddToPortfolioFormValues = z.infer<typeof addToPortfolioSchema>

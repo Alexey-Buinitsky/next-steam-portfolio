@@ -4,7 +4,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { FieldValues, useFormContext, } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from '@/components/ui';
-import { FormField as FormFieldType, isNumberField } from '@/form/form-types';
+import { FormField as FormFieldType, isNumberField } from '@/form';
 
 interface Props<T extends FieldValues> {
 	className?: string;

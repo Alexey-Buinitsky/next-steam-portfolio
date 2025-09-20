@@ -5,8 +5,7 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { DialogContent, } from '@/components/ui';
 import { AppDialogHeader, AppDialogForm, AppDialogFooter } from '@/components/shared/app-dialog';
-import { portfolioSchema, portfolioAssetSchema } from '@/form/form-schemas';
-import { portfolioFields, portfolioAssetFields } from '@/form/form-fields';
+import { portfolioSchema, portfolioAssetSchema, portfolioFields, portfolioAssetFields } from '@/form';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FormProvider, useForm } from "react-hook-form"
 import { z } from "zod"

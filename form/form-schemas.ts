@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { emailCommonSchema, passwordCommonSchema, codeCommonSchema, userIdCommonSchema, portfolioIdCommonSchema, buyPriceCommonSchema, quantityCommonSchema, nicknameCommonSchema, portfolioNameCommonSchema } from './form-common-schemas';
+import { emailCommonSchema, passwordCommonSchema, codeCommonSchema, userIdCommonSchema, portfolioIdCommonSchema, buyPriceCommonSchema, quantityCommonSchema, nicknameCommonSchema, portfolioNameCommonSchema } from '@/form';
 
 // Схемы для конкретных эндпоинтов и форм
 export const portfolioSchema = z.object({
