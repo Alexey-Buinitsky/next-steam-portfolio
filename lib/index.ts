@@ -13,7 +13,7 @@ export {
 } from './auth'
 
 export { sessionOptions } from './session'
-export { withAuth } from './withAuth'
+export { withAuth } from './with-auth'
 
 export { hashPassword, verifyPassword } from './password-hash'
 export { authLimiter, strictAuthLimiter } from './rate-limit'
