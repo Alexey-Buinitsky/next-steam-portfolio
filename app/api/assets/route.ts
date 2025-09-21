@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
 	}
 }
 
-export async function PATCH(req: NextRequest) {
+export async function PATCH() {
 	try {
 		const assetsToSync = await prisma.asset.findMany({
 			where: { isSync: false },

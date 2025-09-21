@@ -3,6 +3,14 @@ import { prisma } from '@/prisma/prisma-client';
 import { verifyPasswordResetCode, hashPassword, invalidatePasswordResetCode, validateDataWithSchema, withAuthRateLimit } from '@/lib';
 import { resetPasswordSchema, userIdCommonSchema } from '@/form';
 
+// Определяем интерфейс для входных данных
+interface ResetPasswordRequest {
+  code: string;
+  password: string;
+  confirmPassword: string;
+  userId?: unknown; // userId может быть любого типа, но мы его проверим
+}
+
 export const POST = withAuthRateLimit(resetPasswordHandler)
 
 async function resetPasswordHandler({ json }: { request: NextRequest, json?: unknown }) {
@@ -24,7 +32,8 @@ async function resetPasswordHandler({ json }: { request: NextRequest, json?: unk
   const { code, password } = validation.data;
 
   // ВАЛИДАЦИЯ 2: т.к. userId нет в схеме (после валидации исчезает из validation) - отдельно провалидируем userId
-  const userIdValidation = validateDataWithSchema(userIdCommonSchema, (json as any).userId);
+  const requestData = json as ResetPasswordRequest;
+  const userIdValidation = validateDataWithSchema(userIdCommonSchema, requestData.userId);
   if (!userIdValidation.isValid) {
     return NextResponse.json(
       { error: userIdValidation.error },

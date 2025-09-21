@@ -24,7 +24,7 @@ export const CurrencyConverter: React.FC<Props> = ({
 	showAllCurrencies, toggleCurrenciesView, currentCurrencies,
 	amount, fromCurrency, toCurrency, convertedAmount, exchangeRate,
 	handleAmountChange, handleFromCurrencyChange, handleToCurrencyChange, swapCurrencies,
-	isLoading, error
+	isLoading
 }) => {
 	return (
 		<div className="w-full max-w-[780px] 2k:max-w-[1037px] 4k:max-w-[1560px] 8k:max-w-[3120px] mx-auto p-6 2k:p-8 4k:p-12 8k:p-24 grid grid-cols-1 lg:grid-cols-[max-content_1fr] items-start justify-center gap-x-6 2k:gap-x-8 4k:gap-x-12 8k:gap-x-24 gap-y-6 2k:gap-y-8 4k:gap-y-12 8k:gap-y-24">

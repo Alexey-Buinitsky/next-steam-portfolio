@@ -42,6 +42,7 @@ export const verifyPasswordResetCode = async (userId: number, code: string): Pro
     // НЕ УДАЛЯЕМ КОД - только проверяем
     return { success: true, email: parsed.email }
   } catch (error) {
+    console.error('Failed to send password reset email:', error)
     return { success: false }
   }
 }

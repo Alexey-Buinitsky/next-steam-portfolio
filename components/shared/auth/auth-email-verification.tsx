@@ -127,7 +127,7 @@ export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ us
           </div>
           <div className="relative flex justify-center text-xs 2k:text-lg 4k:text-2xl 8k:text-5xl uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Didn't receive code?
+              Did not receive code?
             </span>
           </div>
         </div>

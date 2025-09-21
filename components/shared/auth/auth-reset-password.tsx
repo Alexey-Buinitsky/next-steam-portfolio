@@ -54,7 +54,11 @@ export const AuthResetPassword: React.FC<AuthResetPasswordProps> = ({ userId, em
 
       showSuccess('Password has been reset successfully');
 
-      onSuccess?.() ?? router.push('/auth?mode=login'); // Если onSuccess не передан, делаем мягкий редирект
+      if(onSuccess) {
+        onSuccess() 
+      } else {
+        router.push('/auth?mode=login'); // Если onSuccess не передан, делаем мягкий редирект
+      }
 
     } catch (err) {
       showError(err, 'Failed to reset password');

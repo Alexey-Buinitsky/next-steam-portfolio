@@ -101,7 +101,7 @@ export const AuthLoginForm: React.FC<Props> = ({ onSwitchToRegister, onSwitchToF
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between 2k:mt-4 2k:mb-6 4k:mt-6 4k:mb-8 8k:mt-12 8k:mb-16">
                     <Button variant="link" type="button" onClick={onSwitchToRegister} className="p-0!">
-                        Don't have an account? Register
+                        Do not have an account? Register
                     </Button>
                     <Button variant="link" type="button" onClick={onSwitchToForgotPassword} className="p-0!">
                         Forgot your password?

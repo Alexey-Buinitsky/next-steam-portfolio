@@ -14,7 +14,7 @@ interface Props {
 
 export const GET = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<PortfolioAsset[] | { message: string }>> => {
 	try {
-		const { id } = await params
+		const { id } = params
 		const portfolioId = Number(id)
 
 		const portfolio = await prisma.portfolio.findUnique({
@@ -42,7 +42,7 @@ export const GET = withAuth(async (req: NextRequest, userId: number, { params }:
 
 export const POST = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
-		const { id } = await params
+		const { id } = params
 		const portfolioId = Number(id)
 		const data: Props = await req.json()
 
@@ -108,7 +108,7 @@ export const POST = withAuth(async (req: NextRequest, userId: number, { params }
 
 export const PATCH = withAuth(async (req: NextRequest, userId: number, { params }: { params: { id: string } }): Promise<NextResponse<{ message: string }>> => {
 	try {
-		const { id } = await params
+		const { id } = params
 		const portfolioId = Number(id)
 		const data: Props = await req.json()
 

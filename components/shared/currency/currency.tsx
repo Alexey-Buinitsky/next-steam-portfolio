@@ -18,36 +18,36 @@ export const Currency: React.FC = () => {
 
 	const { rates, isLoading, error } = useFetchExchangeRates({ fromCurrency, toCurrency })
 
+	const convertAmount = React.useCallback((value: string, rate: number = exchangeRate) => {
+		const numericValue = parseFloat(value)
+		if (isNaN(numericValue)) {
+			setConvertedAmount('0')
+			return
+		}
+		
+		if (fromCurrency === toCurrency) {
+			setConvertedAmount(value)
+			setExchangeRate(1)
+			return
+		}
+
+		const result = (numericValue * rate).toFixed(4);
+		setConvertedAmount(result)
+	}, [exchangeRate, fromCurrency, toCurrency])
+
 	React.useEffect(() => {
 		if (rates && toCurrency && rates[toCurrency] !== undefined) {
 			const rate = rates[toCurrency]
 			setExchangeRate(rate)
 			convertAmount(amount, rate)
 		}
-	}, [rates, toCurrency, amount])
+	}, [rates, toCurrency, amount, convertAmount])
 
-	const convertAmount = (value: string, rate: number = exchangeRate) => {
-    const numericValue = parseFloat(value)
-    if (isNaN(numericValue)) {
-      setConvertedAmount('0')
-      return
-    }
-    
-    if (fromCurrency === toCurrency) {
-      setConvertedAmount(value)
-      setExchangeRate(1)
-      return
-    }
-
-    const result = (numericValue * rate).toFixed(4);
-    setConvertedAmount(result)
-  }
-
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setAmount(value)
-    convertAmount(value)
-  }
+	const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value
+		setAmount(value)
+		convertAmount(value)
+	}
 
   const handleFromCurrencyChange = (currency: string) => {
     setFromCurrency(currency)

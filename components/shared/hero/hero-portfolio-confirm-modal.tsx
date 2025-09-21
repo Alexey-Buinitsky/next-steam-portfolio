@@ -28,7 +28,7 @@ export const HeroPortfolioConfirmModal: React.FC<PortfolioConfirmModalProps> = (
         <DialogHeader>
           <DialogTitle className="text-lg 2k:text-xl 4k:text-[30px] 8k:text-[60px]">Confirm Portfolio Selection</DialogTitle>
           <DialogDescription className="text-base 2k:text-lg 4k:text-[24px] 8k:text-[48px]">
-            Are you sure you want to select "{portfolio?.name}" as your current portfolio?
+            Are you sure you want to select <span className='text-green-600 dark:text-green-400'>{portfolio?.name}</span> as your current portfolio?
           </DialogDescription>
         </DialogHeader>
         

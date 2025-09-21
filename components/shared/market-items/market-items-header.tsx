@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Input, Label } from '@/components/ui';
 import { StretchHorizontal, Grid2X2, Search } from 'lucide-react';
 import { useAuthCheck } from '@/hooks';
-import { AuthModal } from '../auth';
 
 interface Props {
     className?: string;

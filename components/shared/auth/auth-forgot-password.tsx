@@ -61,7 +61,7 @@ export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSucces
     <div className="space-y-4">
       <h2 className="text-xl 2k:text-2xl 4k:text-4xl 8k:text-7xl font-bold mb-4 2k:mb-5 4k:mb-10 8k:mb-20">Reset Password</h2>
       <p className="text-sm text-muted-foreground 2k:text-lg 4k:text-3xl 8k:text-6xl 2k:mb-4 4k:mb-8 8k:mb-16">
-        Enter your email address and we'll send you a code to reset your password.
+        Enter your email address and we will send you a code to reset your password.
       </p>
 
       <Form {...form}>

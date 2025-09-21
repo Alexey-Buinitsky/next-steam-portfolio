@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { PaginationItem, Pagination, PaginationContent, PaginationPrevious, PaginationLink, PaginationEllipsis, PaginationNext } from '@/components/ui';
+import { PaginationItem, Pagination, PaginationContent, PaginationPrevious, PaginationLink, PaginationNext } from '@/components/ui';
 
 interface Props {
 	className?: string;
@@ -23,7 +23,7 @@ export const AppPagination: React.FC<Props> = ({ className, currentPage, totalPa
 	}, [])
 
 	let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2))
-	let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
+	const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
 
 	if (endPage - startPage + 1 < maxVisiblePages) {
 		startPage = Math.max(1, endPage - maxVisiblePages + 1)

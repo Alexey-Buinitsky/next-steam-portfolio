@@ -24,7 +24,7 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
         !!disableClose // true для статичной панели, false для модалки
     )
 
-    const {handleSubmit, formState, control, setValue} = form
+    const {handleSubmit, formState, control} = form
 
     const portfolioOptions = portfolioList?.map(portfolio => ({
         value: portfolio.id.toString(),

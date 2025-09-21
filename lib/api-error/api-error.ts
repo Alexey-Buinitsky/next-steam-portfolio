@@ -2,7 +2,7 @@
 export interface ApiError {
   error: string;
   code?: string;    // Опциональный код ошибки (например, 'USER_NOT_FOUND')
-  details?: any;    // Дополнительные детали
+  details?: unknown;    // Дополнительные детали
 }
 
 function isApiError(error: unknown): error is ApiError {

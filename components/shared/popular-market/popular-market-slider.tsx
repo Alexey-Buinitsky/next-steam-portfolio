@@ -3,7 +3,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Skeleton } from '@/components/ui';
 import { Slider, AddToPortfolioModal, PopularMarketSliderSkeleton } from '@/components/shared';
 import { formatPrice, formatVolume } from '@/lib';
 
