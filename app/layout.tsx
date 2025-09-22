@@ -1,9 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { BackgroundSyncProvider } from "@/components/shared/providers/background-sync-provider";
 import { Header, AppSidebar, LayoutProvider, } from "@/components/shared";
 import { SidebarInset } from "@/components/ui";
 import { LayoutMetadata } from "@/data/layout-metadata";
 import "@/app/globals.css";
-import { BackgroundSyncProvider } from "@/components/shared/providers/background-sync-provider";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",

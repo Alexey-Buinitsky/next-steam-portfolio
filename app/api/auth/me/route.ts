@@ -1,7 +1,7 @@
 //app/api/auth/me
 import { NextResponse } from 'next/server'
 import { getIronSession } from 'iron-session'
-import { sessionOptions, IronSessionWithUser } from '@/lib/session'
+import { sessionOptions, IronSessionWithUser } from '@/lib'
 
 //Получение данных текущего пользователя
 export async function GET(request: Request) {

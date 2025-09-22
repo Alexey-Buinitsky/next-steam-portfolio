@@ -1,5 +1,5 @@
 // import { Resend } from 'resend';
-// import { generatePasswordResetCode } from './index';
+// import { generatePasswordResetCode } from '@/lib';
 
 // const resend = process.env.NODE_ENV === 'production' 
 //   ? new Resend(process.env.RESEND_API_KEY) 
@@ -33,10 +33,8 @@
 //   }
 // }
 
-// lib/auth/send-verification-email.ts
-import { generatePasswordResetCode } from './index';
+import { generatePasswordResetCode } from '@/lib';
 
-// Тип для Resend
 interface ResendEmailOptions {
   from: string;
   to: string;
@@ -50,49 +48,45 @@ interface Resend {
   };
 }
 
-// Глобальная переменная для хранения Resend (инициализируется один раз)
-let resendInstance: Resend | null = null;
+let resendInstance: Resend | null = null
 
-// Функция для получения экземпляра Resend
 const getResend = async (): Promise<Resend | null> => {
   if (process.env.NODE_ENV === 'development') {
-    return null;
+    return null
   }
   
   if (!process.env.RESEND_API_KEY) {
-    console.error('RESEND_API_KEY is not set');
-    return null;
+    console.error('RESEND_API_KEY is not set')
+    return null
   }
   
-  // Если уже инициализирован, возвращаем экземпляр
   if (resendInstance) {
-    return resendInstance;
+    return resendInstance
   }
   
   try {
-    // Используем динамический импорт ES6
     const { Resend } = await import('resend');
-    resendInstance = new Resend(process.env.RESEND_API_KEY) as Resend;
-    return resendInstance;
+    resendInstance = new Resend(process.env.RESEND_API_KEY) as Resend
+    return resendInstance
   } catch (error) {
-    console.error('Failed to import Resend:', error);
-    return null;
+    console.error('Failed to import Resend:', error)
+    return null
   }
-};
+}
 
 export const sendPasswordResetEmail = async ({ userId, email }: { userId: number; email: string }) => {
   try {
-    const code = await generatePasswordResetCode(userId, email);
+    const code = await generatePasswordResetCode(userId, email)
 
     if (process.env.NODE_ENV === 'development') {
-      console.log('Password reset code:', code);
-      return;
+      console.log('Password reset code:', code)
+      return
     }
       
-    const resend = await getResend();
+    const resend = await getResend()
     if (!resend) {
-      console.warn('Resend client not available - skipping email sending');
-      return;
+      console.warn('Resend client not available - skipping email sending')
+      return
     }
 
     await resend.emails.send({
@@ -107,7 +101,6 @@ export const sendPasswordResetEmail = async ({ userId, email }: { userId: number
       `,
     });
   } catch (error) {
-    console.error('Failed to send password reset email:', error);
-    // Не бросаем ошибку дальше, чтобы не ломать приложение
+    console.error('Failed to send password reset email:', error)
   }
-};
+}

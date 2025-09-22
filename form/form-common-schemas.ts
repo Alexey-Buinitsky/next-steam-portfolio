@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// Базовые схемы для переиспользования
 export const emailCommonSchema = z.string().email('Please enter a valid email address')
 export const passwordCommonSchema = z.string().min(8, 'Password must contain at least 8 characters')
 export const codeCommonSchema = z.string().length(6, 'Code must be 6 characters')

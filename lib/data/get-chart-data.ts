@@ -23,7 +23,6 @@ export const getChartData = ({ data, valueKey, options = {} }: Props): ReturnPro
 
 	const valueLabel = options.valueLabel || "Value"
 
-	// Возвращаем специальные данные для пустой диаграммы
 	if (!data || data.length === 0) {
 		return {
 			chartData: [{ category: "No data", value: 100, fill: "var(--muted)" }],
@@ -31,7 +30,6 @@ export const getChartData = ({ data, valueKey, options = {} }: Props): ReturnPro
 		}
 	}
 
-	// Группировка
 	const groupedData = data.reduce<Record<string, number>>((acc, item) => {
 		const category = formatAssetType(item.asset)
 		const value = Number(item[valueKey]) || 0
@@ -39,21 +37,16 @@ export const getChartData = ({ data, valueKey, options = {} }: Props): ReturnPro
 		return acc
 	}, {})
 
-	// Сортировка
 	const sortedEntries = Object.entries(groupedData).sort((a, b) => b[1] - a[1])
 
-	// Обработка
 	const mainEntries = sortedEntries.slice(0, 4)
 	const otherValue = sortedEntries.slice(4).reduce((sum, [, value]) => sum + value, 0)
 
-	// Расчет общего значения для процентов
 	const totalValue = sortedEntries.reduce((sum, [, value]) => sum + value, 0)
 
-	// Формирование данных для диаграммы с процентами
 	const chartData: IChartData[] = mainEntries.map(([category, value], index) => ({ category, value: totalValue > 0 ? (value / totalValue) * 100 : 0, fill: `var(--chart-${index + 1})`, }))
 	if (otherValue > 0) { chartData.push({ category: "Other", value: totalValue > 0 ? (otherValue / totalValue) * 100 : 0, fill: `var(--chart-5)`, }) }
 
-	// Формирование конфига для диаграммы
 	const chartConfig: ChartConfig = {
 		value: { label: valueLabel },
 		...chartData.reduce((acc, item) => {

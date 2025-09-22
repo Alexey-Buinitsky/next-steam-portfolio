@@ -5,7 +5,7 @@ import { getIronSession } from 'iron-session';
 import { sessionOptions, verifyEmailVerificationCode, validateDataWithSchema, withAuthRateLimit } from '@/lib';
 import { verifyEmailSchema } from '@/form';
 
-import type { IronSessionWithUser } from '@/lib/session';
+import type { IronSessionWithUser } from '@/lib';
 
 export const POST = withAuthRateLimit(verify)
 

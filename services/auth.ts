@@ -8,8 +8,8 @@ export async function checkAuth(): Promise<{ user: User | null }> {
   try {
     const response = await fetch('/api/auth/me', {
       credentials: 'include',
-      cache: 'no-store' // FIX: Добавляем чтобы избежать кэширования
-    });
+      cache: 'no-store',
+    })
     
     if (!response.ok) {
       if (response.status !== 401) {

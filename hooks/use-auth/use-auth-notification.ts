@@ -1,29 +1,28 @@
-// hooks/use-auth/use-auth-notifications.ts
-'use client';
+'use client'
 
 import React from 'react';
 import { notify, handleApiError, handleApiSuccess, NotificationOptions } from '@/lib';
 
 export const useAuthNotifications = () => {
-    const showNotification = React.useCallback((
-        type: 'success' | 'error' | 'warning' | 'info',
-        message: string,
-        options?: NotificationOptions
-    ) => {
-        notify[type](message, options);
-    }, []);
+	const showNotification = React.useCallback((
+		type: 'success' | 'error' | 'warning' | 'info',
+		message: string,
+		options?: NotificationOptions
+	) => {
+		notify[type](message, options)
+	}, [])
 
-    const showError = React.useCallback((error: unknown, fallbackMessage?: string) => {
-        handleApiError(error, fallbackMessage);
-    }, []);
+	const showError = React.useCallback((error: unknown, fallbackMessage?: string) => {
+		handleApiError(error, fallbackMessage)
+	}, [])
 
-    const showSuccess = React.useCallback((message: string) => {
-        handleApiSuccess(message);
-    }, []);
+	const showSuccess = React.useCallback((message: string) => {
+		handleApiSuccess(message)
+	}, [])
 
-    return {
-        showNotification,
-        showError,
-        showSuccess,
-    };
-};
+	return {
+		showNotification,
+		showError,
+		showSuccess,
+	}
+}

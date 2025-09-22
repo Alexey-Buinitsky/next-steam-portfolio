@@ -5,7 +5,6 @@ export const redis = new Redis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 })
 
-// NEW: Добавляем типизированные методы для работы с TTL
 export const redisWithTTL = {
   async setex<T = unknown>(key: string, ttl: number, value: T) {
     await redis.set(key, value, { ex: ttl })

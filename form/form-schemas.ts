@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { emailCommonSchema, passwordCommonSchema, codeCommonSchema, userIdCommonSchema, portfolioIdCommonSchema, buyPriceCommonSchema, quantityCommonSchema, nicknameCommonSchema, portfolioNameCommonSchema } from '@/form';
 
-// Схемы для конкретных эндпоинтов и форм
 export const portfolioSchema = z.object({
 	portfolioName: portfolioNameCommonSchema,
 })
@@ -24,12 +23,11 @@ export const authSchema = z.object({
 
 export const registerSchema = authSchema.extend({
 	nickname: nicknameCommonSchema,
-	// password: z.string()                                                            
+	// password: z.string()
 	// .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
 	// .regex(/[a-z]/, 'Must contain at least one lowercase letter')
 	// .regex(/[0-9]/, 'Must contain at least one number')
 	// .regex(/[^A-Za-z0-9]/, 'Must contain at least one special character'),
-	// если нужна строгая система сложности пароля 
 })
 
 export const createPortfolioSchema = z.object({
