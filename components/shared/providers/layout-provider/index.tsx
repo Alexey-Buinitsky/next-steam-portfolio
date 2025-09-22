@@ -5,12 +5,9 @@ import { QueryProvider } from './query-provider';
 import { ThemeProvider } from './theme-provider';
 import { AuthProvider } from './auth-provider';
 
-// import { BackgroundSyncProvider } from './background-sync-provider';
-
 export const LayoutProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 	return (
 		<QueryProvider>
-			{/* <BackgroundSyncProvider> */}
 			<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 				<AuthProvider>
 					<SidebarProvider>
@@ -20,7 +17,6 @@ export const LayoutProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 					<Toaster position="bottom-right" richColors closeButton />
 				</AuthProvider>
 			</ThemeProvider>
-			{/* </BackgroundSyncProvider> */}
 		</QueryProvider>
 	)
 }

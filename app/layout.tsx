@@ -3,6 +3,7 @@ import { Header, AppSidebar, LayoutProvider, } from "@/components/shared";
 import { SidebarInset } from "@/components/ui";
 import { LayoutMetadata } from "@/data/layout-metadata";
 import "@/app/globals.css";
+import { BackgroundSyncProvider } from "@/components/shared/providers/background-sync-provider";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -20,15 +21,17 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<LayoutProvider>
-					<AppSidebar />
-					<SidebarInset className="overflow-x-auto">
-						<Header />
-						<div className="relative h-full p-2 2k:p-2.5 4k:p-4 8k:p-8">
-							{children}
-						</div>
-					</SidebarInset>
-				</LayoutProvider>
+				<BackgroundSyncProvider>
+					<LayoutProvider>
+						<AppSidebar />
+						<SidebarInset className="overflow-x-auto">
+							<Header />
+							<div className="relative h-full p-2 2k:p-2.5 4k:p-4 8k:p-8">
+								{children}
+							</div>
+						</SidebarInset>
+					</LayoutProvider>
+				</BackgroundSyncProvider>
 			</body>
 		</html>
 	)
