@@ -12,9 +12,11 @@ interface AuthEmailVerificationProps {
   userId: number;
   email: string;
   onSuccess?: () => void; 
+
+  onShowVerificationCode?: (code: string, email: string) => void;
 }
 
-export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ userId, email, onSuccess }) => {
+export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ userId, email, onSuccess, onShowVerificationCode }) => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [code, setCode] = React.useState('');
@@ -85,7 +87,14 @@ export const AuthEmailVerification: React.FC<AuthEmailVerificationProps> = ({ us
 
   const handleResendCode = async () => {
     try {
-      await handleApiRequest('/api/auth/resend-code', { userId, email })
+      // await handleApiRequest('/api/auth/resend-code', { userId, email }) - RESEND РЕАЛИЗАЦИЯ
+
+      // ПОКАЗЫВАЕМ НОВЫЙ КОД В ИНТЕРФЕЙСЕ - ВМЕСТО RESEND
+      const data = await handleApiRequest('/api/auth/resend-code', { userId, email })
+      if (data.verificationCode) {
+        onShowVerificationCode?.(data.verificationCode, email);
+      }
+
       setResendCooldown(COOLDOWN_SECONDS)
       setAttempts(0)
       showSuccess('Verification code sent');

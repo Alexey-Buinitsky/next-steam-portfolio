@@ -16,11 +16,9 @@ export const AuthModal: React.FC<Props> = ({ onClose, isOpen, onSuccess }) => {
     const handleSuccess = async () => {
         const { user } = await checkAuth();
         updateUser(user);
-
         onSuccess?.();
         onClose()
     }
-    
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>

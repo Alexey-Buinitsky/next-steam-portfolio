@@ -47,8 +47,14 @@ async function forgotPasswordHandler({ json }: {request: NextRequest, json?:unkn
     );
   }
 
-  // Отправляем email с кодом сброса
-  await sendPasswordResetEmail({ 
+  // Отправляем email с кодом сброса - RESEND РЕАЛИЗАЦИЯ
+  // await sendPasswordResetEmail({ 
+  //   userId: user.id, 
+  //   email: user.email 
+  // })
+
+  // ВОЗВРАЩАЕМ КОД В ОТВЕТЕ ВМЕСТО ОТПРАВКИ EMAIL - ВМЕСТО RESEND
+  const resetCode = await sendPasswordResetEmail({ 
     userId: user.id, 
     email: user.email 
   })
@@ -58,6 +64,8 @@ async function forgotPasswordHandler({ json }: {request: NextRequest, json?:unkn
       success: true, 
       message: 'If the email exists, a password reset code has been sent',
       userId: user.id,
+
+      resetCode: resetCode, // ДОБАВЛЯЕМ КОД В ОТВЕТ - ВМЕСТО RESEND
     },
     { status: 200 }
   )

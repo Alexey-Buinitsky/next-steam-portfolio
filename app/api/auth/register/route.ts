@@ -48,19 +48,27 @@ async function registerHandler({ json }: { request: NextRequest, json?: unknown 
     },
   });
 
-  // 3. Отправляем код верификации
-    await sendVerificationEmail({
+  // 3. Отправляем код верификации - RESEND РЕАЛИЗАЦИЯ
+  // await sendVerificationEmail({
+  //   userId: user.id,
+  //   email: user.email,
+  // });
+
+  // ВОЗВРАЩАЕМ КОД В ОТВЕТЕ ВМЕСТО ОТПРАВКИ EMAIL - ВМЕСТО RESEND
+  const verificationCode = await sendVerificationEmail({
+    userId: user.id,
+    email: user.email,
+  });
+
+  return NextResponse.json(
+    { 
+      success: true, 
       userId: user.id,
       email: user.email,
-    });
+      message: 'Verification code sent',
 
-    return NextResponse.json(
-      { 
-        success: true, 
-        userId: user.id,
-        email: user.email,
-        message: 'Verification code sent',
-      },
-      { status: 200 }
-    );
+      verificationCode: verificationCode, // ДОБАВЛЯЕМ КОД В ОТВЕТ - ВМЕСТО RESEND
+    },
+    { status: 200 }
+  );
 }

@@ -13,9 +13,11 @@ interface AuthForgotPasswordProps {
   onSuccess?: (email: string, userId: number) => void;
   onBackToLogin?: () => void;
   onVerificationRequired?: (email: string, userId: number) => void;
+
+  onShowPasswordResetCode?: (code: string, email: string) => void;
 }
 
-export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSuccess, onBackToLogin, onVerificationRequired }) => {
+export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSuccess, onBackToLogin, onVerificationRequired, onShowPasswordResetCode }) => {
   const { showError, showSuccess } = useAuthNotifications();
 
   const { form } = useForgotPasswordForm()
@@ -44,7 +46,12 @@ export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSucces
 
       const data = await response.json()
 
-      showSuccess('If the email exists, a password reset code has been sent');
+      // showSuccess('If the email exists, a password reset code has been sent'); - RESEND РЕАЛИЗАЦИЯ
+
+      // ПОКАЗЫВАЕМ КОД В ИНТЕРФЕЙСЕ ВМЕСТО ОТПРАВКИ EMAIL - ВМЕСТО RESEND
+      if (data.resetCode) {
+        onShowPasswordResetCode?.(data.resetCode, values.email);
+      }
 
       if (data.userId && data.userId > 0) {
         onSuccess?.(values.email, data.userId);

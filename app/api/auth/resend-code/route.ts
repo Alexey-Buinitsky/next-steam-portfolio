@@ -48,10 +48,15 @@ async function resendCodeHandler({ json }: {request: NextRequest, json?: unknown
     }
 
     // Отправляем код повторно
-    await sendVerificationEmail({ userId, email });
+    // await sendVerificationEmail({ userId, email }); - RESEND РЕАЛИЗАЦИЯ
+
+    // ВОЗВРАЩАЕМ КОД В ОТВЕТЕ - ВМЕСТО RESEND
+    const verificationCode = await sendVerificationEmail({ userId, email });
 
     return NextResponse.json({ 
         success: true, 
         message: 'Verification code sent',
+
+        verificationCode: verificationCode // ДОБАВЛЯЕМ КОД В ОТВЕТ - ВМЕСТО RESEND
     })
 }

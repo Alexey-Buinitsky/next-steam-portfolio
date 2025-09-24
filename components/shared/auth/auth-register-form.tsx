@@ -11,9 +11,11 @@ interface Props {
     onVerificationRequired?: (email: string, userId: number) => void;
     onClose: () => void;
     onSwitchToLogin: () => void;
+    
+    onShowVerificationCode?: (code: string, email: string) => void;
 }
 
-export const AuthRegisterForm: React.FC<Props> = ({ onVerificationRequired, onClose, onSwitchToLogin }) => {
+export const AuthRegisterForm: React.FC<Props> = ({ onVerificationRequired, onClose, onSwitchToLogin, onShowVerificationCode }) => {
     const [passwordValue, setPasswordValue] = React.useState('');
     
     const { showError } = useAuthNotifications();
@@ -44,7 +46,15 @@ export const AuthRegisterForm: React.FC<Props> = ({ onVerificationRequired, onCl
             const responseData = await response.json();
 
 
-            if (responseData.success && responseData.userId) {
+            // if (responseData.success && responseData.userId) {
+            //     onVerificationRequired?.(responseData.email, responseData.userId); - RESEND РЕАЛИЗАЦИЯ
+            // }
+
+            // ПОКАЗЫВАЕМ КОД В ИНТЕРФЕЙСЕ ВМЕСТО ОТПРАВКИ EMAIL - ВМЕСТО RESEND
+            if (responseData.success && responseData.verificationCode) {
+                onShowVerificationCode?.(responseData.verificationCode, responseData.email);
+                onVerificationRequired?.(responseData.email, responseData.userId);
+            } else if (responseData.success && responseData.userId) {
                 onVerificationRequired?.(responseData.email, responseData.userId);
             }
             

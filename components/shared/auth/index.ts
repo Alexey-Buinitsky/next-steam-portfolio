@@ -6,5 +6,6 @@ export { AuthRegisterForm } from './auth-register-form'
 export { AuthForgotPassword } from './auth-forgot-password'
 export { AuthResetPassword } from './auth-reset-password'
 export { AuthEmailVerification } from "./auth-email-verification"
+export { AuthCodeDisplayModal } from './auth-code-display-modal'
 
 export { AuthClient } from './auth-client'

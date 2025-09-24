@@ -2,8 +2,8 @@
 'use client'
 
 import React from 'react';
-import { AuthManager } from './auth-manager';
-import type { AuthMode } from '@/hooks';
+import { AuthManager, AuthCodeDisplayModal} from './';
+import  { useAuthCodes, type AuthMode } from '@/hooks';
 
 interface Props {
     onClose: () => void;
@@ -18,6 +18,16 @@ export const Auth: React.FC<Props> = ({ onClose, onSuccess }) => {
     const [verificationUserId, setVerificationUserId] = React.useState<number | null>(null);
     const [resetEmail, setResetEmail] = React.useState<string>('');
     const [resetUserId, setResetUserId] = React.useState<number | null>(null);
+
+    const { currentCode, showCode, hideCode } = useAuthCodes();
+
+    const handleShowVerificationCode = (code: string, email: string) => {
+        showCode(code, 'verification', email);
+    };
+
+    const handleShowPasswordResetCode = (code: string, email: string) => {
+        showCode(code, 'password-reset', email);
+    };
 
     const handleModeChange = (newMode: ExtendedAuthMode) => {
         setMode(newMode);
@@ -36,17 +46,32 @@ export const Auth: React.FC<Props> = ({ onClose, onSuccess }) => {
     };
 
     return (
-        <AuthManager
-            mode={mode}
-            onModeChange={handleModeChange}
-            onSuccess={onSuccess}
-            onClose={onClose}
-            onVerificationRequired={handleVerificationRequired}
-            onForgotPasswordSuccess={handleForgotPasswordSuccess}
-            verificationEmail={verificationEmail}
-            verificationUserId={verificationUserId}
-            resetEmail={resetEmail}
-            resetUserId={resetUserId}
-        />
+        <>
+            <AuthManager
+                mode={mode}
+                onModeChange={handleModeChange}
+                onSuccess={onSuccess}
+                onClose={onClose}
+                onVerificationRequired={handleVerificationRequired}
+                onForgotPasswordSuccess={handleForgotPasswordSuccess}
+                onShowVerificationCode={handleShowVerificationCode}
+                onShowPasswordResetCode={handleShowPasswordResetCode}
+                verificationEmail={verificationEmail}
+                verificationUserId={verificationUserId}
+                resetEmail={resetEmail}
+                resetUserId={resetUserId}
+            />
+
+            {/* Модальное окно для отображения кодов */}
+            {currentCode && (
+                <AuthCodeDisplayModal
+                    isOpen={currentCode.isOpen}
+                    onClose={hideCode}
+                    code={currentCode.code}
+                    type={currentCode.type}
+                    email={currentCode.email}
+                />
+            )}
+        </>
     );
 };

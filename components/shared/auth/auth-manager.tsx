@@ -17,6 +17,8 @@ interface AuthManagerProps {
     onClose: () => void;
     onVerificationRequired: (email: string, userId: number) => void;
     onForgotPasswordSuccess: (email: string, userId: number) => void;
+    onShowVerificationCode?: (code: string, email: string) => void;
+    onShowPasswordResetCode?: (code: string, email: string) => void;
     verificationEmail?: string;
     verificationUserId?: number | null;
     resetEmail?: string;
@@ -30,6 +32,8 @@ export const AuthManager: React.FC<AuthManagerProps> = ({
     onClose,
     onVerificationRequired,
     onForgotPasswordSuccess,
+    onShowVerificationCode,
+    onShowPasswordResetCode,
     verificationEmail,
     verificationUserId,
     resetEmail,
@@ -53,6 +57,8 @@ export const AuthManager: React.FC<AuthManagerProps> = ({
                 onSwitchToLogin={() => onModeChange('login')}
                 onVerificationRequired={onVerificationRequired}
                 onClose={onClose}
+
+                onShowVerificationCode={onShowVerificationCode}
             />
         );
     }
@@ -63,6 +69,8 @@ export const AuthManager: React.FC<AuthManagerProps> = ({
                 onBackToLogin={() => onModeChange('login')}
                 onVerificationRequired={onVerificationRequired}
                 onSuccess={onForgotPasswordSuccess}
+
+                onShowPasswordResetCode={onShowPasswordResetCode}
             />
         );
     }
@@ -88,6 +96,8 @@ export const AuthManager: React.FC<AuthManagerProps> = ({
                 email={verificationEmail ?? ''}
                 userId={verificationUserId ?? 0}
                 onSuccess={onSuccess}
+
+                onShowVerificationCode={onShowVerificationCode}
             />
         );
     }

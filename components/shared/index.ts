@@ -20,7 +20,7 @@ export { AddToPortfolio, AddToPortfolioForm, AddToPortfolioModal, AddToPortfolio
 export { CreatePortfolioForm, CreatePortfolioModal } from './create-portfolio' 
 export { InfiniteScrollSelect } from './infinite-scroll-select'
 export { Currency, CurrencyConverter, CurrencyRates } from './currency'
-export { AuthModal, Auth, AuthManager, AuthLoginForm, AuthRegisterForm, AuthForgotPassword, AuthResetPassword, AuthEmailVerification, AuthClient } from './auth'
+export { AuthModal, Auth, AuthManager, AuthLoginForm, AuthRegisterForm, AuthForgotPassword, AuthResetPassword, AuthEmailVerification, AuthClient, AuthCodeDisplayModal } from './auth'
 export { ProtectedLink } from './protected-link'
 export { PasswordStrengthIndicator } from './password-strength-indicator'
 

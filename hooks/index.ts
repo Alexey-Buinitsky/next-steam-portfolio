@@ -6,5 +6,5 @@ export * from '@/hooks/use-assets';
 export * from '@/hooks/use-portfolios';
 export * from '@/hooks/use-exchange-rate';
 
-export { useAuthCheck, useAuthNotifications } from '@/hooks/use-auth';
+export { useAuthCheck, useAuthNotifications, useAuthCodes } from '@/hooks/use-auth';
 export { useAddToPortfolioForm, useCreatePortfolioForm, useForgotPasswordForm, useResetPasswordForm, useAuthForm, type AuthMode } from '@/hooks/use-form'
