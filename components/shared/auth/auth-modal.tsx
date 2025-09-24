@@ -3,14 +3,16 @@ import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui';
 import { Auth, useAuthContext } from '@/components/shared';
 import { checkAuth } from '@/services/auth'; 
+import type { AuthMode } from '@/hooks';
 
 interface Props {
     isOpen: boolean;
     onClose: () => void;
     onSuccess?: () => void;
+    initialMode?: AuthMode; // НОВЫЙ ПРОПС ДЛЯ НАЧАЛЬНОГО РЕЖИМА
 }
 
-export const AuthModal: React.FC<Props> = ({ onClose, isOpen, onSuccess }) => {
+export const AuthModal: React.FC<Props> = ({ onClose, isOpen, onSuccess, initialMode = 'login' }) => {
     const { updateUser } = useAuthContext() 
 
     const handleSuccess = async () => {
@@ -26,7 +28,7 @@ export const AuthModal: React.FC<Props> = ({ onClose, isOpen, onSuccess }) => {
                 <DialogHeader>
                     <DialogTitle className="sr-only">Add to Portfolio</DialogTitle>
                 </DialogHeader>
-                <Auth onClose={onClose} onSuccess={handleSuccess} />
+                <Auth onClose={onClose} onSuccess={handleSuccess} initialMode={initialMode}/>
             </DialogContent>
         </Dialog>
     )

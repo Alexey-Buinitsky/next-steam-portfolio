@@ -8,12 +8,13 @@ import  { useAuthCodes, type AuthMode } from '@/hooks';
 interface Props {
     onClose: () => void;
     onSuccess: () => void;
+    initialMode?: AuthMode;
 }
 
 export type ExtendedAuthMode = AuthMode | 'forgot-password' | 'reset-password' | 'email-verification';
 
-export const Auth: React.FC<Props> = ({ onClose, onSuccess }) => {
-    const [mode, setMode] = React.useState<ExtendedAuthMode>('login');
+export const Auth: React.FC<Props> = ({ onClose, onSuccess, initialMode = 'login'}) => {
+    const [mode, setMode] = React.useState<ExtendedAuthMode>(initialMode);
     const [verificationEmail, setVerificationEmail] = React.useState<string>('');
     const [verificationUserId, setVerificationUserId] = React.useState<number | null>(null);
     const [resetEmail, setResetEmail] = React.useState<string>('');

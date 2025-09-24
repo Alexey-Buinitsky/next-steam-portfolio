@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, SidebarContextProps, SidebarFooter, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui';
 import { AuthModal, Logo } from '@/components/shared';
 import { ChevronsUpDownIcon, LogOutIcon, LogInIcon, UserPlusIcon } from 'lucide-react';
-import { useAuthCheck, useAuthNotifications } from '@/hooks';
+import { useAuthCheck, useAuthNotifications, type AuthMode } from '@/hooks';
 
 interface Props {
 	className?: string;
@@ -16,6 +16,7 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 	const { showSuccess } = useAuthNotifications()
 	const [isDropdownOpen, setIsDropdownOpen] = React.useState(false)
 	const [isAuthModalOpen, setIsAuthModalOpen] = React.useState(false)
+	const [authModalMode, setAuthModalMode] = React.useState<AuthMode>('login')
 
 	const handleLogout = async () => {
 		await logout()
@@ -27,7 +28,14 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 		showSuccess('Successfully authenticated')
 	}
 
-	const handleAuthClick = () => {
+	const handleSignInClick = () => {
+		setAuthModalMode('login')
+		setIsDropdownOpen(false)
+		setIsAuthModalOpen(true)
+	}
+
+	const handleRegisterClick = () => {
+		setAuthModalMode('register')
 		setIsDropdownOpen(false)
 		setIsAuthModalOpen(true)
 	}
@@ -49,11 +57,11 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 							<DropdownMenuContent side={sidebar.isMobile ? 'top' : 'right'} align='end'>
 								<DropdownMenuLabel>Account</DropdownMenuLabel>
 								<DropdownMenuSeparator />
-								<DropdownMenuItem onClick={handleAuthClick}>
+								<DropdownMenuItem onClick={handleSignInClick}>
 									<LogInIcon size={16} className="mr-2 2k:size-5.5 4k:size-8 8k:size-16" />
 									<span>Sign In</span>
 								</DropdownMenuItem>
-								<DropdownMenuItem onClick={handleAuthClick}>
+								<DropdownMenuItem onClick={handleRegisterClick}>
 									<UserPlusIcon size={16} className="mr-2 2k:size-5.5 4k:size-8 8k:size-16" />
 									<span>Register</span>
 								</DropdownMenuItem>
@@ -61,7 +69,7 @@ export const AppSidebarFooter: React.FC<Props> = ({ className, sidebar }) => {
 						</DropdownMenu>
 					</SidebarMenuItem>
 				</SidebarMenu>
-				<AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} onSuccess={handleAuthSuccess} />
+				<AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} onSuccess={handleAuthSuccess} initialMode={authModalMode}/>
 			</SidebarFooter>
 		)
 	}
