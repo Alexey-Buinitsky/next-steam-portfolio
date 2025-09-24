@@ -53,7 +53,7 @@ export const AuthCodeDisplayModal: React.FC<CodeDisplayModalProps> = ({isOpen, o
             className="w-full"
             variant="outline"
           >
-            I've copied the code
+            I have copied the code
           </Button>
         </div>
       </DialogContent>

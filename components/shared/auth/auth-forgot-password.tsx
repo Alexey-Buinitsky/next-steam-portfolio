@@ -18,7 +18,10 @@ interface AuthForgotPasswordProps {
 }
 
 export const AuthForgotPassword: React.FC<AuthForgotPasswordProps> = ({ onSuccess, onBackToLogin, onVerificationRequired, onShowPasswordResetCode }) => {
-  const { showError, showSuccess } = useAuthNotifications();
+  const { 
+    showError, 
+    // showSuccess 
+  } = useAuthNotifications();
 
   const { form } = useForgotPasswordForm()
   const { handleSubmit, control, formState } = form
