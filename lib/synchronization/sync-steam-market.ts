@@ -3,7 +3,7 @@ import { steamApi } from '@/services/steam';
 import { prisma } from '@/prisma/prisma-client';
 import type { SteamMarketItem } from '@/types/steam';
 
-const STEAM_DELAY_MS = 5000
+const STEAM_DELAY_MS = 10000
 const STEAM_ITEMS_COUNT = 10
 
 export const syncSteamMarket = async () => {

@@ -5,6 +5,7 @@ const SYNC_INTERVAL = 5 * 60 * 1000
 
 let syncInterval: NodeJS.Timeout | null = null
 let isSyncing = false
+let isInitialized = false
 
 export const backgroundSync = async () => {
 	if (isSyncing) return
@@ -25,6 +26,12 @@ export const initializeBackgroundSync = () => {
 		return () => { }
 	}
 
+	if (isInitialized) {
+		return () => { }
+	}
+
+	isInitialized = true
+
 	if (syncInterval) {
 		clearInterval(syncInterval)
 		syncInterval = null
@@ -39,5 +46,6 @@ export const initializeBackgroundSync = () => {
 			clearInterval(syncInterval)
 			syncInterval = null
 		}
+		isInitialized = false
 	}
 }

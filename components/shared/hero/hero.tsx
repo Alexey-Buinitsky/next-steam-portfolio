@@ -6,12 +6,10 @@ import { useAuthCheck, usePortfolios } from '@/hooks';
 
 
 export const Hero: React.FC = () => {
-    const { isAuthenticated } = useAuthCheck();
-    const { portfolios } = usePortfolios();
+    const { isAuthenticated } = useAuthCheck()
+    const { portfolios } = usePortfolios()
 
-    const hasPortfolios = portfolios && portfolios.length > 0;
-
-    console.log('hero here');
+    const hasPortfolios = portfolios && portfolios.length > 0
 
     return (
         <HeroBackground>
