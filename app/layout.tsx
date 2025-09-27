@@ -17,8 +17,12 @@ const geistMono = Geist_Mono({
 
 export const metadata = LayoutMetadata
 
-if (typeof window === 'undefined') {
-	initializeBackgroundSync()
+if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
+  // Запускаем только в продакшене, не во время сборки
+  const isBuildTime = process.env.npm_lifecycle_event === 'build';
+  if (!isBuildTime) {
+    initializeBackgroundSync()
+  }
 }
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode }>) {
