@@ -22,15 +22,41 @@ export const backgroundSync = async () => {
 }
 
 export const initializeBackgroundSync = () => {
-	if (typeof window !== 'undefined') {
-		return () => { }
-	}
+	////
+		// Не инициализировать в браузере
+		if (typeof window !== 'undefined') {
+			return () => { };
+		}
 
-	if (isInitialized) {
-		return () => { }
-	}
+		// Не инициализировать во время сборки
+		if (process.env.npm_lifecycle_event === 'build') {
+			console.log('[BACKGROUND_SYNC] Skipping during build');
+			return () => { };
+		}
 
-	isInitialized = true
+		// Не инициализировать в preview режиме Vercel
+		if (process.env.VERCEL_ENV === 'preview') {
+			console.log('[BACKGROUND_SYNC] Skipping in Vercel preview');
+			return () => { };
+		}
+
+		if (isInitialized) {
+			return () => { };
+		}
+
+		isInitialized = true;
+		console.log('[BACKGROUND_SYNC] Initializing in environment:', process.env.VERCEL_ENV || 'local');
+	////
+
+	// if (typeof window !== 'undefined') {
+	// 	return () => { }
+	// }
+
+	// if (isInitialized) {
+	// 	return () => { }
+	// }
+
+	// isInitialized = true
 
 	if (syncInterval) {
 		clearInterval(syncInterval)

@@ -17,11 +17,21 @@ const geistMono = Geist_Mono({
 
 export const metadata = LayoutMetadata
 
-if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
-  // Запускаем только в продакшене, не во время сборки
-  const isBuildTime = process.env.npm_lifecycle_event === 'build';
-  if (!isBuildTime) {
-    initializeBackgroundSync()
+// if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
+//   // Запускаем только в продакшене, не во время сборки
+//   const isBuildTime = process.env.npm_lifecycle_event === 'build';
+//   if (!isBuildTime) {
+//     initializeBackgroundSync()
+//   }
+// }
+if (typeof window === 'undefined') {
+  // Проверяем, что это не сборка и не preview режим
+  const isBuild = process.env.npm_lifecycle_event === 'build';
+  const isVercelPreview = process.env.VERCEL_ENV === 'preview';
+  
+  // Запускаем только в production режиме на Vercel
+  if (process.env.NODE_ENV === 'production' && !isBuild && !isVercelPreview) {
+    initializeBackgroundSync();
   }
 }
 
