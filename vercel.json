@@ -5,5 +5,12 @@
   "env": {
     "npm_config_target_platform": "linuxmusl",
     "npm_config_target_arch": "x64"
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/sync",
+      "schedule": "*/10 * * * *", 
+      "timezone": "Europe/Moscow"
+    }
+  ]
 }
