@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { Header, AppSidebar, LayoutProvider, } from "@/components/shared";
 import { SidebarInset } from "@/components/ui";
-import { initializeBackgroundSync } from "@/lib/synchronization";
+// import { initializeBackgroundSync } from "@/lib/synchronization";
 import { LayoutMetadata } from "@/data/layout-metadata";
 import "@/app/globals.css";
 
