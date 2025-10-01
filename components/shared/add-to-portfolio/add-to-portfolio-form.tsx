@@ -103,7 +103,7 @@ export const AddToPortfolioForm: React.FC<Props> = ({ item, onClose, disableClos
                             name="buyPrice"
                             render={({ field }) => (
                                 <FormItem className="flex-1">
-                                    <FormLabel className="text-base 2k:text-xl 4k:text-3xl 8k:text-6xl 2k:mb-1 4k:mb-2 8k:mb-6">Price</FormLabel>
+                                    <FormLabel className="text-base 2k:text-xl 4k:text-3xl 8k:text-6xl 2k:mb-1 4k:mb-2 8k:mb-6">Buy price</FormLabel>
                                     <FormControl>
                                         <div className="relative">
                                             <Input
