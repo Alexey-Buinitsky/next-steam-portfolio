@@ -1,7 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { Header, AppSidebar, LayoutProvider, } from "@/components/shared";
 import { SidebarInset } from "@/components/ui";
-// import { initializeBackgroundSync } from "@/lib/synchronization";
 import { LayoutMetadata } from "@/data/layout-metadata";
 import "@/app/globals.css";
 
@@ -16,24 +15,6 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata = LayoutMetadata
-
-// if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
-//   // Запускаем только в продакшене, не во время сборки
-//   const isBuildTime = process.env.npm_lifecycle_event === 'build';
-//   if (!isBuildTime) {
-//     initializeBackgroundSync()
-//   }
-// }
-// if (typeof window === 'undefined') {
-//   // Проверяем, что это не сборка и не preview режим
-//   const isBuild = process.env.npm_lifecycle_event === 'build';
-//   const isVercelPreview = process.env.VERCEL_ENV === 'preview';
-  
-//   // Запускаем только в production режиме на Vercel
-//   if (process.env.NODE_ENV === 'production' && !isBuild && !isVercelPreview) {
-//     initializeBackgroundSync();
-//   }
-// }
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode }>) {
 	return (
