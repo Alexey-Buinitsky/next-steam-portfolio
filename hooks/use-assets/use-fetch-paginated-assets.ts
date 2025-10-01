@@ -8,7 +8,7 @@ export const useFetchPaginatedAssets = (page: number, perPage: number, query: st
 		queryKey: ['paginatedAssets', page, perPage, query],
 		queryFn: async () => assetsApi.fetch(page, perPage, query),
 		placeholderData: (previousData) => previousData,
-		staleTime: Infinity,
+		staleTime: 24 * 60 * 60 * 1000,
 		gcTime: 10 * 60 * 1000,
 		refetchOnWindowFocus: false,
 	})

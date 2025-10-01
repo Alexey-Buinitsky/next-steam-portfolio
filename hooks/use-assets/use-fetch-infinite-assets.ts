@@ -12,7 +12,7 @@ export const useFetchInfiniteAssets = (perPage: number, query: string) => {
 		},
 		initialPageParam: 1,
 		getNextPageParam: (lastPage, allPages) => lastPage.pagination.hasMore ? allPages.length + 1 : undefined,
-		staleTime: 24 * 60 * 60 * 1000,
+		staleTime: Infinity,
 		gcTime: 10 * 60 * 1000,
 		refetchOnWindowFocus: false,
 	})
