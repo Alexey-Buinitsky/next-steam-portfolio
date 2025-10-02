@@ -3,7 +3,7 @@ import { steamApi } from '@/services/steam';
 import { prisma } from '@/prisma/prisma-client';
 import type { SteamMarketItem } from '@/types/steam';
 
-const STEAM_DELAY_MS = 10000
+const STEAM_DELAY_MS = 15000
 const STEAM_ITEMS_COUNT = 10
 
 export const syncSteamMarket = async () => {
@@ -29,7 +29,7 @@ export const syncSteamMarket = async () => {
 			await new Promise(resolve => setTimeout(resolve, currentDelay))
 		} catch (error) {
 			console.error('[STEAM_SYNC] Request failed, retrying:', error)
-			currentDelay = Math.min(currentDelay * 2, 100000)
+			currentDelay = Math.min(currentDelay * 2, 120000)
 			await new Promise(resolve => setTimeout(resolve, currentDelay))
 		}
 	}

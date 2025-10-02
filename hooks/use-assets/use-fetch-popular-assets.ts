@@ -7,7 +7,7 @@ export const useFetchPopularAssets = (category: PopularCategory, limit: number) 
 	const { data, isLoading, error } = useQuery<Asset[], Error>({
 		queryKey: ['popularAssets', category, limit],
 		queryFn: async () => assetsApi.fetchPopular(category, limit),
-		staleTime: Infinity,
+		staleTime: 5 * 60 * 1000,
 		gcTime: 10 * 60 * 1000,
 		refetchOnWindowFocus: false,
 	})

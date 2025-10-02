@@ -1,11 +1,13 @@
 import { NextResponse } from 'next/server';
 import { syncSteamMarket } from '@/lib/synchronization';
 import { assetsApi } from '@/services/assets';
+import { queryClient } from '@/services/query-client';
 
 export async function GET() {
 	try {
 		await syncSteamMarket()
 		await assetsApi.update()
+		await queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'popularAssets' || query.queryKey[0] === 'paginatedAssets' || query.queryKey[0] === 'infiniteAssets' })
 		return NextResponse.json({ message: 'Sync completed successfully', timestamp: new Date().toISOString() }, { status: 200 })
 	} catch {
 		return NextResponse.json({ message: 'Sync failed', timestamp: new Date().toISOString() }, { status: 500 })

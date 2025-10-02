@@ -56,32 +56,38 @@ export async function POST(req: NextRequest) {
 
 		await prisma.$transaction(async (tx) => {
 			for (const asset of assets) {
-				const existingAsset = await tx.asset.findUnique({ where: { name: asset.name } })
+				try {
+					const existingAsset = await tx.asset.findUnique({ where: { name: asset.name } })
 
-				const newPrice = asset.sell_price || 0
-				const isPriceChanged = existingAsset && existingAsset.price !== newPrice
+					const newPrice = asset.sell_price || 0
+					const isPriceChanged = existingAsset && existingAsset.price !== newPrice
 
-				await tx.asset.upsert({
-					where: { name: asset.name },
-					update: {
-						price: asset.sell_price || 0,
-						volume: asset.sell_listings || 0,
-						updatedAt: new Date(),
-						isActive: true,
-						isSync: !isPriceChanged,
-					},
-					create: {
-						name: asset.name || '',
-						price: asset.sell_price || 0,
-						volume: asset.sell_listings || 0,
-						type: asset.asset_description?.type || 'unknown',
-						imageUrl: asset.asset_description?.icon_url || '',
-						isActive: true,
-						isSync: false,
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					}
-				})
+					await tx.asset.upsert({
+						where: { name: asset.name },
+						update: {
+							price: asset.sell_price || 0,
+							volume: asset.sell_listings || 0,
+							updatedAt: new Date(),
+							isActive: true,
+							isSync: !isPriceChanged,
+						},
+						create: {
+							name: asset.name || '',
+							price: asset.sell_price || 0,
+							volume: asset.sell_listings || 0,
+							type: asset.asset_description?.type || 'unknown',
+							imageUrl: asset.asset_description?.icon_url || '',
+							isActive: true,
+							isSync: false,
+							createdAt: new Date(),
+							updatedAt: new Date(),
+						}
+					})
+
+					console.log(`[ASSETS_POST] Successfully processed: ${asset.name}`)
+				} catch (error) {
+					console.error(`[ASSETS_POST] Failed to upsert asset "${asset.name}":`, error)
+				}
 			}
 		})
 
