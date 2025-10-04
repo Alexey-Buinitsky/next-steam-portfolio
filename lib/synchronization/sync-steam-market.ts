@@ -2,7 +2,7 @@ import { assetsApi } from '@/services/assets';
 import { steamApi } from '@/services/steam';
 import { prisma } from '@/prisma/prisma-client';
 import type { SteamMarketItem } from '@/types/steam';
-import { syncProgressService } from '@/lib/sync-progress';
+// import { syncProgressService } from '@/lib/sync-progress';
 
 const STEAM_DELAY_MS = 15000
 const STEAM_ITEMS_COUNT = 10
