@@ -23,7 +23,14 @@ export async function GET(req: NextRequest) {
 					'Accept-Language': 'en-US,en;q=0.9',
 				},
 				// headers: { 'User-Agent': 'Steam-Portfolio/1.0', 'Accept': 'application/json', },
-				params: { appid: 730, start: 0, count: 10, sort_column: 'popular', sort_dir: 'desc', norender: 1 },
+				params: { 
+					appid: 730, 
+					start: parseInt(start),
+					count: parseInt(count),     
+					sort_column: 'popular', 
+					sort_dir: 'desc', 
+					norender: 1 
+				},
 				timeout: 15000,
 			})
 		return NextResponse.json(response.data, { status: 200 })
